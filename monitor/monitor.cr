@@ -40,7 +40,6 @@ module GLFW
       String.new(LibGLFW.get_monitor_name(monitor.ptr))
     end
 
-    # todo: replace Int32 with appropriate enum
     @@callback : Proc(Monitor, Event::Monitor, Void)? = nil
     def self.set_callback(&block : Monitor, Event::Monitor -> Void)
       @@callback = block
