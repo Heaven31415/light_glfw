@@ -1,7 +1,12 @@
 module GLFW
   class VideoMode
     getter ptr : LibGLFW::VideoMode*
+
     def initialize(@ptr)
+    end
+
+    def to_unsafe : LibGLFW::VideoMode*
+      @ptr
     end
 
     def width : Int32

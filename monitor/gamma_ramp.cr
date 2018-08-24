@@ -1,7 +1,12 @@
 module GLFW
   class GammaRamp
     getter ptr : LibGLFW::GammaRamp*
+
     def initialize(@ptr)
+    end
+
+    def to_unsafe : LibGLFW::GammaRamp*
+      @ptr
     end
 
     def red : Slice(UInt16)
