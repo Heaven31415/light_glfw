@@ -6,31 +6,31 @@ require "./typedefs.cr"
 @[Link("glfw")]
 lib LibGLFW
   # init
-  fun init = glfwInit : Int32
-  fun terminate = glfwTerminate : Void
-  fun get_version = glfwGetVersion(major : Int32*, minor : Int32*, rev : Int32*) : Void
-  fun get_version_string = glfwGetVersionString : UInt8*
-  fun set_error_callback = glfwSetErrorCallback(cbfun : ErrorFun) : ErrorFun
+  fun init = glfwInit : Int32 # implemented
+  fun terminate = glfwTerminate : Void # implemented
+  fun get_version = glfwGetVersion(major : Int32*, minor : Int32*, rev : Int32*) : Void # implemented
+  fun get_version_string = glfwGetVersionString : UInt8* # implemented
+  fun set_error_callback = glfwSetErrorCallback(cbfun : ErrorFun) : ErrorFun # implemented
   # monitor
-  fun get_monitors = glfwGetMonitors(count : Int32*) : Monitor**
-  fun get_primary_monitor = glfwGetPrimaryMonitor : Monitor*
-  fun get_monitor_pos = glfwGetMonitorPos(monitor : Monitor*, xpos : Int32*, ypos : Int32*) : Void
-  fun get_monitor_physical_size = glfwGetMonitorPhysicalSize(monitor : Monitor*, width : Int32*, height : Int32*) : Void
-  fun get_monitor_name = glfwGetMonitorName(monitor : Monitor*) : UInt8*
-  fun set_monitor_callback = glfwSetMonitorCallback(cbfun : MonitorFun) : MonitorFun
-  fun get_video_modes = glfwGetVideoModes(monitor : Monitor*, count : Int32*) : VideoMode*
-  fun get_video_mode = glfwGetVideoMode(monitor : Monitor*) : VideoMode*
-  fun set_gamma = glfwSetGamma(monitor : Monitor*, gamma : Float32) : Void
-  fun get_gamma_ramp = glfwGetGammaRamp(monitor : Monitor*) : GammaRamp*
-  fun set_gamma_ramp = glfwSetGammaRamp(monitor : Monitor*, ramp : GammaRamp*) : Void
+  fun get_monitors = glfwGetMonitors(count : Int32*) : Monitor** # implemented
+  fun get_primary_monitor = glfwGetPrimaryMonitor : Monitor* # implemented
+  fun get_monitor_pos = glfwGetMonitorPos(monitor : Monitor*, xpos : Int32*, ypos : Int32*) : Void # implemented
+  fun get_monitor_physical_size = glfwGetMonitorPhysicalSize(monitor : Monitor*, width : Int32*, height : Int32*) : Void # implemented
+  fun get_monitor_name = glfwGetMonitorName(monitor : Monitor*) : UInt8* # implemented
+  fun set_monitor_callback = glfwSetMonitorCallback(cbfun : MonitorFun) : MonitorFun # implemented
+  fun get_video_modes = glfwGetVideoModes(monitor : Monitor*, count : Int32*) : VideoMode* # implemented
+  fun get_video_mode = glfwGetVideoMode(monitor : Monitor*) : VideoMode* # implemented
+  fun set_gamma = glfwSetGamma(monitor : Monitor*, gamma : Float32) : Void # implemented
+  fun get_gamma_ramp = glfwGetGammaRamp(monitor : Monitor*) : GammaRamp* # implemented
+  fun set_gamma_ramp = glfwSetGammaRamp(monitor : Monitor*, ramp : GammaRamp*) : Void # implemented
   # window
-  fun default_window_hints = glfwDefaultWindowHints : Void
+  fun default_window_hints = glfwDefaultWindowHints : Void # implemented
   fun window_hint = glfwWindowHint(hint : Int32, value : Int32) : Void
-  fun create_window = glfwCreateWindow(width : Int32, height : Int32, title : UInt8*, monitor : Monitor*, share : Window*) : Window*
-  fun destroy_window = glfwDestroyWindow(window : Window*) : Void
-  fun window_should_close = glfwWindowShouldClose(window : Window*) : Int32
-  fun set_window_should_close = glfwSetWindowShouldClose(window : Window*, value : Int32) : Void
-  fun set_window_title = glfwSetWindowTitle(window : Window*, title : UInt8*) : Void
+  fun create_window = glfwCreateWindow(width : Int32, height : Int32, title : UInt8*, monitor : Monitor*, share : Window*) : Window* # implemented
+  fun destroy_window = glfwDestroyWindow(window : Window*) : Void # implemented
+  fun window_should_close = glfwWindowShouldClose(window : Window*) : Int32 # implemented
+  fun set_window_should_close = glfwSetWindowShouldClose(window : Window*, value : Int32) : Void # implemented
+  fun set_window_title = glfwSetWindowTitle(window : Window*, title : UInt8*) : Void # implemented
   fun set_window_icon = glfwSetWindowIcon(window : Window*, count : Int32, images : Image*) : Void
   fun get_window_pos = glfwGetWindowPos(window : Window*, xpos : Int32*, ypos : Int32*) : Void
   fun set_window_pos = glfwSetWindowPos(window : Window*, xpos : Int32, ypos : Int32) : Void
