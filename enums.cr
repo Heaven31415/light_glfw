@@ -1,6 +1,12 @@
 # enums definitions
 
 module GLFW
+  enum Action
+    Release                         = 0
+    Press                           = 1
+    Repeat                          = 2
+  end
+
   enum Key
     Unknown                         = -1
     Space                           = 32
