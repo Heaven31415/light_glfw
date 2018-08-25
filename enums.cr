@@ -189,43 +189,43 @@ module GLFW
     NoWindowContext                 = 0x0001000A
   end
 
-  enum ClientApi
+  enum ClientApi : Int32
     None                            =          0
     OpenGL                          = 0x00030001
     OpenGLES                        = 0x00030002
   end
 
-  enum ContextRobustness
+  enum ContextRobustness : Int32
     None                            =          0
     NoResetNotification             = 0x00031001
     LoseContextOnReset              = 0x00031002
   end
 
-  enum OpenGLProfile
+  enum OpenGLProfile : Int32
     Any                             =          0
     Core                            = 0x00032001
     Compat                          = 0x00032002
   end
 
-  enum ContextReleaseBehavior
+  enum ContextReleaseBehavior : Int32
     Any                             =          0
     Flush                           = 0x00035001
     None                            = 0x00035002
   end
 
-  enum ContextCreation
+  enum ContextCreation : Int32
     NativeApi                       = 0x00036001
     EGLApi                          = 0x00036002
   end
 
   module Event
-    enum Monitor
+    enum Monitor : Int32
       Connected                     = 0x00040001
       Disconnected                  = 0x00040002
     end
   end
 
-  enum Hint
+  enum Hint : Int32
     Focused                         = 0x00020001 # hint : Bool
     Iconified                       = 0x00020002 # hint : Bool
     Resizable                       = 0x00020003 # hint : Bool
