@@ -200,71 +200,79 @@ lib LibGLFW
   FORMAT_UNAVAILABLE                  = 0x00010009
   NO_WINDOW_CONTEXT                   = 0x0001000A
 
-  FOCUSED                             = 0x00020001
-  ICONIFIED                           = 0x00020002
-  RESIZABLE                           = 0x00020003
-  VISIBLE                             = 0x00020004
-  DECORATED                           = 0x00020005
-  AUTO_ICONIFY                        = 0x00020006
-  FLOATING                            = 0x00020007
-  MAXIMIZED                           = 0x00020008
+  FOCUSED                             = 0x00020001 # hint : Bool
+  ICONIFIED                           = 0x00020002 # hint : Bool
+  RESIZABLE                           = 0x00020003 # hint : Bool
+  VISIBLE                             = 0x00020004 # hint : Bool
+  DECORATED                           = 0x00020005 # hint : Bool
+  AUTO_ICONIFY                        = 0x00020006 # hint : Bool
+  FLOATING                            = 0x00020007 # hint : Bool
+  MAXIMIZED                           = 0x00020008 # hint : Bool
 
-  RED_BITS                            = 0x00021001
-  GREEN_BITS                          = 0x00021002
-  BLUE_BITS                           = 0x00021003
-  ALPHA_BITS                          = 0x00021004
-  DEPTH_BITS                          = 0x00021005
-  STENCIL_BITS                        = 0x00021006
-  ACCUM_RED_BITS                      = 0x00021007
-  ACCUM_GREEN_BITS                    = 0x00021008
-  ACCUM_BLUE_BITS                     = 0x00021009
-  ACCUM_ALPHA_BITS                    = 0x0002100A
-  AUX_BUFFERS                         = 0x0002100B
-  STEREO                              = 0x0002100C
-  SAMPLES                             = 0x0002100D
-  SRGB_CAPABLE                        = 0x0002100E
-  REFRESH_RATE                        = 0x0002100F
-  DOUBLEBUFFER                        = 0x00021010
+  RED_BITS                            = 0x00021001 # hint : Int32
+  GREEN_BITS                          = 0x00021002 # hint : Int32
+  BLUE_BITS                           = 0x00021003 # hint : Int32
+  ALPHA_BITS                          = 0x00021004 # hint : Int32
+  DEPTH_BITS                          = 0x00021005 # hint : Int32
+  STENCIL_BITS                        = 0x00021006 # hint : Int32
+  ACCUM_RED_BITS                      = 0x00021007 # hint : Int32
+  ACCUM_GREEN_BITS                    = 0x00021008 # hint : Int32
+  ACCUM_BLUE_BITS                     = 0x00021009 # hint : Int32
+  ACCUM_ALPHA_BITS                    = 0x0002100A # hint : Int32
+  AUX_BUFFERS                         = 0x0002100B # hint : Int32
+  STEREO                              = 0x0002100C # (hard constraint) hint : Bool
+  SAMPLES                             = 0x0002100D # hint : Int32
+  SRGB_CAPABLE                        = 0x0002100E # hint : Bool
+  REFRESH_RATE                        = 0x0002100F # hint : Int32
+  DOUBLEBUFFER                        = 0x00021010 # (hard constraint) hint : Bool
 
-  CLIENT_API                          = 0x00022001
-  CONTEXT_VERSION_MAJOR               = 0x00022002
-  CONTEXT_VERSION_MINOR               = 0x00022003
-  CONTEXT_REVISION                    = 0x00022004
-  CONTEXT_ROBUSTNESS                  = 0x00022005
-  OPENGL_FORWARD_COMPAT               = 0x00022006
-  OPENGL_DEBUG_CONTEXT                = 0x00022007
-  OPENGL_PROFILE                      = 0x00022008
-  CONTEXT_RELEASE_BEHAVIOR            = 0x00022009
-  CONTEXT_NO_ERROR                    = 0x0002200A
-  CONTEXT_CREATION_API                = 0x0002200B
+  CLIENT_API                          = 0x00022001 # (hard constraint) hint : GLFW::ClientApi
+  CONTEXT_VERSION_MAJOR               = 0x00022002 # hint : Int32
+  CONTEXT_VERSION_MINOR               = 0x00022003 # hint : Int32
+  CONTEXT_REVISION                    = 0x00022004 # TODO: figure out me!
+  CONTEXT_ROBUSTNESS                  = 0x00022005 # hint : GLFW::ContextRobustness
+  OPENGL_FORWARD_COMPAT               = 0x00022006 # (hard constraint) hint : Bool
+  OPENGL_DEBUG_CONTEXT                = 0x00022007 # hint : Bool
+  OPENGL_PROFILE                      = 0x00022008 # (hard constraint) hint : GLFW::OpenGLProfile
+  CONTEXT_RELEASE_BEHAVIOR            = 0x00022009 # hint : GLFW::ContextReleaseBehavior
+  CONTEXT_NO_ERROR                    = 0x0002200A # TODO: figure out me!
+  CONTEXT_CREATION_API                = 0x0002200B # (hard constraint) hint : GLFW::ContextCreation
 
+  # Corresponds to GLFW::ClientApi enum
   NO_API                              =          0
   OPENGL_API                          = 0x00030001
   OPENGL_ES_API                       = 0x00030002
 
+  # Corresponds to GLFW::ContextRobustness
   NO_ROBUSTNESS                       =          0
   NO_RESET_NOTIFICATION               = 0x00031001
   LOSE_CONTEXT_ON_RESET               = 0x00031002
 
+  # Corresponds to GLFW::OpenGLProfile enum
   OPENGL_ANY_PROFILE                  =          0
   OPENGL_CORE_PROFILE                 = 0x00032001
   OPENGL_COMPAT_PROFILE               = 0x00032002
 
+  # TODO: figure out me!
   CURSOR                              = 0x00033001
   STICKY_KEYS                         = 0x00033002
   STICKY_MOUSE_BUTTONS                = 0x00033003
 
+  # TODO: figure out me!
   CURSOR_NORMAL                       = 0x00034001
   CURSOR_HIDDEN                       = 0x00034002
   CURSOR_DISABLED                     = 0x00034003
 
+  # Corresponds to GLFW::ContextReleaseBehavior enum
   ANY_RELEASE_BEHAVIOR                =          0
   RELEASE_BEHAVIOR_FLUSH              = 0x00035001
   RELEASE_BEHAVIOR_NONE               = 0x00035002
 
+  # Corresponds to GLFW::ContextCreation enum
   NATIVE_CONTEXT_API                  = 0x00036001
   EGL_CONTEXT_API                     = 0x00036002
 
+  # TODO: figure out me!
   ARROW_CURSOR                        = 0x00036001
   IBEAM_CURSOR                        = 0x00036002
   CROSSHAIR_CURSOR                    = 0x00036003
@@ -272,6 +280,7 @@ lib LibGLFW
   HRESIZE_CURSOR                      = 0x00036005
   VRESIZE_CURSOR                      = 0x00036006
 
+  # Corresponds to Event::Monitor enum
   CONNECTED                           = 0x00040001
   DISCONNECTED                        = 0x00040002
 

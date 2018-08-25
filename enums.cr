@@ -189,10 +189,79 @@ module GLFW
     NoWindowContext                 = 0x0001000A
   end
 
+  enum ClientApi
+    None                            =          0
+    OpenGL                          = 0x00030001
+    OpenGLES                        = 0x00030002
+  end
+
+  enum ContextRobustness
+    None                            =          0
+    NoResetNotification             = 0x00031001
+    LoseContextOnReset              = 0x00031002
+  end
+
+  enum OpenGLProfile
+    Any                             =          0
+    Core                            = 0x00032001
+    Compat                          = 0x00032002
+  end
+
+  enum ContextReleaseBehavior
+    Any                             =          0
+    Flush                           = 0x00035001
+    None                            = 0x00035002
+  end
+
+  enum ContextCreation
+    NativeApi                       = 0x00036001
+    EGLApi                          = 0x00036002
+  end
+
   module Event
     enum Monitor
       Connected                     = 0x00040001
       Disconnected                  = 0x00040002
     end
+  end
+
+  enum Hint
+    Focused                         = 0x00020001 # hint : Bool
+    Iconified                       = 0x00020002 # hint : Bool
+    Resizable                       = 0x00020003 # hint : Bool
+    Visible                         = 0x00020004 # hint : Bool
+    Decorated                       = 0x00020005 # hint : Bool
+    AutoIconify                     = 0x00020006 # hint : Bool
+    Floating                        = 0x00020007 # hint : Bool
+    Maximized                       = 0x00020008 # hint : Bool
+
+    RedBits                         = 0x00021001 # hint : Int32
+    GreenBits                       = 0x00021002 # hint : Int32
+    BlueBits                        = 0x00021003 # hint : Int32
+    AlphaBits                       = 0x00021004 # hint : Int32
+    DepthBits                       = 0x00021005 # hint : Int32
+    StencilBits                     = 0x00021006 # hint : Int32
+    AccumRedBits                    = 0x00021007 # hint : Int32
+    AccumGreenBits                  = 0x00021008 # hint : Int32
+    AccumBlueBits                   = 0x00021009 # hint : Int32
+    AccumAlphaBits                  = 0x0002100A # hint : Int32
+    AuxBuffers                      = 0x0002100B # hint : Int32
+    Stereo                          = 0x0002100C # (hard constraint) hint : Bool
+    Samples                         = 0x0002100D # hint : Int32
+    SrgbCapable                     = 0x0002100E # hint : Bool
+    RefreshRate                     = 0x0002100F # hint : Int32
+    DoubleBuffer                    = 0x00021010 # (hard constraint) hint : Bool
+
+    ClientApi                       = 0x00022001 # (hard constraint) hint : GLFW::ClientApi
+    ContextVersionMajor             = 0x00022002 # hint : Int32
+    ContextVersionMinor             = 0x00022003 # hint : Int32
+    ContextRevision                 = 0x00022004
+    ContextRobustness               = 0x00022005 # hint : GLFW::ContextRobustness
+    OpenGLForwardCompat             = 0x00022006 # (hard constraint) hint : Bool
+    OpenGLDebugContext              = 0x00022007 # hint : Bool
+    OpenGLProfile                   = 0x00022008 # (hard constraint) hint : GLFW::OpenGLProfile
+    ContextReleaseBehavior          = 0x00022009 # hint : GLFW::ContextReleaseBehavior
+    ContextNoError                  = 0x0002200A
+    ContextCreationApi              = 0x0002200B # (hard constraint) hint : GLFW::ContextCreation
   end
 end
