@@ -20,6 +20,7 @@ lib LibGLFW
   TRUE                                = 1
   FALSE                               = 0
 
+  # Corresponds to GLFW::Action enum
   RELEASE                             = 0
   PRESS                               = 1
   REPEAT                              = 2
