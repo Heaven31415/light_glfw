@@ -229,13 +229,13 @@ lib LibGLFW
   CLIENT_API                          = 0x00022001 # (hard constraint) hint : GLFW::ClientApi
   CONTEXT_VERSION_MAJOR               = 0x00022002 # hint : Int32
   CONTEXT_VERSION_MINOR               = 0x00022003 # hint : Int32
-  CONTEXT_REVISION                    = 0x00022004 # TODO: figure out me!
+  CONTEXT_REVISION                    = 0x00022004 # hint : Int32
   CONTEXT_ROBUSTNESS                  = 0x00022005 # hint : GLFW::ContextRobustness
   OPENGL_FORWARD_COMPAT               = 0x00022006 # (hard constraint) hint : Bool
   OPENGL_DEBUG_CONTEXT                = 0x00022007 # hint : Bool
   OPENGL_PROFILE                      = 0x00022008 # (hard constraint) hint : GLFW::OpenGLProfile
   CONTEXT_RELEASE_BEHAVIOR            = 0x00022009 # hint : GLFW::ContextReleaseBehavior
-  CONTEXT_NO_ERROR                    = 0x0002200A # TODO: figure out me!
+  CONTEXT_NO_ERROR                    = 0x0002200A # hint : Bool
   CONTEXT_CREATION_API                = 0x0002200B # (hard constraint) hint : GLFW::ContextCreation
 
   # Corresponds to GLFW::ClientApi enum
