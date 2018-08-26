@@ -207,6 +207,18 @@ module GLFW
     Compat                          = 0x00032002
   end
 
+  enum InputMode : Int32 
+    Cursor                          = 0x00033001
+    StickyKeys                      = 0x00033002
+    StickyMouseButtons              = 0x00033003
+  end
+
+  enum CursorInputMode : Int32
+    Normal                          = 0x00034001
+    Hidden                          = 0x00034002
+    Disabled                        = 0x00034003
+  end
+
   enum ContextReleaseBehavior : Int32
     Any                             =          0
     Flush                           = 0x00035001

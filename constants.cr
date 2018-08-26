@@ -253,12 +253,12 @@ lib LibGLFW
   OPENGL_CORE_PROFILE                 = 0x00032001
   OPENGL_COMPAT_PROFILE               = 0x00032002
 
-  # TODO: figure out me!
+  # Corresponds to GLFW::InputMode enum
   CURSOR                              = 0x00033001
   STICKY_KEYS                         = 0x00033002
   STICKY_MOUSE_BUTTONS                = 0x00033003
 
-  # TODO: figure out me!
+  # Corresponds to GLFW::CursorInputMode enum
   CURSOR_NORMAL                       = 0x00034001
   CURSOR_HIDDEN                       = 0x00034002
   CURSOR_DISABLED                     = 0x00034003
