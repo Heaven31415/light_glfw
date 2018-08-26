@@ -1,6 +1,7 @@
 require "./enums.cr"
 require "./functions.cr"
 
+require "./context/*"
 require "./init/*"
 require "./input/*"
 require "./monitor/*"
