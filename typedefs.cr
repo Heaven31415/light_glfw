@@ -2,8 +2,9 @@
 
 @[Link("glfw")]
 lib LibGLFW
-  type GlProc = Void -> Void
-  type VkProc = Void -> Void
+  alias GlProc = Void -> Void
+  alias VkProc = Void -> Void
+  
   type Monitor = Void
   type Window = Void
   type Cursor = Void
