@@ -2,15 +2,18 @@ require "../glfw"
 require "./gl"
 # require "stumpy_png"
 
+GLFW.set_error_callback do |error, string|
+  puts "Error: #{error}, String: #{string}"
+end
+
 if GLFW.init() == true
   GLFW.window_hint_focused(true)
-  GLFW.window_hint_iconified(false)
   GLFW.window_hint_resizable(true)
   GLFW.window_hint_visible(true)
   GLFW.window_hint_decorated(true)
   GLFW.window_hint_auto_iconify(false)
   GLFW.window_hint_floating(false)
-  GLFW.window_hint_maximized(true)
+  GLFW.window_hint_maximized(false)
 
   GLFW.window_hint_red_bits(8)
   GLFW.window_hint_green_bits(8)
@@ -31,7 +34,6 @@ if GLFW.init() == true
   GLFW.window_hint_client_api(GLFW::ClientApi::OpenGL)
   GLFW.window_hint_context_version_major(4)
   GLFW.window_hint_context_version_minor(6)
-  GLFW.window_hint_context_revision(0)
   GLFW.window_hint_context_robustness(GLFW::ContextRobustness::None)
   GLFW.window_hint_open_gl_forward_compat(false)
   GLFW.window_hint_open_gl_debug_context(true)
@@ -43,41 +45,79 @@ if GLFW.init() == true
   window = GLFW.create_window(640, 480, "GLFW", nil, nil)
 
   if window
-    GLFW.set_window_pos_callback(window) do |window, x, y|
-      puts "#{window} new position: {#{x},#{y}}"
-    end
 
-    GLFW.set_window_size_callback(window) do |window, width, height|
-      GL.viewport(0, 0, width, height)
-    end
+    # window attributes: 
+    puts "focused: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Focused.value)}"
+    puts "iconified: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Iconified.value)}"
+    puts "resizable: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Resizable.value)}"
+    puts "visible: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Visible.value)}"
+    puts "decorated: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Decorated.value)}"
+    # puts "auto_iconify: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AutoIconify.value)}" # naa
+    puts "floating: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Floating.value)}"
+    puts "maximized: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Maximized.value)}"
+    # puts "red_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::RedBits.value)}" # naa
+    # puts "green_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::GreenBits.value)}" # naa
+    # puts "blue_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::BlueBits.value)}" # naa
+    # puts "alpha_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AlphaBits.value)}" # naa
+    # puts "depth_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::DepthBits.value)}" # naa
+    # puts "stencil_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::StencilBits.value)}" # naa
+    # puts "accum_red_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AccumRedBits.value)}" # naa
+    # puts "accum_green_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AccumGreenBits.value)}" # naa
+    # puts "accum_blue_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AccumBlueBits.value)}" # naa
+    # puts "accum_alpha_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AccumAlphaBits.value)}" # naa
+    # puts "aux_buffers: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AuxBuffers.value)}" # naa
+    # puts "stereo: #{LibGLFW.get_window_attrib(window, GLFW::Hint::Stereo.value)}" # naa
+    # puts "samples: #{LibGLFW.get_window_attrib(window, GLFW::Hint::Samples.value)}" # naa
+    # puts "srgb_capable: #{LibGLFW.get_window_attrib(window, GLFW::Hint::SrgbCapable.value)}" # naa
+    # puts "refresh_rate: #{LibGLFW.get_window_attrib(window, GLFW::Hint::RefreshRate.value)}" # naa
+    # puts "double_buffer: #{LibGLFW.get_window_attrib(window, GLFW::Hint::DoubleBuffer.value)}" # naa
+    puts "client_api: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ClientApi.value)}"
+    puts "context_version_major: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextVersionMajor.value)}"
+    puts "context_version_minor: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextVersionMinor.value)}"
+    puts "context_revision: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextRevision.value)}"
+    puts "context_robustness: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextRobustness.value)}"
+    puts "open_gl_forward_compat: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::OpenGLForwardCompat.value)}"
+    puts "open_gl_debug_context: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::OpenGLDebugContext.value)}"
+    puts "open_gl_profile: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::OpenGLProfile.value)}"
+    puts "open_gl_context_release_behavior: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextReleaseBehavior.value)}"
+    puts "open_gl_context_no_error: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextNoError.value)}"
+    puts "open_gl_context_creation_api: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextCreationApi.value)}"
 
-    GLFW.set_window_close_callback(window) do
-      puts "Please don't go!"
-    end
+    # GLFW.set_window_pos_callback(window) do |window, x, y|
+    #   puts "#{window} new position: {#{x},#{y}}"
+    # end
 
-    GLFW.set_window_refresh_callback(window) do
-      puts "Strange... I'm refreshing myself!"
-    end
+    # GLFW.set_window_size_callback(window) do |window, width, height|
+    #   GL.viewport(0, 0, width, height)
+    # end
 
-    GLFW.set_framebuffer_size_callback(window) do |window, width, height|
-      puts "width: #{width} height: #{height}"
-    end
+    # GLFW.set_window_close_callback(window) do
+    #   puts "Please don't go!"
+    # end
 
-    GLFW.set_window_iconify_callback(window) do |window, iconified|
-      if iconified
-        puts "I'm iconified!"
-      else
-        puts "I'm not iconified!"
-      end
-    end
+    # GLFW.set_window_refresh_callback(window) do
+    #   puts "Strange... I'm refreshing myself!"
+    # end
 
-    GLFW.set_window_focus_callback(window) do |window, focused|
-      if focused
-        puts "I'm focused! I like it!"
-      else
-        puts "Nobody is looking at me! I hate it!"
-      end
-    end
+    # GLFW.set_framebuffer_size_callback(window) do |window, width, height|
+    #   puts "width: #{width} height: #{height}"
+    # end
+
+    # GLFW.set_window_iconify_callback(window) do |window, iconified|
+    #   if iconified
+    #     puts "I'm iconified!"
+    #   else
+    #     puts "I'm not iconified!"
+    #   end
+    # end
+
+    # GLFW.set_window_focus_callback(window) do |window, focused|
+    #   if focused
+    #     puts "I'm focused! I like it!"
+    #   else
+    #     puts "Nobody is looking at me! I hate it!"
+    #   end
+    # end
 
     GLFW.set_key_callback(window) do |window, key, scancode, action, mode|
       if action != GLFW::Action::Press

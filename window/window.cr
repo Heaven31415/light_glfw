@@ -38,11 +38,6 @@ module GLFW
   end
 
   @[AlwaysInline]
-  def self.window_hint_iconified(value : Bool) : Nil
-    LibGLFW.window_hint(Hint::Iconified.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
-  end
-
-  @[AlwaysInline]
   def self.window_hint_resizable(value : Bool) : Nil
     LibGLFW.window_hint(Hint::Resizable.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
@@ -165,11 +160,6 @@ module GLFW
   @[AlwaysInline]
   def self.window_hint_context_version_minor(value : Int32) : Nil
     LibGLFW.window_hint(Hint::ContextVersionMinor.value, value)
-  end
-
-  @[AlwaysInline]
-  def self.window_hint_context_revision(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::ContextRevision.value, value)
   end
 
   @[AlwaysInline]

@@ -237,9 +237,30 @@ module GLFW
     end
   end
 
+  enum Attribute : Int32
+    Focused                         = 0x00020001 # attribute : Bool
+    Iconified                       = 0x00020002 # attribute : Bool # TODO: It's not a hint!
+    Resizable                       = 0x00020003 # attribute : Bool
+    Visible                         = 0x00020004 # attribute : Bool
+    Decorated                       = 0x00020005 # attribute : Bool
+    Floating                        = 0x00020007 # attribute : Bool
+    Maximized                       = 0x00020008 # attribute : Bool
+
+    ClientApi                       = 0x00022001 # attribute : GLFW::ClientApi
+    ContextVersionMajor             = 0x00022002 # attribute : Int32
+    ContextVersionMinor             = 0x00022003 # attribute : Int32
+    ContextRevision                 = 0x00022004 # attribute : Int32 # TODO: it's not a hint!
+    ContextRobustness               = 0x00022005 # attribute : GLFW::ContextRobustness
+    OpenGLForwardCompat             = 0x00022006 # attribute : Bool
+    OpenGLDebugContext              = 0x00022007 # attribute : Bool
+    OpenGLProfile                   = 0x00022008 # attribute : GLFW::OpenGLProfile
+    ContextReleaseBehavior          = 0x00022009 # attribute : GLFW::ContextReleaseBehavior
+    ContextNoError                  = 0x0002200A # attribute : Bool # TODO: check me
+    ContextCreationApi              = 0x0002200B # attribute : GLFW::ContextCreation
+  end
+
   enum Hint : Int32
     Focused                         = 0x00020001 # hint : Bool
-    Iconified                       = 0x00020002 # hint : Bool
     Resizable                       = 0x00020003 # hint : Bool
     Visible                         = 0x00020004 # hint : Bool
     Decorated                       = 0x00020005 # hint : Bool
@@ -267,7 +288,6 @@ module GLFW
     ClientApi                       = 0x00022001 # (hard constraint) hint : GLFW::ClientApi
     ContextVersionMajor             = 0x00022002 # hint : Int32
     ContextVersionMinor             = 0x00022003 # hint : Int32
-    ContextRevision                 = 0x00022004 # hint : Int32 # TODO: check me
     ContextRobustness               = 0x00022005 # hint : GLFW::ContextRobustness
     OpenGLForwardCompat             = 0x00022006 # (hard constraint) hint : Bool
     OpenGLDebugContext              = 0x00022007 # hint : Bool
