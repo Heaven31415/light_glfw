@@ -83,17 +83,17 @@ lib LibGLFW
   fun set_cursor_enter_callback = glfwSetCursorEnterCallback(window : Window*, cbfun : CursorEnterFun) : CursorEnterFun
   fun set_scroll_callback = glfwSetScrollCallback(window : Window*, cbfun : ScrollFun) : ScrollFun
   fun set_drop_callback = glfwSetDropCallback(window : Window*, cbfun : DropFun) : DropFun
-  fun joystick_present = glfwJoystickPresent(joy : Int32) : Int32
-  fun get_joystick_axes = glfwGetJoystickAxes(joy : Int32, count : Int32*) : Float32*
-  fun get_joystick_buttons = glfwGetJoystickButtons(joy : Int32, count : Int32*) : UInt8*
-  fun get_joystick_name = glfwGetJoystickName(joy : Int32) : UInt8*
+  fun joystick_present = glfwJoystickPresent(joy : Int32) : Int32 # implemented
+  fun get_joystick_axes = glfwGetJoystickAxes(joy : Int32, count : Int32*) : Float32* # implemented
+  fun get_joystick_buttons = glfwGetJoystickButtons(joy : Int32, count : Int32*) : UInt8* # implemented
+  fun get_joystick_name = glfwGetJoystickName(joy : Int32) : UInt8* # implemented
   fun set_joystick_callback = glfwSetJoystickCallback(cbfun : JoystickFun) : JoystickFun
-  fun set_clipboard_string = glfwSetClipboardString(window : Window*, string : UInt8*) : Void
-  fun get_clipboard_string = glfwGetClipboardString(window : Window*) : UInt8*
-  fun get_time = glfwGetTime : Float64
-  fun set_time = glfwSetTime(time : Float64) : Void
-  fun get_timer_value = glfwGetTimerValue : UInt64
-  fun get_timer_frequency = glfwGetTimerFrequency : UInt64
+  fun set_clipboard_string = glfwSetClipboardString(window : Window*, string : UInt8*) : Void # implemented
+  fun get_clipboard_string = glfwGetClipboardString(window : Window*) : UInt8* # implemented
+  fun get_time = glfwGetTime : Float64 # implemented
+  fun set_time = glfwSetTime(time : Float64) : Void # implemented
+  fun get_timer_value = glfwGetTimerValue : UInt64 # implemented
+  fun get_timer_frequency = glfwGetTimerFrequency : UInt64 # implemented
   # context
   fun make_context_current = glfwMakeContextCurrent(window : Window*) : Void # implemented
   fun get_current_context = glfwGetCurrentContext : Window* # implemented

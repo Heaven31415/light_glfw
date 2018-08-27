@@ -60,4 +60,91 @@ module GLFW
       end
     end)
   end
+
+  # fun joystick_present = glfwJoystickPresent(joy : Int32) : Int32
+  def self.joystick_present(joy : Joystick) : Bool
+    LibGLFW.joystick_present(joy.value) == GLFW::TRUE ? true : false
+  end
+
+  # fun get_joystick_axes = glfwGetJoystickAxes(joy : Int32, count : Int32*) : Float32*
+  @[AlwaysInline]
+  def self.get_joystick_axes(joy : Joystick) : Array(Float32)?
+    ptr = LibGLFW.get_joystick_axes(joy.value, out count)
+    if ptr.null?
+      nil
+    else
+      axes = Array(Float32).new(count)
+      count.times do |i|
+        axes << ptr[i]
+      end
+      axes
+    end
+  end
+
+  # fun get_joystick_buttons = glfwGetJoystickButtons(joy : Int32, count : Int32*) : UInt8*
+  @[AlwaysInline]
+  def self.get_joystick_buttons(joy : Joystick) : Array(Action)?
+    ptr = LibGLFW.get_joystick_buttons(joy.value, out count)
+    if ptr.null?
+      nil
+    else
+      buttons = Array(Action).new(count)
+      count.times do |i|
+        buttons << Action.new(ptr[i])
+      end
+      buttons
+    end
+  end
+
+  # fun get_joystick_name = glfwGetJoystickName(joy : Int32) : UInt8*
+  @[AlwaysInline]
+  def self.get_joystick_name(joy : Joystick) : String?
+    ptr = LibGLFW.get_joystick_name(joy.value)
+    if ptr.null?
+      nil
+    else
+      String.new(ptr)
+    end
+  end
+
+  # fun set_clipboard_string = glfwSetClipboardString(window : Window*, string : UInt8*) : Void
+  @[AlwaysInline]
+  def self.set_clipboard_string(window : Window, string : String) : Nil
+    LibGLFW.set_clipboard_string(window.ptr, string.to_unsafe)
+  end
+
+  # fun get_clipboard_string = glfwGetClipboardString(window : Window*) : UInt8*
+  @[AlwaysInline]
+  def self.get_clipboard_string(window : Window) : String?
+    ptr = LibGLFW.get_clipboard_string(window.ptr)
+    if ptr.null?
+      nil
+    else
+      String.new(ptr)
+    end
+  end
+
+  # fun get_time = glfwGetTime : Float64
+  @[AlwaysInline]
+  def self.get_time : Float64
+    LibGLFW.get_time
+  end
+
+  # fun set_time = glfwSetTime(time : Float64) : Void
+  @[AlwaysInline]
+  def self.set_time(time : Float64) : Nil
+    LibGLFW.set_time(time)
+  end
+
+  # fun get_timer_value = glfwGetTimerValue : UInt64
+  @[AlwaysInline]
+  def self.get_timer_value : UInt64
+    LibGLFW.get_timer_value
+  end
+
+  # fun get_timer_frequency = glfwGetTimerFrequency : UInt64
+  @[AlwaysInline]
+  def self.get_timer_frequency : UInt64
+    LibGLFW.get_timer_frequency
+  end
 end
