@@ -4,6 +4,9 @@
 # todo: every method should be inlined and I should avoid to_unsafe implicit call
 # todo: every method which doesn't return anything interesing should have Nil return value
 
+# todo: right now it's impossible to remove currently set callback, because
+# user have to pass a block, instead of a proc, however someone can pass an empty block, is this enough?
+
 module GLFW
   struct Window
     getter ptr : LibGLFW::Window*
@@ -206,6 +209,104 @@ module GLFW
     else
       Monitor.new(ptr)
     end
+  end
+
+  # fun set_window_pos_callback = glfwSetWindowPosCallback(window : Window*, cbfun : WindowPosFun) : WindowPosFun
+  # type WindowPosFun = Window*, Int32, Int32 -> Void
+  @@pos_callback : Proc(Window, Int32, Int32, Void)? = nil
+  @[AlwaysInline]
+  def self.set_window_pos_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
+    @@pos_callback = block
+    LibGLFW.set_window_pos_callback(window.ptr, ->(window : LibGLFW::Window*, x : Int32, y : Int32) do 
+      if cb = @@pos_callback
+        cb.call(Window.new(window), x, y)
+      end
+    end)
+    @@pos_callback
+  end
+
+  # fun set_window_size_callback = glfwSetWindowSizeCallback(window : Window*, cbfun : WindowSizeFun) : WindowSizeFun
+  # type WindowSizeFun = Window*, Int32, Int32 -> Void
+  @@size_callback : Proc(Window, Int32, Int32, Void)? = nil
+  @[AlwaysInline]
+  def self.set_window_size_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
+    @@size_callback = block
+    LibGLFW.set_window_size_callback(window.ptr, ->(window : LibGLFW::Window*, width : Int32, height : Int32) do
+      if cb = @@size_callback
+        cb.call(Window.new(window), width, height)
+      end
+    end)
+    @@size_callback
+  end
+
+  # fun set_window_close_callback = glfwSetWindowCloseCallback(window : Window*, cbfun : WindowCloseFun) : WindowCloseFun
+  # type WindowCloseFun = Window* -> Void
+  @@close_callback : Proc(Window, Void)? = nil
+  @[AlwaysInline]
+  def self.set_window_close_callback(window : Window, &block : Window -> Void) : Proc(Window, Void)?
+    @@close_callback = block
+    LibGLFW.set_window_close_callback(window.ptr, ->(window : LibGLFW::Window*) do 
+      if cb = @@close_callback
+        cb.call(Window.new(window))
+      end
+    end)
+    @@close_callback
+  end
+
+  # fun set_window_refresh_callback = glfwSetWindowRefreshCallback(window : Window*, cbfun : WindowRefreshFun) : WindowRefreshFun
+  # type WindowRefreshFun = Window* -> Void
+  @@refresh_callback : Proc(Window, Void)? = nil
+  @[AlwaysInline]
+  def self.set_window_refresh_callback(window : Window, &block : Window -> Void) : Proc(Window, Void)?
+    @@refresh_callback = block
+    LibGLFW.set_window_refresh_callback(window.ptr, ->(window : LibGLFW::Window*) do 
+      if cb = @@refresh_callback
+        cb.call(Window.new(window))
+      end
+    end)
+    @@refresh_callback
+  end
+
+  # fun set_window_focus_callback = glfwSetWindowFocusCallback(window : Window*, cbfun : WindowFocusFun) : WindowFocusFun
+  # type WindowFocusFun = Window*, Int32 -> Void
+  @@focus_callback : Proc(Window, Bool, Void)? = nil
+  @[AlwaysInline]
+  def self.set_window_focus_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
+    @@focus_callback = block
+    LibGLFW.set_window_focus_callback(window.ptr, ->(window : LibGLFW::Window*, focused : Int32) do
+      if cb = @@focus_callback
+        cb.call(Window.new(window), focused == LibGLFW::TRUE ? true : false)
+      end
+    end)
+    @@focus_callback
+  end
+
+  # fun set_window_iconify_callback = glfwSetWindowIconifyCallback(window : Window*, cbfun : WindowIconifyFun) : WindowIconifyFun
+  # type WindowIconifyFun = Window*, Int32 -> Void
+  @@iconify_callback : Proc(Window, Bool, Void)? = nil
+  @[AlwaysInline]
+  def self.set_window_iconify_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
+    @@iconify_callback = block
+    LibGLFW.set_window_iconify_callback(window.ptr, ->(window : LibGLFW::Window*, iconified : Int32) do
+      if cb = @@iconify_callback
+        cb.call(Window.new(window), iconified == LibGLFW::TRUE ? true : false)
+      end
+    end)
+    @@iconify_callback
+  end
+
+  # fun set_framebuffer_size_callback = glfwSetFramebufferSizeCallback(window : Window*, cbfun : FramebufferSizeFun) : FramebufferSizeFun
+  # type FramebufferSizeFun = Window*, Int32, Int32 -> Void
+  @@framebuffer_size_callback : Proc(Window, Int32, Int32, Void)? = nil
+  @[AlwaysInline]
+  def self.set_framebuffer_size_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
+    @@framebuffer_size_callback = block
+    LibGLFW.set_framebuffer_size_callback(window.ptr, ->(window : LibGLFW::Window*, width : Int32, height : Int32) do
+      if cb = @@framebuffer_size_callback
+        cb.call(Window.new(window), width, height)
+      end
+    end)
+    @@framebuffer_size_callback
   end
 
   # fun poll_events = glfwPollEvents : Void
