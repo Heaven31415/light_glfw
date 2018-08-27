@@ -225,9 +225,9 @@ module GLFW
     None                            = 0x00035002
   end
 
-  enum ContextCreation : Int32
-    NativeApi                       = 0x00036001
-    EGLApi                          = 0x00036002
+  enum ContextCreationApi : Int32
+    Native                          = 0x00036001
+    EGL                             = 0x00036002
   end
 
   module Event
@@ -267,13 +267,13 @@ module GLFW
     ClientApi                       = 0x00022001 # (hard constraint) hint : GLFW::ClientApi
     ContextVersionMajor             = 0x00022002 # hint : Int32
     ContextVersionMinor             = 0x00022003 # hint : Int32
-    ContextRevision                 = 0x00022004
+    ContextRevision                 = 0x00022004 # hint : Int32 # TODO: check me
     ContextRobustness               = 0x00022005 # hint : GLFW::ContextRobustness
     OpenGLForwardCompat             = 0x00022006 # (hard constraint) hint : Bool
     OpenGLDebugContext              = 0x00022007 # hint : Bool
     OpenGLProfile                   = 0x00022008 # (hard constraint) hint : GLFW::OpenGLProfile
     ContextReleaseBehavior          = 0x00022009 # hint : GLFW::ContextReleaseBehavior
-    ContextNoError                  = 0x0002200A
+    ContextNoError                  = 0x0002200A # hint : Bool # TODO: check me
     ContextCreationApi              = 0x0002200B # (hard constraint) hint : GLFW::ContextCreation
   end
 end
