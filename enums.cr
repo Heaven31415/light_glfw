@@ -237,7 +237,7 @@ module GLFW
     end
   end
 
-  enum Attribute : Int32
+  private enum Attribute : Int32
     Focused                         = 0x00020001 # attribute : Bool
     Iconified                       = 0x00020002 # attribute : Bool
     Resizable                       = 0x00020003 # attribute : Bool
@@ -259,7 +259,7 @@ module GLFW
     ContextCreationApi              = 0x0002200B # attribute : GLFW::ContextCreation
   end
 
-  enum Hint : Int32
+  private enum Hint : Int32
     Focused                         = 0x00020001 # hint : Bool
     Resizable                       = 0x00020003 # hint : Bool
     Visible                         = 0x00020004 # hint : Bool
