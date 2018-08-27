@@ -239,7 +239,7 @@ module GLFW
 
   enum Attribute : Int32
     Focused                         = 0x00020001 # attribute : Bool
-    Iconified                       = 0x00020002 # attribute : Bool # TODO: It's not a hint!
+    Iconified                       = 0x00020002 # attribute : Bool
     Resizable                       = 0x00020003 # attribute : Bool
     Visible                         = 0x00020004 # attribute : Bool
     Decorated                       = 0x00020005 # attribute : Bool
@@ -249,7 +249,7 @@ module GLFW
     ClientApi                       = 0x00022001 # attribute : GLFW::ClientApi
     ContextVersionMajor             = 0x00022002 # attribute : Int32
     ContextVersionMinor             = 0x00022003 # attribute : Int32
-    ContextRevision                 = 0x00022004 # attribute : Int32 # TODO: it's not a hint!
+    ContextRevision                 = 0x00022004 # attribute : Int32
     ContextRobustness               = 0x00022005 # attribute : GLFW::ContextRobustness
     OpenGLForwardCompat             = 0x00022006 # attribute : Bool
     OpenGLDebugContext              = 0x00022007 # attribute : Bool
