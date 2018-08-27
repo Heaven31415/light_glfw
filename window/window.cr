@@ -31,7 +31,6 @@ module GLFW
     LibGLFW.window_hint(hint, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # fun window_hint = glfwWindowHint(hint : Int32, value : Int32) : Void
   @[AlwaysInline]
   def self.window_hint_focused(value : Bool) : Nil
     LibGLFW.window_hint(Hint::Focused.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
@@ -339,6 +338,99 @@ module GLFW
     else
       Monitor.new(ptr)
     end
+  end
+
+  # fun set_window_monitor = glfwSetWindowMonitor(window : Window*, monitor : Monitor*, xpos : Int32, ypos : Int32, width : Int32, height : Int32, refresh_rate : Int32) : Void
+
+  # fun get_window_attrib = glfwGetWindowAttrib(window : Window*, attrib : Int32) : Int32
+  @[AlwaysInline]
+  def self.get_window_focused(window : Window) : Bool
+    LibGLFW.get_window_attrib(window.ptr, Attribute::Focused) == LibGLFW::TRUE ? true : false
+  end
+
+  @[AlwaysInline]
+  def self.get_window_iconified(window : Window) : Bool
+    LibGLFW.get_window_attrib(window.ptr, Attribute::Iconified) == LibGLFW::TRUE ? true : false
+  end
+
+  @[AlwaysInline]
+  def self.get_window_resizable(window : Window) : Bool
+    LibGLFW.get_window_attrib(window.ptr, Attribute::Resizable) == LibGLFW::TRUE ? true : false
+  end
+
+  @[AlwaysInline]
+  def self.get_window_visible(window : Window) : Bool
+    LibGLFW.get_window_attrib(window.ptr, Attribute::Visible) == LibGLFW::TRUE ? true : false
+  end
+
+  @[AlwaysInline]
+  def self.get_window_decorated(window : Window) : Bool
+    LibGLFW.get_window_attrib(window.ptr, Attribute::Decorated) == LibGLFW::TRUE ? true : false
+  end
+
+  @[AlwaysInline]
+  def self.get_window_floating(window : Window) : Bool
+    LibGLFW.get_window_attrib(window.ptr, Attribute::Floating) == LibGLFW::TRUE ? true : false
+  end
+
+  @[AlwaysInline]
+  def self.get_window_maximized(window : Window) : Bool
+    LibGLFW.get_window_attrib(window.ptr, Attribute::Maximized) == LibGLFW::TRUE ? true : false
+  end
+
+  @[AlwaysInline]
+  def self.get_window_client_api(window : Window) : ClientApi
+    ClientApi.new(LibGLFW.get_window_attrib(window.ptr, Attribute::ClientApi))
+  end
+
+  @[AlwaysInline]
+  def self.get_window_context_version_major(window : Window) : Int32
+    LibGLFW.get_window_attrib(window.ptr, Attribute::ContextVersionMajor)
+  end
+
+  @[AlwaysInline]
+  def self.get_window_context_version_minor(window : Window) : Int32
+    LibGLFW.get_window_attrib(window.ptr, Attribute::ContextVersionMinor)
+  end
+
+  @[AlwaysInline]
+  def self.get_window_context_revision(window : Window) : Int32
+    LibGLFW.get_window_attrib(window.ptr, Attribute::ContextRevision)
+  end
+
+  @[AlwaysInline]
+  def self.get_window_context_robustness(window : Window) : ContextRobustness
+    ContextRobustness.new(LibGLFW.get_window_attrib(window.ptr, Attribute::ContextRobustness))
+  end
+
+  @[AlwaysInline]
+  def self.get_window_open_gl_forward_compat(window : Window) : Bool
+    LibGLFW.get_window_attrib(window.ptr, Attribute::OpenGLForwardCompat) == LibGLFW::TRUE ? true : false
+  end
+
+  @[AlwaysInline]
+  def self.get_window_open_gl_debug_context(window : Window) : Bool
+    LibGLFW.get_window_attrib(window.ptr, Attribute::OpenGLDebugContext) == LibGLFW::TRUE ? true : false
+  end
+
+  @[AlwaysInline]
+  def self.get_window_open_gl_profile(window : Window) : OpenGLProfile
+    OpenGLProfile.new(LibGLFW.get_window_attrib(window.ptr, Attribute::OpenGLProfile))
+  end
+
+  @[AlwaysInline]
+  def self.get_window_context_release_behavior(window : Window) : ContextReleaseBehavior
+    ContextReleaseBehavior.new(LibGLFW.get_window_attrib(window.ptr, Attribute::ContextReleaseBehavior))
+  end
+
+  @[AlwaysInline]
+  def self.get_window_context_no_error(window : Window) : Bool
+    LibGLFW.get_window_attrib(window.ptr, Attribute::ContextNoError) == LibGLFW::TRUE ? true : false
+  end
+
+  @[AlwaysInline]
+  def self.get_window_context_creation_api(window : Window) : ContextCreationApi
+    ContextCreationApi.new(LibGLFW.get_window_attrib(window.ptr, Attribute::ContextCreationApi))
   end
 
   # fun set_window_pos_callback = glfwSetWindowPosCallback(window : Window*, cbfun : WindowPosFun) : WindowPosFun

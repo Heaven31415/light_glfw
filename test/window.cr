@@ -46,42 +46,25 @@ if GLFW.init() == true
 
   if window
 
-    # window attributes: 
-    puts "focused: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Focused.value)}"
-    puts "iconified: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Iconified.value)}"
-    puts "resizable: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Resizable.value)}"
-    puts "visible: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Visible.value)}"
-    puts "decorated: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Decorated.value)}"
-    # puts "auto_iconify: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AutoIconify.value)}" # naa
-    puts "floating: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Floating.value)}"
-    puts "maximized: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::Maximized.value)}"
-    # puts "red_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::RedBits.value)}" # naa
-    # puts "green_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::GreenBits.value)}" # naa
-    # puts "blue_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::BlueBits.value)}" # naa
-    # puts "alpha_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AlphaBits.value)}" # naa
-    # puts "depth_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::DepthBits.value)}" # naa
-    # puts "stencil_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::StencilBits.value)}" # naa
-    # puts "accum_red_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AccumRedBits.value)}" # naa
-    # puts "accum_green_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AccumGreenBits.value)}" # naa
-    # puts "accum_blue_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AccumBlueBits.value)}" # naa
-    # puts "accum_alpha_bits: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AccumAlphaBits.value)}" # naa
-    # puts "aux_buffers: #{LibGLFW.get_window_attrib(window, GLFW::Hint::AuxBuffers.value)}" # naa
-    # puts "stereo: #{LibGLFW.get_window_attrib(window, GLFW::Hint::Stereo.value)}" # naa
-    # puts "samples: #{LibGLFW.get_window_attrib(window, GLFW::Hint::Samples.value)}" # naa
-    # puts "srgb_capable: #{LibGLFW.get_window_attrib(window, GLFW::Hint::SrgbCapable.value)}" # naa
-    # puts "refresh_rate: #{LibGLFW.get_window_attrib(window, GLFW::Hint::RefreshRate.value)}" # naa
-    # puts "double_buffer: #{LibGLFW.get_window_attrib(window, GLFW::Hint::DoubleBuffer.value)}" # naa
-    puts "client_api: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ClientApi.value)}"
-    puts "context_version_major: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextVersionMajor.value)}"
-    puts "context_version_minor: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextVersionMinor.value)}"
-    puts "context_revision: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextRevision.value)}"
-    puts "context_robustness: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextRobustness.value)}"
-    puts "open_gl_forward_compat: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::OpenGLForwardCompat.value)}"
-    puts "open_gl_debug_context: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::OpenGLDebugContext.value)}"
-    puts "open_gl_profile: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::OpenGLProfile.value)}"
-    puts "open_gl_context_release_behavior: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextReleaseBehavior.value)}"
-    puts "open_gl_context_no_error: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextNoError.value)}"
-    puts "open_gl_context_creation_api: #{LibGLFW.get_window_attrib(window, GLFW::Attribute::ContextCreationApi.value)}"
+    # Window Attributes: 
+    puts "focused: #{GLFW.get_window_focused(window)}"
+    puts "iconified: #{GLFW.get_window_iconified(window)}"
+    puts "resizable: #{GLFW.get_window_resizable(window)}"
+    puts "visible: #{GLFW.get_window_visible(window)}"
+    puts "decorated: #{GLFW.get_window_decorated(window)}"
+    puts "floating: #{GLFW.get_window_floating(window)}"
+    puts "maximized: #{GLFW.get_window_maximized(window)}"
+    puts "client_api: #{GLFW.get_window_client_api(window)}"
+    puts "context_version_major: #{GLFW.get_window_context_version_major(window)}"
+    puts "context_version_minor: #{GLFW.get_window_context_version_minor(window)}"
+    puts "context_revision: #{GLFW.get_window_context_revision(window)}"
+    puts "context_robustness: #{GLFW.get_window_context_robustness(window)}"
+    puts "open_gl_forward_compat: #{GLFW.get_window_open_gl_forward_compat(window)}"
+    puts "open_gl_debug_context: #{GLFW.get_window_open_gl_debug_context(window)}"
+    puts "open_gl_profile: #{GLFW.get_window_open_gl_profile(window)}"
+    puts "open_gl_context_release_behavior: #{GLFW.get_window_context_release_behavior(window)}"
+    puts "open_gl_context_no_error: #{GLFW.get_window_context_no_error(window)}"
+    puts "open_gl_context_creation_api: #{GLFW.get_window_context_creation_api(window)}"
 
     # GLFW.set_window_pos_callback(window) do |window, x, y|
     #   puts "#{window} new position: {#{x},#{y}}"
