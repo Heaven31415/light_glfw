@@ -33,38 +33,178 @@ module GLFW
 
   # fun window_hint = glfwWindowHint(hint : Int32, value : Int32) : Void
   @[AlwaysInline]
-  def self.window_hint(hint : Hint, value : Int32) : Nil
-    LibGLFW.window_hint(hint, value)
+  def self.window_hint_focused(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::Focused.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # fun window_hint = glfwWindowHint(hint : Int32, value : Int32) : Void
   @[AlwaysInline]
-  def self.window_hint(hint : Hint, value : ClientApi) : Nil
-    LibGLFW.window_hint(hint, value.value)
+  def self.window_hint_iconified(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::Iconified.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # fun window_hint = glfwWindowHint(hint : Int32, value : Int32) : Void
   @[AlwaysInline]
-  def self.window_hint(hint : Hint, value : ContextRobustness) : Nil
-    LibGLFW.window_hint(hint, value.value)
+  def self.window_hint_resizable(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::Resizable.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # fun window_hint = glfwWindowHint(hint : Int32, value : Int32) : Void
   @[AlwaysInline]
-  def self.window_hint(hint : Hint, value : OpenGLProfile) : Nil
-    LibGLFW.window_hint(hint, value.value)
+  def self.window_hint_visible(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::Visible.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # fun window_hint = glfwWindowHint(hint : Int32, value : Int32) : Void
   @[AlwaysInline]
-  def self.window_hint(hint : Hint, value : ContextReleaseBehavior) : Nil
-    LibGLFW.window_hint(hint, value.value)
+  def self.window_hint_decorated(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::Decorated.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # fun window_hint = glfwWindowHint(hint : Int32, value : Int32) : Void
   @[AlwaysInline]
-  def self.window_hint(hint : Hint, value : ContextCreation) : Nil
-    LibGLFW.window_hint(hint, value.value)
+  def self.window_hint_auto_iconify(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::AutoIconify.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_floating(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::Floating.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_maximized(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::Maximized.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_red_bits(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::RedBits.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_green_bits(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::GreenBits.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_blue_bits(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::BlueBits.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_alpha_bits(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::AlphaBits.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_depth_bits(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::DepthBits.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_stencil_bits(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::StencilBits.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_accum_red_bits(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::AccumRedBits.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_accum_green_bits(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::AccumGreenBits.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_accum_blue_bits(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::AccumBlueBits.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_accum_alpha_bits(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::AccumAlphaBits.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_aux_buffers(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::AuxBuffers.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_stereo(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::Stereo.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_samples(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::Samples.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_srgb_capable(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::SrgbCapable.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_refresh_rate(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::RefreshRate.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_double_buffer(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::DoubleBuffer.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_client_api(value : ClientApi) : Nil
+    LibGLFW.window_hint(Hint::ClientApi.value, value.value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_context_version_major(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::ContextVersionMajor.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_context_version_minor(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::ContextVersionMinor.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_context_revision(value : Int32) : Nil
+    LibGLFW.window_hint(Hint::ContextRevision.value, value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_context_robustness(value : ContextRobustness) : Nil
+    LibGLFW.window_hint(Hint::ContextRobustness.value, value.value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_open_gl_forward_compat(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::OpenGLForwardCompat.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_open_gl_debug_context(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::OpenGLDebugContext.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_open_gl_profile(value : OpenGLProfile) : Nil
+    LibGLFW.window_hint(Hint::OpenGLProfile.value, value.value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_context_release_behavior(value : ContextReleaseBehavior) : Nil
+    LibGLFW.window_hint(Hint::ContextReleaseBehavior.value, value.value)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_context_no_error(value : Bool) : Nil
+    LibGLFW.window_hint(Hint::ContextNoError.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
+  end
+
+  @[AlwaysInline]
+  def self.window_hint_context_creation_api(value : ContextCreationApi) : Nil
+    LibGLFW.window_hint(Hint::ContextCreationApi.value, value.value)
   end
 
   # fun create_window = glfwCreateWindow(width : Int32, height : Int32, title : UInt8*, monitor : Monitor*, share : Window*) : Window*
