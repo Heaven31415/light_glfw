@@ -433,6 +433,18 @@ module GLFW
     ContextCreationApi.new(LibGLFW.get_window_attrib(window.ptr, Attribute::ContextCreationApi))
   end
 
+  # fun set_window_user_pointer = glfwSetWindowUserPointer(window : Window*, pointer : Void*) : Void
+  @[AlwaysInline]
+  def self.set_window_user_pointer(window : Window, pointer : Pointer(Void)) : Nil
+    LibGLFW.set_window_user_pointer(window.ptr, pointer)
+  end
+
+  # fun get_window_user_pointer = glfwGetWindowUserPointer(window : Window*) : Void*
+  @[AlwaysInline]
+  def self.get_window_user_pointer(window : Window) : Pointer(Void)
+    LibGLFW.get_window_user_pointer(window.ptr)
+  end
+
   # fun set_window_pos_callback = glfwSetWindowPosCallback(window : Window*, cbfun : WindowPosFun) : WindowPosFun
   # type WindowPosFun = Window*, Int32, Int32 -> Void
   @@pos_callback : Proc(Window, Int32, Int32, Void)? = nil

@@ -45,7 +45,6 @@ if GLFW.init() == true
   window = GLFW.create_window(640, 480, "GLFW", nil, nil)
 
   if window
-
     # Window Attributes: 
     puts "focused: #{GLFW.get_window_focused(window)}"
     puts "iconified: #{GLFW.get_window_iconified(window)}"
@@ -66,9 +65,12 @@ if GLFW.init() == true
     puts "open_gl_context_no_error: #{GLFW.get_window_context_no_error(window)}"
     puts "open_gl_context_creation_api: #{GLFW.get_window_context_creation_api(window)}"
 
-    # GLFW.set_window_pos_callback(window) do |window, x, y|
-    #   puts "#{window} new position: {#{x},#{y}}"
-    # end
+    data = [1, 2, 3]
+    GLFW.set_window_user_pointer(window, Pointer(Void).new(data.object_id))
+    GLFW.set_window_pos_callback(window) do |window, x, y|
+      data = GLFW.get_window_user_pointer(window).as(Array(Int32))
+      puts data
+    end
 
     # GLFW.set_window_size_callback(window) do |window, width, height|
     #   GL.viewport(0, 0, width, height)
