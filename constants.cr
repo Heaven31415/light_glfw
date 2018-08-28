@@ -272,7 +272,7 @@ lib LibGLFW
   NATIVE_CONTEXT_API                  = 0x00036001
   EGL_CONTEXT_API                     = 0x00036002
 
-  # TODO: figure out me!
+  # Corresponds to GLFW::CursorShape enum
   ARROW_CURSOR                        = 0x00036001
   IBEAM_CURSOR                        = 0x00036002
   CROSSHAIR_CURSOR                    = 0x00036003
@@ -280,7 +280,7 @@ lib LibGLFW
   HRESIZE_CURSOR                      = 0x00036005
   VRESIZE_CURSOR                      = 0x00036006
 
-  # Corresponds to Event::Monitor enum
+  # Corresponds to GLFW::Event::Monitor enum
   CONNECTED                           = 0x00040001
   DISCONNECTED                        = 0x00040002
 
