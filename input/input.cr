@@ -48,10 +48,73 @@ module GLFW
     end
   end
 
+  # fun get_key = glfwGetKey(window : Window*, key : Int32) : Int32
+  @[AlwaysInline]
+  def self.get_key(window : Window, key : Key) : Action
+    Action.new(LibGLFW.get_key(window.ptr, key.value))
+  end
+
+  # fun get_mouse_button = glfwGetMouseButton(window : Window*, button : Int32) : Int32
+  @[AlwaysInline]
+  def self.get_mouse_button(window : Window, button : MouseButton) : Action
+    Action.new(LibGLFW.get_mouse_button(window.ptr, button.value))
+  end
+
+  # fun get_cursor_pos = glfwGetCursorPos(window : Window*, xpos : Float64*, ypos : Float64*) : Void
+  @[AlwaysInline]
+  def self.get_cursor_pos(window : Window) : {x: Int32, y: Int32}
+    LibGLFW.get_cursor_pos(window.ptr, out xpos, out ypos)
+    {x: xpos, y: ypos}
+  end
+
+  # fun set_cursor_pos = glfwSetCursorPos(window : Window*, xpos : Float64, ypos : Float64) : Void
+  @[AlwaysInline]
+  def self.set_cursor_pos(window : Window, x : Float64, y : Float64) : Nil
+    LibGLFW.set_cursor_pos(window.ptr, x, y)
+  end
+
+  # fun create_cursor = glfwCreateCursor(image : Image*, xhot : Int32, yhot : Int32) : Cursor*
+  @[AlwaysInline]
+  def self.create_cursor(image : Image, xhot : Int32, yhot : Int32) : Cursor?
+    ptr = LibGLFW.create_cursor(image.ptr, xhot, yhot)
+    if ptr.null?
+      nil
+    else
+      Cursor.new(ptr)
+    end
+  end
+
+  # fun create_standard_cursor = glfwCreateStandardCursor(shape : Int32) : Cursor*
+  @[AlwaysInline]
+  def self.create_standard_cursor(shape : CursorShape) : Cursor?
+    ptr = LibGLFW.create_standard_cursor(shape.value)
+    if ptr.null?
+      nil
+    else
+      Cursor.new(ptr)
+    end
+  end
+
+  # fun destroy_cursor = glfwDestroyCursor(cursor : Cursor*) : Void
+  @[AlwaysInline]
+  def self.destroy_cursor(cursor : Cursor) : Nil
+    LibGLFW.destroy_cursor(cursor.ptr)
+  end
+
+  # fun set_cursor = glfwSetCursor(window : Window*, cursor : Cursor*) : Void
+  @[AlwaysInline]
+  def self.set_cursor(window : Window, cursor : Cursor?) : Nil
+    if cursor
+      LibGLFW.set_cursor(window.ptr, cursor.ptr)
+    else
+      LibGLFW.set_cursor(window, nil)
+    end
+  end
+
   # fun set_key_callback = glfwSetKeyCallback(window : Window*, cbfun : KeyFun) : KeyFun
   @@key_callback : Proc(Window, Key, Int32, Action, Mod, Void)? = nil
   @[AlwaysInline]
-  def self.set_key_callback(window : Window, &block : Window, Key, Int32, Action, Mod -> Void)
+  def self.set_key_callback(window : Window, &block : Window, Key, Int32, Action, Mod -> Void) : Proc(Window, Key, Int32, Action, Mod, Void)?
     @@key_callback = block
     LibGLFW.set_key_callback(window, 
     ->(window : LibGLFW::Window*, key : Int32, scancode : Int32, action : Int32, mods : Int32) do
@@ -59,9 +122,29 @@ module GLFW
         cb.call(Window.new(window), Key.new(key), scancode, Action.new(action), Mod.new(mods))
       end
     end)
+    @@key_callback
+  end
+
+  # fun set_drop_callback = glfwSetDropCallback(window : Window*, cbfun : DropFun) : DropFun
+  # type DropFun = Window*, Int32, UInt8** -> Void
+  @@drop_callback : Proc(Window, Array(String), Void)? = nil
+  @[AlwaysInline]
+  def self.set_drop_callback(window : Window, &block : Window, Array(String) -> Void) : Proc(Window, Array(String), Void)?
+    @@drop_callback = block
+    LibGLFW.set_drop_callback(window, ->(window : LibGLFW::Window*, count : Int32, paths : UInt8**) do
+      if cb = @@drop_callback
+        new_paths = Array(String).new(count)
+        count.times do |i|
+          new_paths << String.new(paths[i])
+        end
+        cb.call(Window.new(window), new_paths)
+      end
+    end)
+    @@drop_callback
   end
 
   # fun joystick_present = glfwJoystickPresent(joy : Int32) : Int32
+  @[AlwaysInline]
   def self.joystick_present(joy : Joystick) : Bool
     LibGLFW.joystick_present(joy.value) == GLFW::TRUE ? true : false
   end

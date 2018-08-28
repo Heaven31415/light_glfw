@@ -69,12 +69,12 @@ lib LibGLFW
   fun get_key_name = glfwGetKeyName(key : Int32, scancode : Int32) : UInt8*
   fun get_key = glfwGetKey(window : Window*, key : Int32) : Int32 
   fun get_mouse_button = glfwGetMouseButton(window : Window*, button : Int32) : Int32
-  fun get_cursor_pos = glfwGetCursorPos(window : Window*, xpos : Float64*, ypos : Float64*) : Void
-  fun set_cursor_pos = glfwSetCursorPos(window : Window*, xpos : Float64, ypos : Float64) : Void
-  fun create_cursor = glfwCreateCursor(image : Image*, xhot : Int32, yhot : Int32) : Cursor*
-  fun create_standard_cursor = glfwCreateStandardCursor(shape : Int32) : Cursor*
-  fun destroy_cursor = glfwDestroyCursor(cursor : Cursor*) : Void
-  fun set_cursor = glfwSetCursor(window : Window*, cursor : Cursor*) : Void
+  fun get_cursor_pos = glfwGetCursorPos(window : Window*, xpos : Float64*, ypos : Float64*) : Void # implemented
+  fun set_cursor_pos = glfwSetCursorPos(window : Window*, xpos : Float64, ypos : Float64) : Void # implemented
+  fun create_cursor = glfwCreateCursor(image : Image*, xhot : Int32, yhot : Int32) : Cursor* # implemented
+  fun create_standard_cursor = glfwCreateStandardCursor(shape : Int32) : Cursor* # implemented
+  fun destroy_cursor = glfwDestroyCursor(cursor : Cursor*) : Void # implemented
+  fun set_cursor = glfwSetCursor(window : Window*, cursor : Cursor*) : Void # implemented
   fun set_key_callback = glfwSetKeyCallback(window : Window*, cbfun : KeyFun) : KeyFun
   fun set_char_callback = glfwSetCharCallback(window : Window*, cbfun : CharFun) : CharFun
   fun set_char_mods_callback = glfwSetCharModsCallback(window : Window*, cbfun : CharModsFun) : CharModsFun
@@ -82,7 +82,7 @@ lib LibGLFW
   fun set_cursor_pos_callback = glfwSetCursorPosCallback(window : Window*, cbfun : CursorPosFun) : CursorPosFun
   fun set_cursor_enter_callback = glfwSetCursorEnterCallback(window : Window*, cbfun : CursorEnterFun) : CursorEnterFun
   fun set_scroll_callback = glfwSetScrollCallback(window : Window*, cbfun : ScrollFun) : ScrollFun
-  fun set_drop_callback = glfwSetDropCallback(window : Window*, cbfun : DropFun) : DropFun
+  fun set_drop_callback = glfwSetDropCallback(window : Window*, cbfun : DropFun) : DropFun # implemented
   fun joystick_present = glfwJoystickPresent(joy : Int32) : Int32 # implemented
   fun get_joystick_axes = glfwGetJoystickAxes(joy : Int32, count : Int32*) : Float32* # implemented
   fun get_joystick_buttons = glfwGetJoystickButtons(joy : Int32, count : Int32*) : UInt8* # implemented
@@ -102,7 +102,7 @@ lib LibGLFW
   fun get_proc_address = glfwGetProcAddress(procname : UInt8*) : GlProc # implemented
   # vulkan
   fun vulkan_supported = glfwVulkanSupported : Int32
-  fun get_required_instance_extensions = glfwGetRequiredInstanceExtensions(count : UInt32) : UInt8**
+  fun get_required_instance_extensions = glfwGetRequiredInstanceExtensions(count : UInt32*) : UInt8**
   # GLFWvkproc glfwGetInstanceProcAddress(VkInstance instance, const char* procname)
   # int glfwGetPhysicalDevicePresentationSupport(VkInstance instance, VkPhysicalDevice device, uint32_t queuefamily)
   # VkResult glfwCreateWindowSurface(VkInstance instance, GLFWwindow* window, const VkAllocationCallbacks* allocator, VkSurfaceKHR* surface)
