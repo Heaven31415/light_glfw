@@ -5,6 +5,7 @@ require "./context/*"
 require "./init/*"
 require "./input/*"
 require "./monitor/*"
+require "./vulkan/*"
 require "./window/*"
 
 # todo: 
