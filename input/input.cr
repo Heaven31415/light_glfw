@@ -112,17 +112,102 @@ module GLFW
   end
 
   # fun set_key_callback = glfwSetKeyCallback(window : Window*, cbfun : KeyFun) : KeyFun
+  # type KeyFun = Window*, Int32, Int32, Int32, Int32 -> Void
   @@key_callback : Proc(Window, Key, Int32, Action, Mod, Void)? = nil
   @[AlwaysInline]
   def self.set_key_callback(window : Window, &block : Window, Key, Int32, Action, Mod -> Void) : Proc(Window, Key, Int32, Action, Mod, Void)?
     @@key_callback = block
-    LibGLFW.set_key_callback(window, 
+    LibGLFW.set_key_callback(window.ptr, 
     ->(window : LibGLFW::Window*, key : Int32, scancode : Int32, action : Int32, mods : Int32) do
       if cb = @@key_callback
         cb.call(Window.new(window), Key.new(key), scancode, Action.new(action), Mod.new(mods))
       end
     end)
     @@key_callback
+  end
+
+  # fun set_char_callback = glfwSetCharCallback(window : Window*, cbfun : CharFun) : CharFun
+  # type CharFun = Window*, UInt32 -> Void
+  @@char_callback : Proc(Window, Char, Void)? = nil
+  @[AlwaysInline]
+  def self.set_char_callback(window : Window, &block : Window, Char -> Void) : Proc(Window, Char, Void)?
+    @@char_callback = block
+    LibGLFW.set_char_callback(window.ptr, ->(window : LibGLFW::Window*, codepoint : UInt32) do
+      if cb = @@char_callback
+        cb.call(Window.new(window), codepoint.chr)
+      end
+    end)
+    @@char_callback
+  end
+
+  # fun set_char_mods_callback = glfwSetCharModsCallback(window : Window*, cbfun : CharModsFun) : CharModsFun
+  # type CharModsFun = Window*, UInt32, Int32 -> Void
+  @@char_mods_callback : Proc(Window, Char, Mod, Void)? = nil
+  @[AlwaysInline]
+  def self.set_char_mods_callback(window : Window, &block : Window, Char, Mod -> Void) : Proc(Window, Char, Mod, Void)?
+    @@char_mods_callback = block
+    LibGLFW.set_char_mods_callback(window.ptr, ->(window : LibGLFW::Window*, codepoint : UInt32, mods : Int32) do
+      if cb = @@char_mods_callback
+        cb.call(Window.new(window), codepoint.chr, Mod.new(mods))
+      end
+    end)
+    @@char_mods_callback
+  end
+
+  # fun set_mouse_button_callback = glfwSetMouseButtonCallback(window : Window*, cbfun : MouseButtonFun) : MouseButtonFun
+  # type MouseButtonFun = Window*, Int32, Int32, Int32 -> Void
+  @@mouse_button_callback : Proc(Window, MouseButton, Action, Mod, Void)? = nil
+  @[AlwaysInline]
+  def self.set_mouse_button_callback(window : Window, &block : Window, MouseButton, Action, Mod -> Void) : Proc(Window, MouseButton, Action, Mod, Void)?
+    @@mouse_button_callback = block
+    LibGLFW.set_mouse_button_callback(window.ptr, ->(window : LibGLFW::Window*, button : Int32, action : Int32, mods : Int32) do
+      if cb = @@mouse_button_callback
+        cb.call(Window.new(window), MouseButton.new(button), Action.new(action), Mod.new(mods))
+      end
+    end)
+    @@mouse_button_callback
+  end
+
+  # fun set_cursor_pos_callback = glfwSetCursorPosCallback(window : Window*, cbfun : CursorPosFun) : CursorPosFun
+  # type CursorPosFun = Window*, Float64, Float64 -> Void
+  @@cursor_pos_callback : Proc(Window, Float64, Float64, Void)? = nil
+  @[AlwaysInline]
+  def self.set_cursor_pos_callback(window : Window, &block : Window, Float64, Float64 -> Void) : Proc(Window, Float64, Float64, Void)?
+    @@cursor_pos_callback = block
+    LibGLFW.set_cursor_pos_callback(window.ptr, ->(window : LibGLFW::Window*, xpos : Float64, ypos : Float64) do
+      if cb = @@cursor_pos_callback
+        cb.call(Window.new(window), xpos, ypos)
+      end
+    end)
+    @@cursor_pos_callback
+  end
+  
+  # fun set_cursor_enter_callback = glfwSetCursorEnterCallback(window : Window*, cbfun : CursorEnterFun) : CursorEnterFun
+  # type CursorEnterFun = Window*, Int32 -> Void
+  @@cursor_enter_callback : Proc(Window, Bool, Void)? = nil
+  @[AlwaysInline]
+  def self.set_cursor_enter_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
+    @@cursor_enter_callback = block
+    LibGLFW.set_cursor_enter_callback(window.ptr, ->(window : LibGLFW::Window*, entered : Int32) do
+      if cb = @@cursor_enter_callback
+        cb.call(Window.new(window), entered == LibGLFW::TRUE ? true : false)
+      end
+    end)
+    @@cursor_enter_callback
+  end
+
+  # fun set_scroll_callback = glfwSetScrollCallback(window : Window*, cbfun : ScrollFun) : ScrollFun
+  # type ScrollFun = Window*, Float64, Float64 -> Void
+  @@scroll_callback : Proc(Window, Float64, Float64, Void)? = nil
+  @[AlwaysInline]
+  def self.set_scroll_callback(window : Window, &block : Window, Float64, Float64 -> Void) : Proc(Window, Float64, Float64, Void)?
+    @@scroll_callback = block
+    LibGLFW.set_scroll_callback(window.ptr, ->(window : LibGLFW::Window*, x_offset : Float64, y_offset : Float64) do
+      if cb = @@scroll_callback
+        cb.call(Window.new(window), x_offset, y_offset)
+      end
+    end)
+    @@scroll_callback
   end
 
   # fun set_drop_callback = glfwSetDropCallback(window : Window*, cbfun : DropFun) : DropFun

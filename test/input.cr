@@ -20,6 +20,34 @@ if GLFW.init() == true
       puts "Dropped files: #{paths}"
     end
 
+    GLFW.set_char_callback(window) do |window, char|
+      puts "char: '#{char}'"
+    end
+
+    # GLFW.set_char_mods_callback(window) do |window, char, mods|
+    #   puts "char: #{char} mods: #{mods}"
+    # end
+
+    GLFW.set_mouse_button_callback(window) do |window, button, action, mods|
+      puts "button: #{button} action: #{action} mods: #{mods}"
+    end
+
+    GLFW.set_cursor_pos_callback(window) do |window, xpos, ypos|
+      puts "Cursor coordinates: {#{xpos},#{ypos}}"
+    end
+
+    GLFW.set_cursor_enter_callback(window) do |window, entered|
+      if entered
+        puts "Cursor entered"
+      else 
+        puts "Cursor left"
+      end
+    end
+
+    GLFW.set_scroll_callback(window) do |window, x_offset, y_offset|
+      puts "x_offset: #{x_offset} y_offset: #{y_offset}"
+    end
+
     GLFW.set_key_callback(window) do |window, key, scancode, action, mode|
       if action != GLFW::Action::Press
         next
