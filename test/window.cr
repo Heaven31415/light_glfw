@@ -72,6 +72,8 @@ if GLFW.init() == true
       puts data
     end
 
+    GLFW.set_window_monitor(window, nil, 0, 0, 320, 240, 60)
+
     # GLFW.set_window_size_callback(window) do |window, width, height|
     #   GL.viewport(0, 0, width, height)
     # end
