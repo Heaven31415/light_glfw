@@ -1,0 +1,9 @@
+name: light_glfw
+version: 0.1.0
+
+authors:
+  - Heaven31415 <Heaven31415@gmail.com>
+
+crystal: 0.26.0
+
+license: MIT
