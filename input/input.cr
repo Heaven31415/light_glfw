@@ -275,6 +275,20 @@ module GLFW
     end
   end
 
+  # fun set_joystick_callback = glfwSetJoystickCallback(cbfun : JoystickFun) : JoystickFun
+  # type JoystickFun = Int32, Int32 -> Void
+  @@joystick_callback : Proc(Joystick, Event, Void)? = nil
+  @[AlwaysInline]
+  def self.set_joystick_callback(&block : Joystick, Event -> Void) : Proc(Joystick, Event, Void)?
+    @@joystick_callback = block
+    LibGLFW.set_joystick_callback(->(joystick : Int32, event : Int32) do
+      if cb = @@joystick_callback
+        cb.call(Joystick.new(joystick), Event.new(event))
+      end
+    end)
+    @@joystick_callback
+  end
+
   # fun set_clipboard_string = glfwSetClipboardString(window : Window*, string : UInt8*) : Void
   @[AlwaysInline]
   def self.set_clipboard_string(window : Window, string : String) : Nil

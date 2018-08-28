@@ -16,6 +16,10 @@ if GLFW.init() == true
       GLFW.set_cursor(window, cursor)
     end
 
+    GLFW.set_joystick_callback do |joystick, event|
+      puts "joystick: #{joystick}, event: #{event}"
+    end
+
     GLFW.set_drop_callback(window) do |window, paths|
       puts "Dropped files: #{paths}"
     end
