@@ -47,7 +47,7 @@ lib LibGLFW
   fun hide_window = glfwHideWindow(window : Window*) : Void # implemented
   fun focus_window = glfwFocusWindow(window : Window*) : Void # implemented
   fun get_window_monitor = glfwGetWindowMonitor(window : Window*) : Monitor* # implemented
-  fun set_window_monitor = glfwSetWindowMonitor(window : Window*, monitor : Monitor*, xpos : Int32, ypos : Int32, width : Int32, height : Int32, refresh_rate : Int32) : Void
+  fun set_window_monitor = glfwSetWindowMonitor(window : Window*, monitor : Monitor*, xpos : Int32, ypos : Int32, width : Int32, height : Int32, refresh_rate : Int32) : Void # implemented
   fun get_window_attrib = glfwGetWindowAttrib(window : Window*, attrib : Int32) : Int32 # implemented
   fun set_window_user_pointer = glfwSetWindowUserPointer(window : Window*, pointer : Void*) : Void # implemented
   fun get_window_user_pointer = glfwGetWindowUserPointer(window : Window*) : Void* # implemented
@@ -64,11 +64,11 @@ lib LibGLFW
   fun post_empty_event = glfwPostEmptyEvent : Void # implemented
   fun swap_buffers = glfwSwapBuffers(window : Window*) : Void # implemented
   # input
-  fun get_input_mode = glfwGetInputMode(window : Window*, mode : Int32) : Int32
-  fun set_input_mode = glfwSetInputMode(window : Window*, mode : Int32, value : Int32) : Void
-  fun get_key_name = glfwGetKeyName(key : Int32, scancode : Int32) : UInt8*
-  fun get_key = glfwGetKey(window : Window*, key : Int32) : Int32 
-  fun get_mouse_button = glfwGetMouseButton(window : Window*, button : Int32) : Int32
+  fun get_input_mode = glfwGetInputMode(window : Window*, mode : Int32) : Int32 # implemented
+  fun set_input_mode = glfwSetInputMode(window : Window*, mode : Int32, value : Int32) : Void # implemented
+  fun get_key_name = glfwGetKeyName(key : Int32, scancode : Int32) : UInt8* # implemented
+  fun get_key = glfwGetKey(window : Window*, key : Int32) : Int32 # implemented
+  fun get_mouse_button = glfwGetMouseButton(window : Window*, button : Int32) : Int32 # implemented
   fun get_cursor_pos = glfwGetCursorPos(window : Window*, xpos : Float64*, ypos : Float64*) : Void # implemented
   fun set_cursor_pos = glfwSetCursorPos(window : Window*, xpos : Float64, ypos : Float64) : Void # implemented
   fun create_cursor = glfwCreateCursor(image : Image*, xhot : Int32, yhot : Int32) : Cursor* # implemented
@@ -87,7 +87,7 @@ lib LibGLFW
   fun get_joystick_axes = glfwGetJoystickAxes(joy : Int32, count : Int32*) : Float32* # implemented
   fun get_joystick_buttons = glfwGetJoystickButtons(joy : Int32, count : Int32*) : UInt8* # implemented
   fun get_joystick_name = glfwGetJoystickName(joy : Int32) : UInt8* # implemented
-  fun set_joystick_callback = glfwSetJoystickCallback(cbfun : JoystickFun) : JoystickFun
+  fun set_joystick_callback = glfwSetJoystickCallback(cbfun : JoystickFun) : JoystickFun # implemented
   fun set_clipboard_string = glfwSetClipboardString(window : Window*, string : UInt8*) : Void # implemented
   fun get_clipboard_string = glfwGetClipboardString(window : Window*) : UInt8* # implemented
   fun get_time = glfwGetTime : Float64 # implemented
