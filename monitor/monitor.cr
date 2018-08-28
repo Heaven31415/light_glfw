@@ -54,13 +54,13 @@ module GLFW
 
   # fun set_monitor_callback = glfwSetMonitorCallback(cbfun : MonitorFun) : MonitorFun
   # type MonitorFun = Monitor*, Int32 -> Void
-  @@callback : Proc(Monitor, Event::Monitor, Void)? = nil
+  @@callback : Proc(Monitor, Event, Void)? = nil
   @[AlwaysInline]
-  def self.set_monitor_callback(&block : Monitor, Event::Monitor -> Void) : Proc(Monitor, Event::Monitor, Void)?
+  def self.set_monitor_callback(&block : Monitor, Event -> Void) : Proc(Monitor, Event, Void)?
     @@callback = block
     LibGLFW.set_monitor_callback ->(monitor : LibGLFW::Monitor*, event : Int32) do
       if cb = @@callback
-        cb.call(Monitor.new(monitor), Event::Monitor.new(event))
+        cb.call(Monitor.new(monitor), Event.new(event))
       end
     end
     @@callback

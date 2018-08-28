@@ -230,11 +230,9 @@ module GLFW
     EGL                             = 0x00036002
   end
 
-  module Event
-    enum Monitor : Int32
-      Connected                     = 0x00040001
-      Disconnected                  = 0x00040002
-    end
+  enum Event : Int32
+    Connected                     = 0x00040001
+    Disconnected                  = 0x00040002
   end
 
   enum CursorShape : Int32
