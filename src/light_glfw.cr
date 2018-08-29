@@ -1,6 +1,13 @@
-# TODO: Write documentation for `LightGlfw`
-module LightGlfw
-  VERSION = "0.1.0"
+require "./enums.cr"
+require "./functions.cr"
 
-  # TODO: Put your code here
+require "./context/*"
+require "./init/*"
+require "./input/*"
+require "./monitor/*"
+require "./vulkan/*"
+require "./window/*"
+
+module GLFW
+  VERSION = "0.1.0"
 end
