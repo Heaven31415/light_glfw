@@ -1,4 +1,5 @@
 require "../glfw"
+require "./gl"
 
 icon = <<-ICON
 ................
@@ -58,44 +59,40 @@ def set_icon(window : GLFW::Window, icon : String, icon_color : Int32, icon_colo
   GLFW.set_window_icon(window, image)
 end
 
-if GLFW.init == false
+if GLFW.init
+  window = GLFW.create_window(200, 200, "Window Icon", nil, nil)
+  if window
+
+    GLFW.make_context_current(window)
+    set_icon(window, icon, cur_icon_color, icon_colors)
+
+    GLFW.set_key_callback(window) do |window, key, scancode, action, mode|
+      next if action != GLFW::Action::Press
+
+      case key
+      when GLFW::Key::Escape
+        GLFW.set_window_should_close(window, true)
+      when GLFW::Key::Space
+        cur_icon_color = (cur_icon_color + 1) % 5
+        set_icon(window, icon, cur_icon_color, icon_colors)
+      when GLFW::Key::X
+        GLFW.set_window_icon(window, nil)
+      end
+    end
+
+    while GLFW.window_should_close(window) == false
+      GL.clear(GL::COLOR_BUFFER_BIT)
+      GLFW.swap_buffers(window)
+      GLFW.wait_events
+    end
+
+    GLFW.destroy_window(window)
+  else
+    puts "Failed to open GLFW window"
+  end
+
+  GLFW.terminate
+else
   puts "Failed to initialize GLFW"
   exit(1)
 end
-
-window = GLFW.create_window(200, 200, "Window Icon", nil, nil)
-# Right now, this won't work, because I will compare wrapper value to nil, instead
-# of a pointer value, I need to fix this somehow.
-if window == nil
-  puts "Failed to open GLFW window"
-  exit(1)
-end
-
-LibGLFW.make_context_current(window)
-set_icon(window, icon, cur_icon_color, icon_colors)
-
-GLFW.set_key_callback(window) do |window, key, scancode, action, mode|
-  if action != GLFW::Action::Press
-    next
-  end
-
-  case key
-  when GLFW::Key::Escape
-    GLFW.set_window_should_close(window, true)
-  when GLFW::Key::Space
-    cur_icon_color = (cur_icon_color + 1) % 5
-    set_icon(window, icon, cur_icon_color, icon_colors)
-  when GLFW::Key::X
-    GLFW.set_window_default_icon(window)
-  end
-end
-
-while GLFW.window_should_close(window) == false
-  # glClear(GL_COLOR_BUFFER_BIT);
-  LibGLFW.swap_buffers(window)
-  LibGLFW.wait_events
-end
-
-GLFW.destroy_window(window)
-GLFW.terminate
-exit(0)
