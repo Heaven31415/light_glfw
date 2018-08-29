@@ -62,7 +62,7 @@ if GLFW.init
     GLFW.destroy_window(window)
   end
 
-  GLFW.terminate()
+  GLFW.terminate
 end
 ```
 
