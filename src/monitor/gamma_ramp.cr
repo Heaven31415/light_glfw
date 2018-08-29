@@ -1,5 +1,5 @@
 module GLFW
-  class GammaRamp
+  struct GammaRamp
     getter ptr : LibGLFW::GammaRamp*
 
     def initialize(@ptr)

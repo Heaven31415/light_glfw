@@ -1,5 +1,5 @@
 module GLFW
-  class VideoMode
+  struct VideoMode
     getter ptr : LibGLFW::VideoMode*
 
     def initialize(@ptr)
