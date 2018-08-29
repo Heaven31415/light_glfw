@@ -1,12 +1,13 @@
-require "../glfw"
+require "../src/light_glfw"
 require "./gl"
-# require "stumpy_png"
 
 GLFW.set_error_callback do |error, string|
-  puts "Error: #{error}, String: #{string}"
+  puts "Error: `#{error}` description: `#{string}`"
 end
 
-if GLFW.init() == true
+if GLFW.init
+  GLFW.default_window_hints
+
   GLFW.window_hint_focused(true)
   GLFW.window_hint_resizable(true)
   GLFW.window_hint_visible(true)
@@ -28,15 +29,16 @@ if GLFW.init() == true
   GLFW.window_hint_aux_buffers(0)
   GLFW.window_hint_stereo(false)
   GLFW.window_hint_samples(0)
+  GLFW.window_hint_srgb_capable(true)
   GLFW.window_hint_refresh_rate(60)
   GLFW.window_hint_double_buffer(true)
 
   GLFW.window_hint_client_api(GLFW::ClientApi::OpenGL)
-  GLFW.window_hint_context_version_major(4)
-  GLFW.window_hint_context_version_minor(6)
+  GLFW.window_hint_context_version_major(3)
+  GLFW.window_hint_context_version_minor(2)
   GLFW.window_hint_context_robustness(GLFW::ContextRobustness::None)
   GLFW.window_hint_open_gl_forward_compat(false)
-  GLFW.window_hint_open_gl_debug_context(true)
+  GLFW.window_hint_open_gl_debug_context(false)
   GLFW.window_hint_open_gl_profile(GLFW::OpenGLProfile::Compat)
   GLFW.window_hint_context_release_behavior(GLFW::ContextReleaseBehavior::Any)
   GLFW.window_hint_context_no_error(false)
@@ -45,66 +47,57 @@ if GLFW.init() == true
   window = GLFW.create_window(640, 480, "GLFW", nil, nil)
 
   if window
-    # Window Attributes: 
-    puts "focused: #{GLFW.get_window_focused(window)}"
-    puts "iconified: #{GLFW.get_window_iconified(window)}"
-    puts "resizable: #{GLFW.get_window_resizable(window)}"
-    puts "visible: #{GLFW.get_window_visible(window)}"
-    puts "decorated: #{GLFW.get_window_decorated(window)}"
-    puts "floating: #{GLFW.get_window_floating(window)}"
-    puts "maximized: #{GLFW.get_window_maximized(window)}"
-    puts "client_api: #{GLFW.get_window_client_api(window)}"
-    puts "context_version_major: #{GLFW.get_window_context_version_major(window)}"
-    puts "context_version_minor: #{GLFW.get_window_context_version_minor(window)}"
-    puts "context_revision: #{GLFW.get_window_context_revision(window)}"
-    puts "context_robustness: #{GLFW.get_window_context_robustness(window)}"
-    puts "open_gl_forward_compat: #{GLFW.get_window_open_gl_forward_compat(window)}"
-    puts "open_gl_debug_context: #{GLFW.get_window_open_gl_debug_context(window)}"
-    puts "open_gl_profile: #{GLFW.get_window_open_gl_profile(window)}"
-    puts "open_gl_context_release_behavior: #{GLFW.get_window_context_release_behavior(window)}"
-    puts "open_gl_context_no_error: #{GLFW.get_window_context_no_error(window)}"
-    puts "open_gl_context_creation_api: #{GLFW.get_window_context_creation_api(window)}"
+    focused = GLFW.get_window_focused(window)
+    iconified = GLFW.get_window_iconified(window)
+    resizable = GLFW.get_window_resizable(window)
+    visible = GLFW.get_window_visible(window)
+    decorated = GLFW.get_window_decorated(window)
+    floating = GLFW.get_window_floating(window)
+    maximized = GLFW.get_window_maximized(window)
+    client_api = GLFW.get_window_client_api(window)
+    context_version_major = GLFW.get_window_context_version_major(window)
+    context_version_minor = GLFW.get_window_context_version_minor(window)
+    context_revision = GLFW.get_window_context_revision(window)
+    context_robustness = GLFW.get_window_context_robustness(window)
+    open_gl_forward_compat = GLFW.get_window_open_gl_forward_compat(window)
+    open_gl_debug_context = GLFW.get_window_open_gl_debug_context(window)
+    open_gl_profile = GLFW.get_window_open_gl_profile(window)
+    context_release_behavior = GLFW.get_window_context_release_behavior(window)
+    context_no_error = GLFW.get_window_context_no_error(window)
+    context_creation_api = GLFW.get_window_context_creation_api(window)
 
-    data = [1, 2, 3]
-    GLFW.set_window_user_pointer(window, Pointer(Void).new(data.object_id))
     GLFW.set_window_pos_callback(window) do |window, x, y|
-      data = GLFW.get_window_user_pointer(window).as(Array(Int32))
-      puts data
+      puts "window_pos_callback => x: #{x} y: #{y}"
     end
 
-    GLFW.set_window_monitor(window, nil, 0, 0, 320, 240, 60)
+    GLFW.set_window_size_callback(window) do |window, width, height|
+      puts "window_size_callback => width: #{width} height: #{height}"
+      GL.viewport(0, 0, width, height)
+    end
 
-    # GLFW.set_window_size_callback(window) do |window, width, height|
-    #   GL.viewport(0, 0, width, height)
-    # end
+    GLFW.set_window_close_callback(window) do |window|
+      puts "window_close_callback"
+    end
 
-    # GLFW.set_window_close_callback(window) do
-    #   puts "Please don't go!"
-    # end
+    GLFW.set_window_refresh_callback(window) do |window|
+      puts "window_refresh_callback"
+    end
 
-    # GLFW.set_window_refresh_callback(window) do
-    #   puts "Strange... I'm refreshing myself!"
-    # end
+    GLFW.set_window_focus_callback(window) do |window, focused|
+      puts "window_focus_callback => focused: #{focused}"
+    end
 
-    # GLFW.set_framebuffer_size_callback(window) do |window, width, height|
-    #   puts "width: #{width} height: #{height}"
-    # end
+    GLFW.set_window_iconify_callback(window) do |window, iconified|
+      puts "window_iconify_callback => iconified: #{iconified}"
+    end
 
-    # GLFW.set_window_iconify_callback(window) do |window, iconified|
-    #   if iconified
-    #     puts "I'm iconified!"
-    #   else
-    #     puts "I'm not iconified!"
-    #   end
-    # end
+    GLFW.set_framebuffer_size_callback(window) do |window, width, height|
+      puts "window_framebuffer_callback => width: #{width} height: #{height}"
+    end
 
-    # GLFW.set_window_focus_callback(window) do |window, focused|
-    #   if focused
-    #     puts "I'm focused! I like it!"
-    #   else
-    #     puts "Nobody is looking at me! I hate it!"
-    #   end
-    # end
+    title = "DOOM"
+    user_data = Array(Int32).new
+    GLFW.set_window_user_pointer(window, Pointer(Void).new(user_data.object_id))
 
     GLFW.set_key_callback(window) do |window, key, scancode, action, mode|
       if action != GLFW::Action::Press
@@ -112,10 +105,56 @@ if GLFW.init() == true
       end
 
       case key
-      when GLFW::Key::W
-        GLFW.set_window_pos_callback(window) {}
       when GLFW::Key::Escape
-        # GLFW.set_window_should_close(window, true)
+        GLFW.set_window_should_close(window, true)
+      when GLFW::Key::Q
+        title = title.reverse
+        GLFW.set_window_title(window, title)
+      when GLFW::Key::W
+        pixels = Pointer(UInt8).malloc(16 * 16 * 4)
+        (16 * 16 * 4).times do |i|
+          pixels[i] = Random.rand(256).to_u8
+        end
+        image = GLFW::Image.new(16, 16, pixels)
+        GLFW.set_window_icon(window, image)
+      when GLFW::Key::E
+        puts GLFW.get_window_pos(window)
+      when GLFW::Key::R
+        GLFW.set_window_pos(window, {x: 500, y: 500})
+      when GLFW::Key::T
+        puts GLFW.get_window_size(window)
+      when GLFW::Key::Y
+        GLFW.set_window_size_limits(window, 320, 240, 480, 320)
+      when GLFW::Key::U
+        GLFW.set_window_aspect_ratio(window, 16, 9)
+      when GLFW::Key::A
+        GLFW.set_window_size(window, 500, 500)
+      when GLFW::Key::S
+        puts GLFW.get_framebuffer_size(window)
+      when GLFW::Key::D
+        puts GLFW.get_window_frame_size(window)
+      when GLFW::Key::F
+        GLFW.iconify_window(window)
+      when GLFW::Key::G
+        GLFW.restore_window(window)
+      when GLFW::Key::H
+        GLFW.maximize_window(window)
+      when GLFW::Key::J
+        GLFW.show_window(window)
+      when GLFW::Key::K
+        GLFW.hide_window(window)
+      when GLFW::Key::L
+        GLFW.focus_window(window)
+      when GLFW::Key::Z
+        puts GLFW.get_window_monitor(window)
+      when GLFW::Key::X
+        GLFW.set_window_monitor(window, nil, 0, 0, 800, 600, nil)
+      when GLFW::Key::C
+        data = GLFW.get_window_user_pointer(window).as(Array(Int32))
+        data << Random.rand(256)
+        puts data
+      when GLFW::Key::V
+        GLFW.post_empty_event
       end
     end
 
@@ -123,10 +162,9 @@ if GLFW.init() == true
 
     GLFW.make_context_current(window)
     while !GLFW.window_should_close(window)
-      GLFW.poll_events
+      GLFW.wait_events
 
       GL.clear(GL::COLOR_BUFFER_BIT)
-
       GL.color3d(1.0, 0.0, 0.0)
 
       GL.begin_ GL::QUADS
@@ -137,83 +175,10 @@ if GLFW.init() == true
       GL.end_
 
       GLFW.swap_buffers(window)
-
-      sleep 0.1
     end
   
     GLFW.destroy_window(window)
   end
 
-  GLFW.terminate()
+  GLFW.terminate
 end
-
-
-# status = GLFW.init
-# unless status == true
-#   raise "Failed to initialize GLFW"
-# end
-
-# GLFW.default_window_hints
-# # GLFW.window_hint() TODO: fill me
-# window = GLFW.create_window(640, 480, "GLFW", nil, nil)
-# GLFW.set_window_title(window, "GLFW (set_window_title worked!)")
-
-# puts GLFW.get_window_pos(window)
-# GLFW.set_window_pos(window, {x: 500, y: 500})
-
-# # GLFW.set_window_size_limits(window, 200, 200, 400, 400)
-# # GLFW.set_window_aspect_ratio(window, 10, 10)
-# # GLFW.set_window_size(window, 100, 100)
-# puts "framebuffer_size: #{GLFW.get_framebuffer_size(window)}"
-# puts "size: #{GLFW.get_window_size(window)}"
-# puts "frame_size: #{GLFW.get_window_frame_size(window)}"
-
-# GLFW.set_key_callback(window) do |window, key, scancode, action, mode|
-#   # puts "#{window}: key: #{key} scancode: #{scancode} action: #{action} mode: #{mode}"
-#   case action
-#   when GLFW::Action::Press
-#     case key
-#     when GLFW::Key::Q
-#       GLFW.iconify_window(window)
-#     when GLFW::Key::W
-#         GLFW.restore_window(window)
-#     when GLFW::Key::E
-#         GLFW.set_window_should_close(window, true)
-#     when GLFW::Key::A
-#       GLFW.show_window(window)
-#     when GLFW::Key::S
-#       GLFW.hide_window(window)
-#     when GLFW::Key::Z
-#       GLFW.maximize_window(window)
-#     when GLFW::Key::X
-#       GLFW.focus_window(window)
-#     end
-#   end
-# end
-
-# canvas = StumpyPNG.read("Icon16x16.png")
-# puts "width=#{canvas.width}, height=#{canvas.height}"
-
-# pixels = Pointer(UInt8).malloc(canvas.width * canvas.height * 4)
-# (0..canvas.height-1).each do |y|
-#   (0..canvas.width-1).each do |x|
-#     r, g, b = canvas[x, y].to_rgb8
-#     pos = y * canvas.width + x
-#     pixels[pos+0] = r
-#     pixels[pos+1] = g
-#     pixels[pos+2] = b
-#     pixels[pos+3] = 255
-#   end
-# end
-
-# image = GLFW::Image.new(canvas.width, canvas.height, pixels.to_slice(canvas.width * canvas.height * 4))
-# GLFW.set_window_icon(window, image)
-
-# while GLFW.window_should_close(window) == false
-#   LibGLFW.poll_events
-#   sleep 0.1
-#   #puts GLFW::Window.get_size(window)
-# end
-
-# GLFW.destroy_window(window)
-# GLFW.terminate
