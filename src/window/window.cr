@@ -233,9 +233,9 @@ module GLFW
 
   # fun set_window_icon = glfwSetWindowIcon(window : Window*, count : Int32, images : Image*) : Void
   @[AlwaysInline]
-  def self.set_window_icon(window : Window, images : Array(Image)?) : Nil
-    if images
-      LibGLFW.set_window_icon(window.ptr, images.size, images.to_unsafe)
+  def self.set_window_icon(window : Window, image : Image?) : Nil
+    if image
+      LibGLFW.set_window_icon(window.ptr, 1, image.to_unsafe)
     else
       LibGLFW.set_window_icon(window.ptr, 0, nil)
     end
