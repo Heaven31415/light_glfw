@@ -28,6 +28,44 @@ dependencies:
     github: Heaven31415/light_glfw
 ```
 
+## Example
+```crystal
+require "light_glfw"
+
+GLFW.set_error_callback do |error, string|
+  puts "Error: `#{error}` description: `#{string}`"
+end
+
+if GLFW.init
+  GLFW.window_hint_client_api(GLFW::ClientApi::OpenGL)
+  GLFW.window_hint_context_version_major(5)
+  GLFW.window_hint_context_version_minor(0)
+  GLFW.window_hint_resizable(false)
+  window = GLFW.create_window(640, 480, "Window", nil, nil)
+
+  if window
+    GLFW.make_context_current(window)
+    GLFW.set_key_callback(window) do |window, key, scancode, action, mods|
+      next if action != GLFW::Action::Press
+
+      case key
+      when GLFW::Key::Escape
+        GLFW.set_window_should_close(window, true)
+      end
+    end
+
+    while !GLFW.window_should_close(window)
+      GLFW.poll_events
+      GLFW.swap_buffers(window)
+    end
+  
+    GLFW.destroy_window(window)
+  end
+
+  GLFW.terminate()
+end
+```
+
 ## Usage
 
 ```crystal
