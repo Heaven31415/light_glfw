@@ -38,7 +38,7 @@ end
 
 if GLFW.init
   GLFW.window_hint_client_api(GLFW::ClientApi::OpenGL)
-  GLFW.window_hint_context_version_major(5)
+  GLFW.window_hint_context_version_major(3)
   GLFW.window_hint_context_version_minor(0)
   GLFW.window_hint_resizable(false)
   window = GLFW.create_window(640, 480, "Window", nil, nil)
