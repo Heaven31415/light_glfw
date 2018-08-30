@@ -1,5 +1,5 @@
-require "../src/light_glfw"
-require "./gl"
+require "../../src/light_glfw"
+require "../gl"
 
 def error_callback(error : GLFW::Error, description : String)
   puts "Error(#{error}): #{description}"

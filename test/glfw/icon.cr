@@ -1,5 +1,5 @@
-require "../glfw"
-require "./gl"
+require "../../src/light_glfw"
+require "../gl"
 
 icon = <<-ICON
 ................
