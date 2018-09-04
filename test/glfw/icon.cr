@@ -1,5 +1,38 @@
+#========================================================================
+# Window icon test program
+# Copyright (c) Camilla Berglund <elmindreda@glfw.org>
+# Converted to Crystal by Heaven31415 <heaven31415@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty. In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would
+#    be appreciated but is not required.
+#
+# 2. Altered source versions must be plainly marked as such, and must not
+#    be misrepresented as being the original software.
+#
+# 3. This notice may not be removed or altered from any source
+#    distribution.
+#
+#========================================================================
+#
+# This program is used to test the icon feature.
+#
+#========================================================================
+
 require "../../src/light_glfw"
 require "../gl"
+
+EXIT_SUCCESS = 0
+EXIT_FAILURE = 1
 
 icon = <<-ICON
 ................
@@ -59,12 +92,17 @@ def set_icon(window : GLFW::Window, icon : String, icon_color : Int32, icon_colo
   GLFW.set_window_icon(window, image)
 end
 
-if GLFW.init
+unless GLFW.init
+  puts "Failed to initialize GLFW"
+  exit(EXIT_FAILURE)
+else
   window = GLFW.create_window(200, 200, "Window Icon", nil, nil)
-  if window
-
+  unless window
+    GLFW.terminate
+    puts "Failed to open GLFW window"
+    exit(EXIT_FAILURE)
+  else
     GLFW.make_context_current(window)
-    set_icon(window, icon, cur_icon_color, icon_colors)
 
     GLFW.set_key_callback(window) do |window, key, scancode, action, mode|
       next if action != GLFW::Action::Press
@@ -76,9 +114,13 @@ if GLFW.init
         cur_icon_color = (cur_icon_color + 1) % 5
         set_icon(window, icon, cur_icon_color, icon_colors)
       when GLFW::Key::X
+        # TODO: I thought it would set icon to default one, however it does nothing,
+        # even in case of original test from GLFW. I should report it.
         GLFW.set_window_icon(window, nil)
       end
     end
+    
+    set_icon(window, icon, cur_icon_color, icon_colors)
 
     while GLFW.window_should_close(window) == false
       GL.clear(GL::COLOR_BUFFER_BIT)
@@ -87,12 +129,7 @@ if GLFW.init
     end
 
     GLFW.destroy_window(window)
-  else
-    puts "Failed to open GLFW window"
+    GLFW.terminate
+    exit(EXIT_SUCCESS)
   end
-
-  GLFW.terminate
-else
-  puts "Failed to initialize GLFW"
-  exit(1)
 end
