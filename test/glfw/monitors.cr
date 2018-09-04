@@ -1,3 +1,34 @@
+#========================================================================
+# Monitor information tool
+# Copyright (c) Camilla Berglund <elmindreda@glfw.org>
+# Converted to Crystal by Heaven31415 <heaven31415@gmail.com>
+#
+# This software is provided 'as-is', without any express or implied
+# warranty. In no event will the authors be held liable for any damages
+# arising from the use of this software.
+#
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+#
+# 1. The origin of this software must not be misrepresented; you must not
+#    claim that you wrote the original software. If you use this software
+#    in a product, an acknowledgment in the product documentation would
+#    be appreciated but is not required.
+#
+# 2. Altered source versions must be plainly marked as such, and must not
+#    be misrepresented as being the original software.
+#
+# 3. This notice may not be removed or altered from any source
+#    distribution.
+#
+#========================================================================
+#
+# This test prints monitor and video mode information or verifies video
+# modes
+#
+#========================================================================
+
 require "option_parser"
 require "../../src/light_glfw"
 require "../gl"
@@ -16,17 +47,10 @@ def usage(code : Int32)
   exit(code)
 end
 
-def euclid(a : Int32, b : Int32) : Int32
-  b != 0 ? euclid(b, a % b) : a
-end
-
 def format_mode(mode : GLFW::VideoMode) : String
-  gcd = euclid(mode.width, mode.height)
-
   String.build do |str|
     str << mode.width << " x " << mode.height << " x "
     str << mode.red_bits + mode.green_bits + mode.blue_bits << ' '
-    str << '(' << mode.width / gcd << ':' << mode.height / gcd << ')' << ' '
     str << '(' << mode.red_bits << ' ' << mode.green_bits << ' ' << mode.blue_bits << ')'
     str << ' ' << mode.refresh_rate << " Hz"  
   end
@@ -53,12 +77,10 @@ def list_modes(monitor : GLFW::Monitor)
 
   pos = GLFW.get_monitor_pos(monitor)
   size = GLFW.get_monitor_physical_size(monitor)
-  # scale = GLFW.get_monitor_content_scale(monitor) # NYI
 
   puts "Name: #{GLFW.get_monitor_name(monitor)} (#{GLFW.get_primary_monitor == monitor ? "primary" : "secondary"})"
   puts "Current mode: #{format_mode(mode)}"
   puts "Virtual position: #{pos[:x]} #{pos[:y]}"
-  # puts "Content scale: #{scale[:x]} #{scale[:y]}" # NYI
   puts "Physical size: #{size[:width]} x #{size[:height]} mm (#{mode.width * 25.4f32 / size[:width]} dpi)"
 
   puts "Modes:"
@@ -105,7 +127,7 @@ def test_modes(monitor : GLFW::Monitor)
           puts "User terminated program"
           
           GLFW.terminate
-          return
+          exit(EXIT_SUCCESS)
         end
       end
 
