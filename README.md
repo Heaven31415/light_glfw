@@ -1,5 +1,7 @@
 # light_glfw
 
+[![Build Status](https://travis-ci.org/Heaven31415/light_glfw.svg?branch=master)](https://travis-ci.org/Heaven31415/light_glfw)
+
 Light GLFW is a very simple wrapper around GLFW3 library. I had a few simple goals in mind when I was creating it:
 * Don't force OOP API on things which weren't supposed to be OOP.
 * Make API as close to the original as it's possible, so someone experienced with GLFW can use their knowledge to good use.
@@ -11,6 +13,10 @@ Almost every struct, enum or function is using the original name (of course I'm 
   - Return and get light wrappers for structs instead of pointers.
   - Return and get arrays instead of a pointer with size variable.
   - Set callbacks using blocks with optional context instead of raw C functions.
+
+## Documentation
+
+- [API Documentation](https://heaven31415.github.io/light_glfw/GLFW.html)
 
 ## Status
 
