@@ -49,6 +49,7 @@ module GLFW
   # 
   # Returns the primary monitor, or `nil` if no monitors were found or if an
   # error occurred.
+  #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
   # monitor = GLFW.get_primary_monitor
@@ -66,7 +67,23 @@ module GLFW
     end
   end
 
-  # fun get_monitor_pos = glfwGetMonitorPos(monitor : Monitor*, xpos : Int32*, ypos : Int32*) : Void
+  # Returns the position of the monitor's viewport on the virtual screen.
+  #
+  # This function returns the position, in screen coordinates, of the upper-left
+  # corner of the specified monitor.
+  #
+  # If an error occurs, all tuple elements will be set to zero.
+  #
+  # Returns NamedTuple with keys: `x`, `y`.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  # ```
+  # monitor = GLFW.get_primary_monitor
+  # if monitor
+  #   position = GLFW.get_monitor_pos(monitor)
+  #   puts "x: #{position[:x]} y: #{position[:y]}"
+  # end
+  # ```
   @[AlwaysInline]
   def self.get_monitor_pos(monitor : Monitor) : {x: Int32, y: Int32}
     LibGLFW.get_monitor_pos(monitor.ptr, out xpos, out ypos)
