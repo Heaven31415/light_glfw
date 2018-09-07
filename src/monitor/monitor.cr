@@ -10,26 +10,60 @@ module GLFW
     end
   end
 
-  # fun get_monitors = glfwGetMonitors(count : Int32*) : Monitor**
+  # Returns the currently connected monitors.
+  #
+  # This function returns an array of handles for all currently connected
+  # monitors. The primary monitor is always first in the returned array.  If no
+  # monitors were found, this function returns `nil`.
+  #
+  # Returns an array of monitor handles, or `nil` if no monitors were found or
+  # if an error occurred.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # monitors = GLFW.get_monitors
+  # if monitors
+  #   monitors.each do |monitor|
+  #     puts monitor
+  #   end
+  # end 
+  # ```
   @[AlwaysInline]
-  def self.get_monitors : Array(Monitor)
-    monitors = Array(Monitor).new
-    monitors_ptr = LibGLFW.get_monitors(out count)
-
-    i = 0
-    while i < count 
-      monitors << Monitor.new(monitors_ptr[i])
-      i += 1
+  def self.get_monitors : Array(Monitor)?
+    ptr = LibGLFW.get_monitors(out count)
+    if ptr.null?
+      nil
+    else
+      monitors = Array(Monitor).new
+      count.times do |i|
+        monitors << Monitor.new(ptr[i])
+      end
+      monitors
     end
-
-    monitors
   end
 
-  # todo: check me! maybe I should return Monitor? instead of Monitor
-  # fun get_primary_monitor = glfwGetPrimaryMonitor : Monitor*
+  # Returns the primary monitor.
+  #
+  # This function returns the primary monitor. This is usually the monitor
+  # where elements like the task bar or global menu bar are located.
+  # 
+  # Returns the primary monitor, or `nil` if no monitors were found or if an
+  # error occurred.
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # monitor = GLFW.get_primary_monitor
+  # if monitor
+  #   puts monitor
+  # end
+  # ```
   @[AlwaysInline]
-  def self.get_primary_monitor : Monitor
-    Monitor.new(LibGLFW.get_primary_monitor)
+  def self.get_primary_monitor : Monitor?
+    ptr = LibGLFW.get_primary_monitor
+    if ptr.null?
+      nil
+    else
+      Monitor.new(ptr)
+    end
   end
 
   # fun get_monitor_pos = glfwGetMonitorPos(monitor : Monitor*, xpos : Int32*, ypos : Int32*) : Void
