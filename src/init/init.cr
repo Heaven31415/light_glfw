@@ -64,7 +64,7 @@ module GLFW
   # library. It is intended for when you are using GLFW as a shared library and
   # want to ensure that you are using the minimum required version.
   #
-  # Returns NamedTuple with keys: `major`, `minor`, `rev`
+  # Returns NamedTuple with keys: `major : Int32`, `minor : Int32`, `rev : Int32`.
   #
   # NOTE: This function may be called before `#init`.
   # ```
