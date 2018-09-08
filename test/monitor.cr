@@ -32,37 +32,43 @@ if GLFW.init
     end
 
     video_modes = GLFW.get_video_modes(primary_monitor)
-    video_modes.each { |video_mode| puts "video_mode: #{video_mode}" }
+    if video_modes
+      video_modes.each { |video_mode| puts "video_mode: #{video_mode}" }
+    end
 
     video_mode = GLFW.get_video_mode(primary_monitor)
     puts "video_mode: #{video_mode}"
 
-    # TODO: find a good value for testing
-    # GLFW::Monitor.set_gamma(primary, 0.0f32)
+    # NOTE: Right now this won't work on X11 because I'm using GLFW 3.2.1 999f355
+    # and bug with glfwSetGamma was fixed with: 
+    # https://github.com/glfw/glfw/commit/66b16f1fc1cfb1ee68ccbbc09e56646e3ab1e6fe
+    # GLFW.set_gamma(primary_monitor, 1.0f32)
 
     gamma_ramp = GLFW.get_gamma_ramp(primary_monitor)
-    puts "gamma_ramp size: #{gamma_ramp.size}"
+    if gamma_ramp
+      puts "gamma_ramp size: #{gamma_ramp.size}"
 
-    puts "gamma_ramp red:"
-    20.times do |i|
-      print "#{gamma_ramp.red[i]} "
-      puts if i == 19
+      puts "gamma_ramp red:"
+      20.times do |i|
+        print "#{gamma_ramp.red[i]} "
+        puts if i == 19
+      end
+
+      puts "gamma_ramp green:"
+      20.times do |i|
+        print "#{gamma_ramp.green[i]} "
+        puts if i == 19
+      end
+
+      puts "gamma_ramp blue:"
+      20.times do |i|
+        print "#{gamma_ramp.blue[i]} "
+        puts if i == 19
+      end
+
+      GLFW.set_gamma_ramp(primary_monitor, gamma_ramp)
     end
-
-    puts "gamma_ramp green:"
-    20.times do |i|
-      print "#{gamma_ramp.green[i]} "
-      puts if i == 19
-    end
-
-    puts "gamma_ramp blue:"
-    20.times do |i|
-      print "#{gamma_ramp.blue[i]} "
-      puts if i == 19
-    end
-
-    GLFW.set_gamma_ramp(primary_monitor, gamma_ramp)
   end
-  
+
   GLFW.terminate
 end
