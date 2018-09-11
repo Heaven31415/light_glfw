@@ -19,103 +19,379 @@ module GLFW
     end
   end
 
-  # fun default_window_hints = glfwDefaultWindowHints : Void
+  # Resets all window hints to their default values.
+  #
+  # This function resets all window hints to their default values.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.default_window_hints
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.default_window_hints : Nil
     LibGLFW.default_window_hints
   end
 
-  # fun window_hint = glfwWindowHint(hint : Int32, value : Int32) : Void
-  @[AlwaysInline]
-  def self.window_hint(hint : Hint, value : Bool) : Nil
-    LibGLFW.window_hint(hint, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
-  end
-
+  # Sets whether newly created window should be focused.
+  #
+  # This function sets `focused` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_focused(true)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_focused(value : Bool) : Nil
     LibGLFW.window_hint(Hint::Focused.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Sets whether newly created window should be resizable.
+  #
+  # This function sets `resizable` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_resizable(false)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_resizable(value : Bool) : Nil
     LibGLFW.window_hint(Hint::Resizable.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Sets whether newly created window should be visible.
+  #
+  # This function sets `visible` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_visible(true)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_visible(value : Bool) : Nil
     LibGLFW.window_hint(Hint::Visible.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Sets whether newly created window should be decorated.
+  #
+  # This function sets `decorated` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_decorated(true)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_decorated(value : Bool) : Nil
     LibGLFW.window_hint(Hint::Decorated.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Sets whether newly created window should be auto iconified.
+  #
+  # This function sets `auto_iconify` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_auto_iconify(false)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_auto_iconify(value : Bool) : Nil
     LibGLFW.window_hint(Hint::AutoIconify.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Sets whether newly created window should be floating.
+  #
+  # This function sets `floating` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_floating(false)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_floating(value : Bool) : Nil
     LibGLFW.window_hint(Hint::Floating.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Sets whether newly created window should be maximized.
+  #
+  # This function sets `maximized` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_maximized(false)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_maximized(value : Bool) : Nil
     LibGLFW.window_hint(Hint::Maximized.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Sets number of red bits of newly created window.
+  #
+  # This function sets `red_bits` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_red_bits(8)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_red_bits(value : Int32) : Nil
     LibGLFW.window_hint(Hint::RedBits.value, value)
   end
 
+  # Sets number of green bits of newly created window.
+  #
+  # This function sets `green_bits` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_green_bits(8)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_green_bits(value : Int32) : Nil
     LibGLFW.window_hint(Hint::GreenBits.value, value)
   end
 
+  # Sets number of blue bits of newly created window.
+  #
+  # This function sets `blue_bits` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_blue_bits(8)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_blue_bits(value : Int32) : Nil
     LibGLFW.window_hint(Hint::BlueBits.value, value)
   end
 
+  # Sets number of alpha bits of newly created window.
+  #
+  # This function sets `alpha_bits` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_alpha_bits(8)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_alpha_bits(value : Int32) : Nil
     LibGLFW.window_hint(Hint::AlphaBits.value, value)
   end
 
+  # Sets number of depth buffer bits of newly created window.
+  #
+  # This function sets `depth_bits` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_depth_bits(8)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_depth_bits(value : Int32) : Nil
     LibGLFW.window_hint(Hint::DepthBits.value, value)
   end
 
+  # Sets number of stencil buffer bits of newly created window.
+  #
+  # This function sets `stencil_bits` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_stencil_bits(8)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_stencil_bits(value : Int32) : Nil
     LibGLFW.window_hint(Hint::StencilBits.value, value)
   end
 
+  # Sets number of accum red bits of newly created window.
+  #
+  # This function sets `accum_red_bits` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_accum_red_bits(8)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_accum_red_bits(value : Int32) : Nil
     LibGLFW.window_hint(Hint::AccumRedBits.value, value)
   end
 
+  # Sets number of accum green bits of newly created window.
+  #
+  # This function sets `accum_green_bits` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_accum_green_bits(8)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_accum_green_bits(value : Int32) : Nil
     LibGLFW.window_hint(Hint::AccumGreenBits.value, value)
   end
 
+  # Sets number of accum blue bits of newly created window.
+  #
+  # This function sets `accum_blue_bits` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_accum_blue_bits(8)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_accum_blue_bits(value : Int32) : Nil
     LibGLFW.window_hint(Hint::AccumBlueBits.value, value)
   end
 
+  # Sets number of accum alpha bits of newly created window.
+  #
+  # This function sets `accum_alpha_bits` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_accum_alpha_bits(8)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_accum_alpha_bits(value : Int32) : Nil
     LibGLFW.window_hint(Hint::AccumAlphaBits.value, value)
   end
 
+  # Sets number of aux buffers of newly created window.
+  #
+  # This function sets `aux_buffers` hint for the next call to `#create_window`.
+  # The hint, once set, retain their value until changed by another call to this
+  # function or `#default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # ```
+  # GLFW.window_hint_aux_buffers(1)
+  # window = GLFW.create_window(640, 480, "GLFW")
+  # if window
+  #   # do your thing...
+  #   GLFW.destroy_window(window)
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_aux_buffers(value : Int32) : Nil
     LibGLFW.window_hint(Hint::AuxBuffers.value, value)
@@ -196,10 +472,10 @@ module GLFW
     LibGLFW.window_hint(Hint::ContextCreationApi.value, value.value)
   end
 
-  # fun create_window = glfwCreateWindow(width : Int32, height : Int32, title : UInt8*, monitor : Monitor*, share : Window*) : Window*
+  # Creates a window and its associated context.
   @[AlwaysInline]
   def self.create_window(width : Int32, height : Int32, title : String, monitor : Monitor? = nil, share : Window? = nil) : Window?
-    ptr = LibGLFW.create_window(width, height, title, monitor, share)
+    ptr = LibGLFW.create_window(width, height, title, monitor ? monitor.ptr : nil, share ? share.ptr : nil)
     if ptr.null?
       nil
     else
@@ -207,31 +483,31 @@ module GLFW
     end
   end
 
-  # fun destroy_window = glfwDestroyWindow(window : Window*) : Void
+  # Destroys the specified window and its context.
   @[AlwaysInline]
   def self.destroy_window(window : Window) : Nil
     LibGLFW.destroy_window(window.ptr)
   end
 
-  # fun window_should_close = glfwWindowShouldClose(window : Window*) : Int32
+  # Checks the close flag of the specified window.
   @[AlwaysInline]
   def self.window_should_close(window : Window) : Bool
     LibGLFW.window_should_close(window.ptr) == LibGLFW::TRUE ? true : false
   end
 
-  # fun set_window_should_close = glfwSetWindowShouldClose(window : Window*, value : Int32) : Void
+  # Sets the close flag of the specified window.
   @[AlwaysInline]
   def self.set_window_should_close(window : Window, value : Bool) : Nil
     LibGLFW.set_window_should_close(window.ptr, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # fun set_window_title = glfwSetWindowTitle(window : Window*, title : UInt8*) : Void
+  # Sets the title of the specified window.
   @[AlwaysInline]
   def self.set_window_title(window : Window, title : String) : Nil
     LibGLFW.set_window_title(window.ptr, title)
   end
 
-  # fun set_window_icon = glfwSetWindowIcon(window : Window*, count : Int32, images : Image*) : Void
+  # Sets the icon for the specified window.
   @[AlwaysInline]
   def self.set_window_icon(window : Window, image : Image?) : Nil
     if image
@@ -241,95 +517,95 @@ module GLFW
     end
   end
 
-  # fun get_window_pos = glfwGetWindowPos(window : Window*, xpos : Int32*, ypos : Int32*) : Void
+  # Retrieves the position of the client area of the specified window.
   @[AlwaysInline]
   def self.get_window_pos(window : Window) : {x: Int32, y: Int32}
     LibGLFW.get_window_pos(window.ptr, out xpos, out ypos)
     {x: xpos, y: ypos}
   end
 
-  # fun set_window_pos = glfwSetWindowPos(window : Window*, xpos : Int32, ypos : Int32) : Void
+  # Sets the position of the client area of the specified window.
   @[AlwaysInline]
   def self.set_window_pos(window : Window, position : {x: Int32, y: Int32}) : Nil
     LibGLFW.set_window_pos(window.ptr, position[:x], position[:y])
   end
 
-  # fun get_window_size = glfwGetWindowSize(window : Window*, width : Int32*, height : Int32*) : Void
+  # Retrieves the size of the client area of the specified window.
   @[AlwaysInline]
   def self.get_window_size(window : Window) : {width: Int32, height: Int32}
     LibGLFW.get_window_size(window.ptr, out w, out h)
     {width: w, height: h}
   end
 
-  # fun set_window_size_limits = glfwSetWindowSizeLimits(window : Window*, min_width : Int32, min_height : Int32, max_width : Int32, max_height : Int32) : Void
+  # Sets the size limits of the specified window.
   @[AlwaysInline]
   def self.set_window_size_limits(window : Window, min_width : Int32, min_height : Int32, max_width : Int32, max_height : Int32) : Nil
     LibGLFW.set_window_size_limits(window.ptr, min_width, min_height, max_width, max_height)
   end
 
-  # fun set_window_aspect_ratio = glfwSetWindowAspectRatio(window : Window*, numer : Int32, denom : Int32) : Void
+  # Sets the aspect ratio of the specified window.
   @[AlwaysInline]
   def self.set_window_aspect_ratio(window : Window, numerator : Int32, denominator : Int32) : Nil
     LibGLFW.set_window_aspect_ratio(window.ptr, numerator, denominator)
   end
 
-  # fun set_window_size = glfwSetWindowSize(window : Window*, width : Int32, height : Int32) : Void
+  # Sets the size of the client area of the specified window.
   @[AlwaysInline]
   def self.set_window_size(window : Window, width : Int32, height : Int32) : Nil
     LibGLFW.set_window_size(window.ptr, width, height)
   end
 
-  # fun get_framebuffer_size = glfwGetFramebufferSize(window : Window*, width : Int32*, height : Int32*) : Void
+  # Retrieves the size of the framebuffer of the specified window.
   @[AlwaysInline]
   def self.get_framebuffer_size(window : Window) : {width: Int32, height: Int32}
     LibGLFW.get_framebuffer_size(window.ptr, out w, out h)
     {width: w, height: h}
   end
 
-  # fun get_window_frame_size = glfwGetWindowFrameSize(window : Window*, left : Int32*, top : Int32*, right : Int32*, bottom : Int32*) : Void
+  # Retrieves the size of the frame of the window.
   @[AlwaysInline]
   def self.get_window_frame_size(window : Window) : {left: Int32, top: Int32, right: Int32, bottom: Int32}
     LibGLFW.get_window_frame_size(window.ptr, out l, out t, out r, out b)
     {left: l, top: t, right: r, bottom: b}
   end
 
-  # fun iconify_window = glfwIconifyWindow(window : Window*) : Void
+  # Iconifies the specified window.
   @[AlwaysInline]
   def self.iconify_window(window : Window) : Nil
     LibGLFW.iconify_window(window.ptr)
   end
 
-  # fun restore_window = glfwRestoreWindow(window : Window*) : Void
+  # Restores the specified window.
   @[AlwaysInline]
   def self.restore_window(window : Window) : Nil
     LibGLFW.restore_window(window.ptr)
   end
 
-  # fun maximize_window = glfwMaximizeWindow(window : Window*) : Void
+  # Maximizes the specified window.
   @[AlwaysInline]
   def self.maximize_window(window : Window) : Nil
     LibGLFW.maximize_window(window.ptr)
   end
 
-  # fun show_window = glfwShowWindow(window : Window*) : Void
+  # Makes the specified window visible.
   @[AlwaysInline]
   def self.show_window(window : Window) : Nil
     LibGLFW.show_window(window.ptr)
   end
 
-  # fun hide_window = glfwHideWindow(window : Window*) : Void
+  # Hides the specified window.
   @[AlwaysInline]
   def self.hide_window(window : Window) : Nil
     LibGLFW.hide_window(window.ptr)
   end
 
-  # fun focus_window = glfwFocusWindow(window : Window*) : Void
+  # Brings the specified window to front and sets input focus.
   @[AlwaysInline]
   def self.focus_window(window : Window) : Nil
     LibGLFW.focus_window(window.ptr)
   end
 
-  # fun get_window_monitor = glfwGetWindowMonitor(window : Window*) : Monitor*
+  # Returns the monitor that the window uses for full screen mode.
   @[AlwaysInline]
   def self.get_window_monitor(window : Window) : Monitor?
     ptr = LibGLFW.get_window_monitor(window.ptr)
@@ -340,7 +616,7 @@ module GLFW
     end
   end
 
-  # fun set_window_monitor = glfwSetWindowMonitor(window : Window*, monitor : Monitor*, xpos : Int32, ypos : Int32, width : Int32, height : Int32, refresh_rate : Int32) : Void
+  # Sets the mode, monitor, video mode and placement of a window.
   @[AlwaysInline]
   def self.set_window_monitor(window : Window, monitor : Monitor?, xpos : Int32, ypos : Int32, width : Int32, height : Int32, refresh_rate : Int32?) : Nil
     LibGLFW.set_window_monitor(window.ptr, monitor, xpos, ypos, width, height, refresh_rate ? refresh_rate : LibGLFW::DONT_CARE)
@@ -437,21 +713,20 @@ module GLFW
     ContextCreationApi.new(LibGLFW.get_window_attrib(window.ptr, Attribute::ContextCreationApi))
   end
 
-  # fun set_window_user_pointer = glfwSetWindowUserPointer(window : Window*, pointer : Void*) : Void
+  # Sets the user pointer of the specified window.
   @[AlwaysInline]
   def self.set_window_user_pointer(window : Window, pointer : Pointer(Void)) : Nil
     LibGLFW.set_window_user_pointer(window.ptr, pointer)
   end
 
-  # fun get_window_user_pointer = glfwGetWindowUserPointer(window : Window*) : Void*
+  # Returns the user pointer of the specified window.
   @[AlwaysInline]
   def self.get_window_user_pointer(window : Window) : Pointer(Void)
     LibGLFW.get_window_user_pointer(window.ptr)
   end
 
-  # fun set_window_pos_callback = glfwSetWindowPosCallback(window : Window*, cbfun : WindowPosFun) : WindowPosFun
-  # type WindowPosFun = Window*, Int32, Int32 -> Void
   @@pos_callback : Proc(Window, Int32, Int32, Void)? = nil
+  # Sets the position callback for the specified window.
   @[AlwaysInline]
   def self.set_window_pos_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
     @@pos_callback = block
@@ -463,9 +738,8 @@ module GLFW
     @@pos_callback
   end
 
-  # fun set_window_size_callback = glfwSetWindowSizeCallback(window : Window*, cbfun : WindowSizeFun) : WindowSizeFun
-  # type WindowSizeFun = Window*, Int32, Int32 -> Void
   @@size_callback : Proc(Window, Int32, Int32, Void)? = nil
+  # Sets the size callback for the specified window.
   @[AlwaysInline]
   def self.set_window_size_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
     @@size_callback = block
@@ -477,9 +751,8 @@ module GLFW
     @@size_callback
   end
 
-  # fun set_window_close_callback = glfwSetWindowCloseCallback(window : Window*, cbfun : WindowCloseFun) : WindowCloseFun
-  # type WindowCloseFun = Window* -> Void
   @@close_callback : Proc(Window, Void)? = nil
+  # Sets the close callback for the specified window.
   @[AlwaysInline]
   def self.set_window_close_callback(window : Window, &block : Window -> Void) : Proc(Window, Void)?
     @@close_callback = block
@@ -491,9 +764,8 @@ module GLFW
     @@close_callback
   end
 
-  # fun set_window_refresh_callback = glfwSetWindowRefreshCallback(window : Window*, cbfun : WindowRefreshFun) : WindowRefreshFun
-  # type WindowRefreshFun = Window* -> Void
   @@refresh_callback : Proc(Window, Void)? = nil
+  # Sets the refresh callback for the specified window.
   @[AlwaysInline]
   def self.set_window_refresh_callback(window : Window, &block : Window -> Void) : Proc(Window, Void)?
     @@refresh_callback = block
@@ -505,9 +777,8 @@ module GLFW
     @@refresh_callback
   end
 
-  # fun set_window_focus_callback = glfwSetWindowFocusCallback(window : Window*, cbfun : WindowFocusFun) : WindowFocusFun
-  # type WindowFocusFun = Window*, Int32 -> Void
   @@focus_callback : Proc(Window, Bool, Void)? = nil
+  # Sets the focus callback for the specified window.
   @[AlwaysInline]
   def self.set_window_focus_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
     @@focus_callback = block
@@ -519,9 +790,8 @@ module GLFW
     @@focus_callback
   end
 
-  # fun set_window_iconify_callback = glfwSetWindowIconifyCallback(window : Window*, cbfun : WindowIconifyFun) : WindowIconifyFun
-  # type WindowIconifyFun = Window*, Int32 -> Void
   @@iconify_callback : Proc(Window, Bool, Void)? = nil
+  # Sets the iconify callback for the specified window.
   @[AlwaysInline]
   def self.set_window_iconify_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
     @@iconify_callback = block
@@ -533,9 +803,8 @@ module GLFW
     @@iconify_callback
   end
 
-  # fun set_framebuffer_size_callback = glfwSetFramebufferSizeCallback(window : Window*, cbfun : FramebufferSizeFun) : FramebufferSizeFun
-  # type FramebufferSizeFun = Window*, Int32, Int32 -> Void
   @@framebuffer_size_callback : Proc(Window, Int32, Int32, Void)? = nil
+  # Sets the framebuffer resize callback for the specified window.
   @[AlwaysInline]
   def self.set_framebuffer_size_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
     @@framebuffer_size_callback = block
@@ -547,31 +816,31 @@ module GLFW
     @@framebuffer_size_callback
   end
 
-  # fun poll_events = glfwPollEvents : Void
+  # Processes all pending events.
   @[AlwaysInline]
   def self.poll_events : Nil
     LibGLFW.poll_events
   end
 
-  # fun wait_events = glfwWaitEvents : Void
+  # Waits until events are queued and processes them.
   @[AlwaysInline]
   def self.wait_events : Nil
     LibGLFW.wait_events
   end
 
-  # fun wait_events_timeout = glfwWaitEventsTimeout(timeout : Float64) : Void
+  # Waits with timeout until events are queued and processes them.
   @[AlwaysInline]
   def self.wait_events_timeout(timeout : Float64) : Nil
     LibGLFW.wait_events_timeout(timeout)
   end
 
-  # fun post_empty_event = glfwPostEmptyEvent : Void
+  # Posts an empty event to the event queue.
   @[AlwaysInline]
   def self.post_empty_event : Nil
     LibGLFW.post_empty_event
   end
 
-  # fun swap_buffers = glfwSwapBuffers(window : Window*) : Void
+  # Swaps the front and back buffers of the specified window.
   @[AlwaysInline]
   def self.swap_buffers(window : Window) : Nil
     LibGLFW.swap_buffers(window.ptr)
