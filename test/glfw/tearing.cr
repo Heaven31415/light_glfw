@@ -113,10 +113,7 @@ GLFW.set_error_callback(&error_callback)
 unless GLFW.init
   exit(EXIT_FAILURE)
 else
-  if fullscreen
-    monitor = GLFW.get_primary_monitor
-    mode = GLFW.get_video_mode(monitor)
-
+  if fullscreen && (monitor = GLFW.get_primary_monitor) && (mode = GLFW.get_video_mode(monitor))
     GLFW.window_hint_red_bits(mode.red_bits)
     GLFW.window_hint_green_bits(mode.green_bits)
     GLFW.window_hint_blue_bits(mode.blue_bits)
