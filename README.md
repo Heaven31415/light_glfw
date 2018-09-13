@@ -24,7 +24,7 @@ The library is still under heavy development. Many essential things are missing 
 
 ## Installation
 
-You need to install GLFW3 on your system. I was developing this library using version 3.2.1, so this version or any newer should work fine for you. Right now you won't be able to use any new features from 3.3 version. They aren't not implemented.
+You need to install GLFW3 on your system. I was developing this library using version 3.2.1, so this version or any newer should work fine for you. Right now you won't be able to use any new features from 3.3 version. They aren't implemented.
 
 After that, you need to add this to your application's `shard.yml`:
 
