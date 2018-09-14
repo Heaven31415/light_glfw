@@ -1,5 +1,3 @@
-# enums definitions
-
 module GLFW
   enum Action
     Release                         = 0
@@ -231,8 +229,8 @@ module GLFW
   end
 
   enum Event : Int32
-    Connected                     = 0x00040001
-    Disconnected                  = 0x00040002
+    Connected                       = 0x00040001
+    Disconnected                    = 0x00040002
   end
 
   enum CursorShape : Int32
@@ -242,6 +240,43 @@ module GLFW
     Hand                            = 0x00036004
     HResize                         = 0x00036005
     VResize                         = 0x00036006
+  end
+
+  enum VkResult : Int32
+    Success                         =  0
+    NotReady                        =  1
+    Timeout                         =  2
+    EventSet                        =  3
+    EventReset                      =  4
+    Incomplete                      =  5
+    ErrorOutOfHostMemory            = -1
+    ErrorOutOfDeviceMemory          = -2
+    ErrorInitializationFailed       = -3
+    ErrorDeviceLost                 = -4
+    ErrorMemoryMapFailed            = -5
+    ErrorLayerNotPresent            = -6
+    ErrorExtensionNotPresent        = -7
+    ErrorFeatureNotPresent          = -8
+    ErrorIncompatibleDrive          = -9
+    ErrorTooManyObjects             = -10
+    ErrorFormatNotSupported         = -11
+    ErrorFragmentedPool             = -12
+    ErrorOutOfPoolMemory            = -1000069000
+    ErrorInvalidExternalHandle      = -1000072003
+    ErrorSurfaceLostKHR             = -1000000000
+    ErrorNativeWindowInUseKHR       = -1000000001
+    SuboptimalKHR                   =  1000001003
+    ErrorOutOfDateKHR               = -1000001004
+    ErrorIncompatibleDisplayKHR     = -1000003001
+    ErrorValidationFailedExt        = -1000011001
+    ErrorInvalidShaderNV            = -1000012000
+    ErrorNotPermittedExt            = -1000174001
+    ErrorOutOfPoolMemoryKHR         =  ErrorOutOfPoolMemory
+    ErrorInvalidExternalHandleKHR   =  ErrorInvalidExternalHandle
+    ResultBeginRange                =  ErrorFragmentedPool
+    ResultEndRange                  =  Incomplete
+    ResultRangeSize                 =  Incomplete - ErrorFragmentedPool + 1
+    ResultMax                       =  0x7FFFFFFF
   end
 
   private enum Attribute : Int32
@@ -286,21 +321,21 @@ module GLFW
     AccumBlueBits                   = 0x00021009 # hint : Int32
     AccumAlphaBits                  = 0x0002100A # hint : Int32
     AuxBuffers                      = 0x0002100B # hint : Int32
-    Stereo                          = 0x0002100C # (hard constraint) hint : Bool
+    Stereo                          = 0x0002100C # hint : Bool (hard constraint)
     Samples                         = 0x0002100D # hint : Int32
     SrgbCapable                     = 0x0002100E # hint : Bool
     RefreshRate                     = 0x0002100F # hint : Int32
-    DoubleBuffer                    = 0x00021010 # (hard constraint) hint : Bool
+    DoubleBuffer                    = 0x00021010 # hint : Bool (hard constraint)
 
-    ClientApi                       = 0x00022001 # (hard constraint) hint : GLFW::ClientApi
+    ClientApi                       = 0x00022001 # hint : GLFW::ClientApi (hard constraint)
     ContextVersionMajor             = 0x00022002 # hint : Int32
     ContextVersionMinor             = 0x00022003 # hint : Int32
     ContextRobustness               = 0x00022005 # hint : GLFW::ContextRobustness
-    OpenGLForwardCompat             = 0x00022006 # (hard constraint) hint : Bool
+    OpenGLForwardCompat             = 0x00022006 # hint : Bool (hard constraint)
     OpenGLDebugContext              = 0x00022007 # hint : Bool
-    OpenGLProfile                   = 0x00022008 # (hard constraint) hint : GLFW::OpenGLProfile
+    OpenGLProfile                   = 0x00022008 # hint : GLFW::OpenGLProfile (hard constraint) 
     ContextReleaseBehavior          = 0x00022009 # hint : GLFW::ContextReleaseBehavior
     ContextNoError                  = 0x0002200A # hint : Bool # TODO: check me
-    ContextCreationApi              = 0x0002200B # (hard constraint) hint : GLFW::ContextCreation
+    ContextCreationApi              = 0x0002200B # hint : GLFW::ContextCreation (hard constraint) 
   end
 end

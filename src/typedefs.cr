@@ -1,6 +1,3 @@
-# typedefs definitions
-
-@[Link("glfw")]
 lib LibGLFW
   alias GlProc = Void -> Void
   alias VkProc = Void -> Void
@@ -26,6 +23,10 @@ lib LibGLFW
   type DropFun = Window*, Int32, UInt8** -> Void
   type MonitorFun = Monitor*, Int32 -> Void
   type JoystickFun = Int32, Int32 -> Void
+  type VkInstance = Void
+  type VkPhysicalDevice = Void
+  type VkAllocationCallbacks = Void
+  type VkSurfaceKHR = Void
 
   struct VideoMode
     width         : Int32
@@ -44,7 +45,7 @@ lib LibGLFW
   end
 
   struct Image
-    width :   Int32
+    width  :  Int32
     height :  Int32
     pixels :  UInt8*
   end
