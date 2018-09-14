@@ -1,5 +1,5 @@
 #========================================================================
-# UTF-8 window title test
+# Context creation and information tool
 # Copyright (c) Camilla Berglund <elmindreda@glfw.org>
 # Converted to Crystal by Heaven31415 <heaven31415@gmail.com>
 #
@@ -23,43 +23,5 @@
 #    distribution.
 #
 #========================================================================
-#
-# This test sets a UTF-8 window title
-#
-#=======================================================================#
 
 require "../utility"
-
-def error_callback(error : GLFW::Error, description : String)
-  puts "Error(#{error}): #{description}"
-end
-
-def framebuffer_size_callback(window : GLFW::Window, width : Int32, height : Int32)
-  GL.viewport(0, 0, width, height)
-end
-
-GLFW.set_error_callback(&->error_callback(GLFW::Error, String))
-
-unless GLFW.init
-  exit(EXIT_FAILURE)
-else
-  window = GLFW.create_window(400, 400, "English 日本語 русский язык 官話", nil, nil)
-  unless window
-    GLFW.terminate
-    exit(EXIT_FAILURE)
-  else
-    GLFW.make_context_current(window)
-    GLFW.swap_interval(1)
-
-    GLFW.set_framebuffer_size_callback(window, &->framebuffer_size_callback(GLFW::Window, Int32, Int32))
-
-    while !GLFW.window_should_close(window)
-      GL.clear(GL::COLOR_BUFFER_BIT)
-      GLFW.swap_buffers(window)
-      GLFW.wait_events
-    end
-
-    GLFW.terminate
-    exit(EXIT_SUCCESS)
-  end
-end

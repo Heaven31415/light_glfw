@@ -28,11 +28,7 @@
 #
 #========================================================================
 
-require "../../src/light_glfw"
-require "../gl"
-
-EXIT_SUCCESS = 0
-EXIT_FAILURE = 1
+require "../utility"
 
 def error_callback(error : GLFW::Error, description : String)
   puts "Error(#{error}): #{description}"
