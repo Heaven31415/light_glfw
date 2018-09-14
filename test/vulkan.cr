@@ -1,4 +1,4 @@
-require "../glfw"
+require "./utility"
 
 if GLFW.init == true
   puts "vulkan_supported: #{GLFW.vulkan_supported}"

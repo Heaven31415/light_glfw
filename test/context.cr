@@ -1,9 +1,24 @@
-require "../glfw"
+#========================================================================
+# Context functions test
+# Copyright (c) Heaven31415 <Heaven31415gmail.com>
+#========================================================================
+# make_context_current
+# get_current_context
+# swap_interval
+# extension_supported
+# get_proc_address
+#========================================================================
 
-if GLFW.init() == true
-  window = GLFW.create_window(640, 480, "GLFW", nil, nil)
+require "./utility"
 
-  if window
+unless GLFW.init
+  exit(EXIT_FAILURE)
+else
+  window = GLFW.create_window(640, 480, "GLFW")
+  unless window
+    GLFW.terminate
+    exit(EXIT_FAILURE)
+  else
     pp GLFW.get_current_context
 
     GLFW.make_context_current(nil)
@@ -13,8 +28,17 @@ if GLFW.init() == true
 
     GLFW.swap_interval(1)
 
-    pp GLFW.extension_supported("hi")
-    pp GLFW.get_proc_address("glfwInit") # no fucking idea what is going on here
+    if GLFW.extension_supported("GLX_EXT_swap_control_tear")
+      puts "`GLX_EXT_swap_control_tear` is supported"
+    else
+      puts "`GLX_EXT_swap_control_tear` is not supported"
+    end
+
+    gl_draw_buffers = GLFW.get_proc_address("")
+    puts gl_draw_buffers
+
+    # pp GLFW.extension_supported("hi")
+    # pp GLFW.get_proc_address("glfwInit") # no fucking idea what is going on here
 
     while !GLFW.window_should_close(window)
       GLFW.poll_events
@@ -22,7 +46,7 @@ if GLFW.init() == true
     end
   
     GLFW.destroy_window(window)
-  end
 
-  GLFW.terminate()
+    GLFW.terminate
+  end
 end

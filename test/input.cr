@@ -1,15 +1,12 @@
-require "../glfw"
-require "./gl"
-# require "stumpy_png"
+require "./utility"
 
 GLFW.set_error_callback do |error, string|
   puts "Error: #{error}, String: #{string}"
 end
 
-if GLFW.init() == true
+if GLFW.init
   window = GLFW.create_window(640, 480, "GLFW", nil, nil)
 
-  
   if window
     cursor = GLFW.create_standard_cursor(GLFW::CursorShape::Crosshair)
     if cursor
@@ -91,5 +88,5 @@ if GLFW.init() == true
     GLFW.destroy_window(window)
   end
 
-  GLFW.terminate()
+  GLFW.terminate
 end

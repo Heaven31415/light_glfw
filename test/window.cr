@@ -1,5 +1,4 @@
-require "../src/light_glfw"
-require "./gl"
+require "./utility"
 
 GLFW.set_error_callback do |error, string|
   puts "Error: `#{error}` description: `#{string}`"
@@ -44,7 +43,7 @@ if GLFW.init
   GLFW.window_hint_context_no_error(false)
   GLFW.window_hint_context_creation_api(GLFW::ContextCreationApi::Native)
 
-  window = GLFW.create_window(640, 480, "GLFW", nil, nil)
+  window = GLFW.create_window(640, 480, "GLFW")
 
   if window
     focused = GLFW.get_window_focused(window)

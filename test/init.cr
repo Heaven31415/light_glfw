@@ -1,4 +1,4 @@
-require "../src/light_glfw"
+require "./utility"
 
 GLFW.set_error_callback do |error, string|
   puts "Error: `#{error}` description: `#{string}`"
