@@ -242,43 +242,6 @@ module GLFW
     VResize                         = 0x00036006
   end
 
-  enum VkResult : Int32
-    Success                         =  0
-    NotReady                        =  1
-    Timeout                         =  2
-    EventSet                        =  3
-    EventReset                      =  4
-    Incomplete                      =  5
-    ErrorOutOfHostMemory            = -1
-    ErrorOutOfDeviceMemory          = -2
-    ErrorInitializationFailed       = -3
-    ErrorDeviceLost                 = -4
-    ErrorMemoryMapFailed            = -5
-    ErrorLayerNotPresent            = -6
-    ErrorExtensionNotPresent        = -7
-    ErrorFeatureNotPresent          = -8
-    ErrorIncompatibleDrive          = -9
-    ErrorTooManyObjects             = -10
-    ErrorFormatNotSupported         = -11
-    ErrorFragmentedPool             = -12
-    ErrorOutOfPoolMemory            = -1000069000
-    ErrorInvalidExternalHandle      = -1000072003
-    ErrorSurfaceLostKHR             = -1000000000
-    ErrorNativeWindowInUseKHR       = -1000000001
-    SuboptimalKHR                   =  1000001003
-    ErrorOutOfDateKHR               = -1000001004
-    ErrorIncompatibleDisplayKHR     = -1000003001
-    ErrorValidationFailedExt        = -1000011001
-    ErrorInvalidShaderNV            = -1000012000
-    ErrorNotPermittedExt            = -1000174001
-    ErrorOutOfPoolMemoryKHR         =  ErrorOutOfPoolMemory
-    ErrorInvalidExternalHandleKHR   =  ErrorInvalidExternalHandle
-    ResultBeginRange                =  ErrorFragmentedPool
-    ResultEndRange                  =  Incomplete
-    ResultRangeSize                 =  Incomplete - ErrorFragmentedPool + 1
-    ResultMax                       =  0x7FFFFFFF
-  end
-
   private enum Attribute : Int32
     Focused                         = 0x00020001 # attribute : Bool
     Iconified                       = 0x00020002 # attribute : Bool

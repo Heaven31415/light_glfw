@@ -285,7 +285,6 @@ lib LibGLFW
   # Corresponds to Nil
   DONT_CARE                            = -1
 
-  # Corresponds to GLFW::VkResult
   VK_SUCCESS                           =  0
   VK_NOT_READY                         =  1
   VK_TIMEOUT                           =  2
