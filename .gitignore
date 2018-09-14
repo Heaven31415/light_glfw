@@ -1,2 +1,4 @@
+bin/
 docs/
 include/
+test/glfw/*.c
