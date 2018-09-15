@@ -20,19 +20,36 @@ Almost every struct, enum or function is using the original name (of course I'm 
 
 ## Status
 
-The library is still under heavy development. Many essential things are missing including documentation, tutorials, tests, examples. Almost every struct, enum or function has an already working wrapper, but right now I cannot guarantee that they are correct. You use it at your own risk.
+This shard is still under heavy development. Many essential things are not ready including documentation, tutorials, tests, examples. Every struct, enum or function has an already working wrapper, but right now I cannot guarantee that they won't change. Your application may break after update, be aware of that.
 
 ## Installation
 
-You need to install GLFW3 on your system. I was developing this library using version 3.2.1, so this version or any newer should work fine for you. Right now you won't be able to use any new features from 3.3 version. They aren't implemented.
+In order to use it, you need to install `light_glfw` shard and `GLFW3` library (at least 3.2.1 version).
 
-After that, you need to add this to your application's `shard.yml`:
+### Shard Installation:
+
+- Add this code to your application's `shard.yml`:
 
 ```yaml
 dependencies:
   light_glfw:
     github: Heaven31415/light_glfw
 ```
+
+- Using CLI, go to your application's root directory (where your `shard.yml` file is located)
+
+- Run following command: `shards install`
+
+- If everything went well, you should see something like this:
+
+```
+Fetching https://github.com/Heaven31415/light_glfw.git
+Installing light_glfw (0.1.0 at HEAD)
+```
+
+### Library Installation
+
+- Debian and Ubuntu: `sudo apt install libglfw3-dev`
 
 ## Example
 ```crystal
@@ -77,12 +94,6 @@ end
 ```crystal
 require "light_glfw"
 ```
-
-TODO: Write usage instructions here
-
-## Development
-
-TODO: Write development instructions here
 
 ## Contributing
 
