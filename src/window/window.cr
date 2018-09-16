@@ -518,6 +518,31 @@ module GLFW
   end
 
   # Retrieves the position of the client area of the specified window.
+  #
+  # This function retrieves the position, in screen coordinates, of the
+  # upper-left corner of the client area of the specified window.
+  #
+  # If an error occurs, x and y position will be set to zero.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window to query.
+  #
+  # Returns NamedTuple with keys: `x : Int32`, `y : Int32`.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     pos = GLFW.get_window_pos(window)
+  #     puts "x: #{pos[:x]} y: #{pos[:y]}"
+  #   end
+  # end
+  # ```
   @[AlwaysInline]
   def self.get_window_pos(window : Window) : {x: Int32, y: Int32}
     LibGLFW.get_window_pos(window.ptr, out xpos, out ypos)
