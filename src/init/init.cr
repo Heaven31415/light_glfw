@@ -108,29 +108,48 @@ module GLFW
   # This function sets the error callback, which is called with an error code
   # and a human-readable description each time a GLFW error occurs.
   #
-  # Because the description string may have been generated specifically for that
-  # error, it is not guaranteed to be valid after the callback has returned.  If
-  # you wish to use it after the callback returns, you need to make a copy.
+  # The error callback is called on the thread where the error occurred. If you
+  # are using GLFW from multiple threads, your error callback needs to be
+  # written accordingly.
   #
   # Once set, the error callback remains set even after the library has been
   # terminated.
   #
+  # `Parameters:`
+  #
+  #  *`block`* The new error callback.
+  #
   # Returns the previously set callback or `nil` if no callback was set.
   #
   # NOTE: This function may be called before `#init`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
+  # # set callback with block
   # GLFW.set_error_callback do |error, description|
   #   puts "Error: #{error} Description: #{description}"
   # end
+  #
+  # # set callback with method
+  # def error_callback(error : GLFW::Error, description : String)
+  #   puts "Error: #{error} Description: #{description}"
+  # end
+  #
+  # GLFW.set_error_callback &->error_callback(GLFW::Error, String)
   # ```
   @[AlwaysInline]
   def self.set_error_callback(&block : Error, String -> Void) : Proc(Error, String, Void)?
-    @@error_callback = block
+    old_callback = @@error_callback
+    
     LibGLFW.set_error_callback ->(error : Int32, description : UInt8*) do
       if cb = @@error_callback
         cb.call(Error.new(error), String.new(description))
       end
     end
-    @@error_callback
+
+    @@error_callback = block
+    old_callback
   end
 end

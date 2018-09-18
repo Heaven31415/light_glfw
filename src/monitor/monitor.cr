@@ -169,13 +169,16 @@ module GLFW
   # ```
   @[AlwaysInline]
   def self.set_monitor_callback(&block : Monitor, Event -> Void) : Proc(Monitor, Event, Void)?
-    @@callback = block
+    old_callback = @@monitor_callback
+    @@monitor_callback = block
+    
     LibGLFW.set_monitor_callback ->(monitor : LibGLFW::Monitor*, event : Int32) do
-      if cb = @@callback
+      if cb = @@monitor_callback
         cb.call(Monitor.new(monitor), Event.new(event))
       end
     end
-    @@callback
+    
+    old_callback
   end 
 
   # Returns the available video modes for the specified monitor.

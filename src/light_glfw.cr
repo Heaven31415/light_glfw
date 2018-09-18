@@ -16,7 +16,7 @@ require "./window/*"
 {% if !LibGLFW::EXISTS %}
   raise "Unable to find installed GLFW3 library on your system"
 {% elsif compare_versions(LibGLFW::VERSION, LibGLFW::MINIMUM) == -1 %}
-  raise "Your GLFW3 library is too old. You have {{LibGLFW::VERSION.id}} version, but need {{LibGLFW::MINIMUM.id}}"
+  raise "Your GLFW3 library is too old. You have {{LibGLFW::VERSION.id}} version, but need at least {{LibGLFW::MINIMUM.id}}"
 {% else %}
   @[Link("glfw")]
 {% end %}

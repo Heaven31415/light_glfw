@@ -1216,91 +1216,112 @@ module GLFW
   # Sets the position callback for the specified window.
   @[AlwaysInline]
   def self.set_window_pos_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
+    old_callback = @@pos_callback
     @@pos_callback = block
+
     LibGLFW.set_window_pos_callback(window.ptr, ->(window : LibGLFW::Window*, x : Int32, y : Int32) do 
       if cb = @@pos_callback
         cb.call(Window.new(window), x, y)
       end
     end)
-    @@pos_callback
+
+    old_callback
   end
 
   @@size_callback : Proc(Window, Int32, Int32, Void)? = nil
   # Sets the size callback for the specified window.
   @[AlwaysInline]
   def self.set_window_size_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
+    old_callback = @@size_callback
     @@size_callback = block
+
     LibGLFW.set_window_size_callback(window.ptr, ->(window : LibGLFW::Window*, width : Int32, height : Int32) do
       if cb = @@size_callback
         cb.call(Window.new(window), width, height)
       end
     end)
-    @@size_callback
+
+    old_callback
   end
 
   @@close_callback : Proc(Window, Void)? = nil
   # Sets the close callback for the specified window.
   @[AlwaysInline]
   def self.set_window_close_callback(window : Window, &block : Window -> Void) : Proc(Window, Void)?
+    old_callback = @@close_callback
     @@close_callback = block
+
     LibGLFW.set_window_close_callback(window.ptr, ->(window : LibGLFW::Window*) do 
       if cb = @@close_callback
         cb.call(Window.new(window))
       end
     end)
-    @@close_callback
+
+    old_callback
   end
 
   @@refresh_callback : Proc(Window, Void)? = nil
   # Sets the refresh callback for the specified window.
   @[AlwaysInline]
   def self.set_window_refresh_callback(window : Window, &block : Window -> Void) : Proc(Window, Void)?
+    old_callback = @@refresh_callback
     @@refresh_callback = block
+
     LibGLFW.set_window_refresh_callback(window.ptr, ->(window : LibGLFW::Window*) do 
       if cb = @@refresh_callback
         cb.call(Window.new(window))
       end
     end)
-    @@refresh_callback
+
+    old_callback
   end
 
   @@focus_callback : Proc(Window, Bool, Void)? = nil
   # Sets the focus callback for the specified window.
   @[AlwaysInline]
   def self.set_window_focus_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
+    old_callback = @@focus_callback
     @@focus_callback = block
+
     LibGLFW.set_window_focus_callback(window.ptr, ->(window : LibGLFW::Window*, focused : Int32) do
       if cb = @@focus_callback
         cb.call(Window.new(window), focused == LibGLFW::TRUE ? true : false)
       end
     end)
-    @@focus_callback
+
+    old_callback
   end
 
   @@iconify_callback : Proc(Window, Bool, Void)? = nil
   # Sets the iconify callback for the specified window.
   @[AlwaysInline]
   def self.set_window_iconify_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
+    old_callback = @@iconify_callback
     @@iconify_callback = block
+
     LibGLFW.set_window_iconify_callback(window.ptr, ->(window : LibGLFW::Window*, iconified : Int32) do
       if cb = @@iconify_callback
         cb.call(Window.new(window), iconified == LibGLFW::TRUE ? true : false)
       end
     end)
-    @@iconify_callback
+
+    old_callback
   end
 
   @@framebuffer_size_callback : Proc(Window, Int32, Int32, Void)? = nil
   # Sets the framebuffer resize callback for the specified window.
   @[AlwaysInline]
   def self.set_framebuffer_size_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
+    old_callback = @@framebuffer_size_callback
     @@framebuffer_size_callback = block
+
     LibGLFW.set_framebuffer_size_callback(window.ptr, ->(window : LibGLFW::Window*, width : Int32, height : Int32) do
       if cb = @@framebuffer_size_callback
         cb.call(Window.new(window), width, height)
       end
     end)
-    @@framebuffer_size_callback
+
+    old_callback
   end
 
   # Processes all pending events.
