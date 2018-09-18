@@ -1109,37 +1109,85 @@ module GLFW
     LibGLFW.set_window_monitor(window.ptr, monitor, xpos, ypos, width, height, refresh_rate ? refresh_rate : LibGLFW::DONT_CARE)
   end
 
-  # fun get_window_attrib = glfwGetWindowAttrib(window : Window*, attrib : Int32) : Int32
+  # Returns whether specified window is focused.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_window_focused(window : Window) : Bool
     LibGLFW.get_window_attrib(window.ptr, Attribute::Focused) == LibGLFW::TRUE ? true : false
   end
 
+  # Returns whether specified window is iconified (minimized).
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_window_iconified(window : Window) : Bool
     LibGLFW.get_window_attrib(window.ptr, Attribute::Iconified) == LibGLFW::TRUE ? true : false
   end
 
+  # Returns whether specified window is resizable.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_window_resizable(window : Window) : Bool
     LibGLFW.get_window_attrib(window.ptr, Attribute::Resizable) == LibGLFW::TRUE ? true : false
   end
 
+  # Returns whether specified window is visible.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_window_visible(window : Window) : Bool
     LibGLFW.get_window_attrib(window.ptr, Attribute::Visible) == LibGLFW::TRUE ? true : false
   end
 
+  # Returns whether specified window is decorated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_window_decorated(window : Window) : Bool
     LibGLFW.get_window_attrib(window.ptr, Attribute::Decorated) == LibGLFW::TRUE ? true : false
   end
 
+  # Returns whether specified window is floating.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_window_floating(window : Window) : Bool
     LibGLFW.get_window_attrib(window.ptr, Attribute::Floating) == LibGLFW::TRUE ? true : false
   end
 
+  # Returns whether specified window is maximized.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_window_maximized(window : Window) : Bool
     LibGLFW.get_window_attrib(window.ptr, Attribute::Maximized) == LibGLFW::TRUE ? true : false
@@ -1325,12 +1373,86 @@ module GLFW
   end
 
   # Processes all pending events.
+  #
+  # This function processes only those events that are already in the event
+  # queue and then returns immediately. Processing events will cause the window
+  # and input callbacks associated with those events to be called.
+  #
+  # On some platforms, a window move, resize or menu operation will cause event
+  # processing to block. This is due to how event processing is designed on
+  # those platforms. You can set the window refresh callback using 
+  # `#set_window_refresh_callback` to redraw the contents of
+  # your window when necessary during such operations.
+  #
+  # On some platforms, certain events are sent directly to the application
+  # without going through the event queue, causing callbacks to be called
+  # outside of a call to one of the event processing functions.
+  #
+  # Event processing is not required for joystick input to work.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must not be called from a callback.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 1.0.
+  # ```
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  # end
+  # ```
   @[AlwaysInline]
   def self.poll_events : Nil
     LibGLFW.poll_events
   end
 
   # Waits until events are queued and processes them.
+  #
+  # This function puts the calling thread to sleep until at least one event is
+  # available in the event queue. Once one or more events are available,
+  # it behaves exactly like `#poll_events`, i.e. the events in the queue
+  # are processed and the function then returns immediately. Processing events
+  # will cause the window and input callbacks associated with those events to be
+  # called.
+  #
+  # Since not all events are associated with callbacks, this function may return
+  # without a callback having been called even if you are monitoring all
+  # callbacks.
+  #
+  # On some platforms, a window move, resize or menu operation will cause event
+  # processing to block. This is due to how event processing is designed on
+  # those platforms. You can set the window refresh callback using 
+  # `#set_window_refresh_callback` to redraw the contents of
+  # your window when necessary during such operations.
+  #
+  # On some platforms, certain callbacks may be called outside of a call to one
+  # of the event processing functions.
+  #
+  # If no windows exist, this function returns immediately. For synchronization
+  # of threads in applications that do not create windows, use your threading
+  # library of choice.
+  #
+  # Event processing is not required for joystick input to work.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must not be called from a callback.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 2.5.
+  # ```
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.wait_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  # end
+  # ```
   @[AlwaysInline]
   def self.wait_events : Nil
     LibGLFW.wait_events
