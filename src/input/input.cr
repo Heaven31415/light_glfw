@@ -85,6 +85,25 @@ module GLFW
   end
 
   # Creates a cursor with a standard shape.
+  #
+  # Returns a cursor with a standard shape, that can be set for
+  # a window with `#set_cursor`.
+  #
+  # `Parameters:`
+  #
+  # *`shape`* One of the standard shapes.
+  #
+  # Returns a new cursor ready to use or `nil` if an
+  # error occurred.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`, `GLFW::Error::InvalidEnum`
+  # and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must not be called from a callback.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.1.
   @[AlwaysInline]
   def self.create_standard_cursor(shape : CursorShape) : Cursor?
     ptr = LibGLFW.create_standard_cursor(shape.value)
@@ -96,12 +115,47 @@ module GLFW
   end
 
   # Destroys a cursor.
+  #
+  # This function destroys a cursor previously created with `#create_cursor`. 
+  # Any remaining cursors will be destroyed by `#terminate`.
+  #
+  # `Parameters:`
+  #
+  # *`cursor`* The cursor object to destroy.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must not be called from a callback.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.1.
   @[AlwaysInline]
   def self.destroy_cursor(cursor : Cursor) : Nil
     LibGLFW.destroy_cursor(cursor.ptr)
   end
 
   # Sets the cursor for the window.
+  #
+  # This function sets the cursor image to be used when the cursor is over the
+  # client area of the specified window. The set cursor will only be visible
+  # when the cursor mode of the window is `GLFW::CursorInputMode::Normal`.
+  #
+  # On some platforms, the set cursor may not be visible unless the window also
+  # has input focus.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window to set the cursor for.
+  #
+  # *`cursor`* The cursor to set, or `nil` to switch back to the default
+  # arrow cursor.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.1.
   @[AlwaysInline]
   def self.set_cursor(window : Window, cursor : Cursor?) : Nil
     if cursor
@@ -354,12 +408,48 @@ module GLFW
   end
 
   # Returns whether the specified joystick is present.
+  #
+  # This function returns whether the specified joystick is present.
+  #
+  # `Parameters:`
+  #
+  # *`joy`* The joystick to query.
+  #
+  # Returns `true` if the joystick is present, or `false` otherwise.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`, `GLFW::Error::InvalidEnum`
+  # and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.joystick_present(joy : Joystick) : Bool
     LibGLFW.joystick_present(joy.value) == LibGLFW::TRUE ? true : false
   end
 
   # Returns the values of all axes of the specified joystick.
+  #
+  # This function returns the values of all axes of the specified joystick.
+  # Each element in the array is a value between -1.0 and 1.0.
+  #
+  # Querying a joystick slot with no device present is not an error, but will
+  # cause this function to return `nil`. Call `#joystick_present` to
+  # check device presence.
+  #
+  # `Parameters:`
+  #
+  #  *`joy`* The joystick to query.
+  #
+  #  Returns an array of axis values, or `nil` if the joystick is not present or
+  #  an error occurred.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`, `GLFW::Error::InvalidEnum`
+  # and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_joystick_axes(joy : Joystick) : Array(Float32)?
     ptr = LibGLFW.get_joystick_axes(joy.value, out count)
@@ -375,6 +465,27 @@ module GLFW
   end
 
   # Returns the state of all buttons of the specified joystick.
+  #
+  # This function returns the state of all buttons of the specified joystick.
+  # Each element in the array is either `GLFW::Action::Press` or `GLFW::Action::Release`.
+  #
+  # Querying a joystick slot with no device present is not an error, but will
+  # cause this function to return `nil`. Call `#joystick_present` to
+  # check device presence.
+  #
+  # `Parameters:`
+  #
+  #  *`joy`* The joystick to query.
+  #
+  # Returns an array of button states, or `nil` if the joystick is not present
+  # or an error occurred.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`, `GLFW::Error::InvalidEnum`
+  # and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 2.2.
   @[AlwaysInline]
   def self.get_joystick_buttons(joy : Joystick) : Array(Action)?
     ptr = LibGLFW.get_joystick_buttons(joy.value, out count)
@@ -390,14 +501,30 @@ module GLFW
   end
 
   # Returns the name of the specified joystick.
+  #
+  # This function returns the name, encoded as UTF-8, of the specified joystick.
+  #
+  # Querying a joystick slot with no device present is not an error, but will
+  # cause this function to return `nil`. Call `#joystick_present` to
+  # check device presence.
+  #
+  # `Parameters:`
+  #
+  # *`joy`* The joystick to query.
+  #
+  # Returns the UTF-8 encoded name of the joystick, or `nil` if the joystick
+  # is not present or an error occurred.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`, `GLFW::Error::InvalidEnum`
+  # and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_joystick_name(joy : Joystick) : String?
     ptr = LibGLFW.get_joystick_name(joy.value)
-    if ptr.null?
-      nil
-    else
-      String.new(ptr)
-    end
+    ptr.null? ? nil : String.new(ptr)
   end
 
   @@joystick_callback : Proc(Joystick, Event, Void)? = nil
@@ -417,41 +544,127 @@ module GLFW
   end
 
   # Sets the clipboard to the specified string.
+  #
+  # This function sets the system clipboard to the specified, UTF-8 encoded
+  # string.
+  #
+  # `Parameters:`
+  # 
+  # *`window`* The window that will own the clipboard contents.
+  #
+  # *`string`* A UTF-8 encoded string.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.set_clipboard_string(window : Window, string : String) : Nil
     LibGLFW.set_clipboard_string(window.ptr, string.to_unsafe)
   end
 
   # Returns the contents of the clipboard as a string.
+  #
+  # This function returns the contents of the system clipboard, if it contains
+  # or is convertible to a UTF-8 encoded string. If the clipboard is empty or
+  # if its contents cannot be converted, `nil` is returned and a
+  # `GLFW::Error::FormatUnavailable` error is generated.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window that will request the clipboard contents.
+  # Returns the contents of the clipboard as a UTF-8 encoded string, or `nil`
+  # if an error occurred.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_clipboard_string(window : Window) : String?
     ptr = LibGLFW.get_clipboard_string(window.ptr)
-    if ptr.null?
-      nil
-    else
-      String.new(ptr)
-    end
+    ptr.null? ? nil : String.new(ptr)
   end
 
   # Returns the value of the GLFW timer.
+  #
+  # This function returns the value of the GLFW timer. Unless the timer has
+  # been set using `#set_time`, the timer measures time elapsed since GLFW
+  # was initialized.
+  #
+  # The resolution of the timer is system dependent, but is usually on the order
+  # of a few micro- or nanoseconds. It uses the highest-resolution monotonic
+  # time source on each supported platform.
+  #
+  # Returns the current value, in seconds, or zero if an
+  # error occurred.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function may be called from any thread. Reading and
+  # writing of the internal timer offset is not atomic, so it needs to be
+  # externally synchronized with calls to `#set_time`.
+  #
+  # NOTE: Added in version 1.0.
   @[AlwaysInline]
   def self.get_time : Float64
     LibGLFW.get_time
   end
 
   # Sets the GLFW timer.
+  #
+  # This function sets the value of the GLFW timer. It then continues to count
+  # up from that value. The value must be a positive finite number less than
+  # or equal to 18446744073.0, which is approximately 584.5 years.
+  #
+  # `Parameters:`
+  #
+  # *`time`* The new value, in seconds.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::InvalidValue`.
+  #
+  # NOTE: This function may be called from any thread. Reading and
+  # writing of the internal timer offset is not atomic, so it needs to be
+  # externally synchronized with calls to `#get_time`.
+  #
+  # NOTE: Added in version 2.2.
   @[AlwaysInline]
   def self.set_time(time : Float64) : Nil
     LibGLFW.set_time(time)
   end
 
   # Returns the current value of the raw timer.
+  #
+  # This function returns the current value of the raw timer, measured in
+  # `1 / frequency` seconds. To get the frequency, call
+  # `#get_timer_frequency`.
+  #
+  # Returns the value of the timer, or zero if an error occurred.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function may be called from any thread.
+  #
+  # NOTE: Added in version 3.2.
   @[AlwaysInline]
   def self.get_timer_value : UInt64
     LibGLFW.get_timer_value
   end
 
   # Returns the frequency, in Hz, of the raw timer.
+  #
+  # This function returns the frequency, in Hz, of the raw timer.
+  #
+  # Returns the frequency of the timer, in Hz, or zero if an
+  # error occurred.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function may be called from any thread.
+  #
+  # NOTE: Added in version 3.2.
   @[AlwaysInline]
   def self.get_timer_frequency : UInt64
     LibGLFW.get_timer_frequency
