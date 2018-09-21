@@ -175,15 +175,55 @@ module GLFW
   end
 
   enum Error
+    # GLFW has not been initialized.
+    #
+    # This occurs if a GLFW function was called that must not be called unless the
+    # library is initialized with `GLFW.init`.
     NotInitialized                  = 0x00010001
+
+    # No context is current for this thread.
+    #
+    # This occurs if a GLFW function was called that needs and operates on the
+    # current OpenGL or OpenGL ES context but no context is current on the calling
+    # thread. Call `GLFW.make_context_current` to change current context.
     NoCurrentContext                = 0x00010002
+
+    # One of the arguments to the function had an invalid enum value.
+    #
+    # This occurs if a argument to the function had an invalid enum value, 
+    # for example calling `GLFW.get_key` with `GLFW::Key::Unknown`.
     InvalidEnum                     = 0x00010003
+
+    # One of the arguments to the function had an invalid value.
+    #
+    # This occurs when a argument to the function had an invalid value, for example
+    # requesting a negative gamma value with `GLFW.set_gamma`.
     InvalidValue                    = 0x00010004
+
+    # A memory allocation failed.
     OutOfMemory                     = 0x00010005
+
+    # GLFW could not find support for the requested API on the system.
     ApiUnavailable                  = 0x00010006
+
+    # The requested OpenGL or OpenGL ES version is not available.
     VersionUnavailable              = 0x00010007
+
+    # A platform-specific error occurred that does not match any of the
+    # more specific categories.
     PlatformError                   = 0x00010008
+
+    # The requested format is not supported or available.
+    #
+    # If emitted during window creation, the requested pixel format is not
+    # supported. If emitted when querying the clipboard, the contents of 
+    # the clipboard could not be converted to the requested format.
     FormatUnavailable               = 0x00010009
+
+    # The specified window does not have an OpenGL or OpenGL ES context.
+    #
+    # A window that does not have an OpenGL or OpenGL ES context was passed to
+    # a function that requires it to have one.
     NoWindowContext                 = 0x0001000A
   end
 
