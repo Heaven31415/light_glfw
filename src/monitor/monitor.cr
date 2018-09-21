@@ -2,7 +2,10 @@ module GLFW
   struct Monitor
     getter ptr : LibGLFW::Monitor*
 
-    def initialize(@ptr)
+    private def initialize(@ptr)
+    end
+    
+    private def dup
     end
 
     def to_unsafe : LibGLFW::Monitor*
@@ -13,16 +16,19 @@ module GLFW
   # Returns the currently connected monitors.
   #
   # This function returns an array of handles for all currently connected
-  # monitors. The primary monitor is always first in the returned array.  If no
+  # monitors. The primary monitor is always first in the returned array. If no
   # monitors were found, this function returns `nil`.
   #
   # Returns an array of monitor handles, or `nil` if no monitors were found or
   # if an error occurred.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # monitors = GLFW.get_monitors
-  # if monitors
+  # if GLFW.init && (monitors = GLFW.get_monitors)
   #   monitors.each do |monitor|
   #     puts monitor
   #   end
@@ -36,7 +42,7 @@ module GLFW
     else
       monitors = Array(Monitor).new(count)
       count.times do |i|
-        monitors << Monitor.new(ptr[i])
+        monitors << ptr[i].unsafe_as(Monitor)
       end
       monitors
     end
@@ -51,20 +57,21 @@ module GLFW
   # error occurred.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: The primary monitor is always first in the array returned by `#get_monitors`.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # monitor = GLFW.get_primary_monitor
-  # if monitor
+  # if GLFW.init && (monitor = GLFW.get_primary_monitor)
   #   puts monitor
   # end
   # ```
   @[AlwaysInline]
   def self.get_primary_monitor : Monitor?
     ptr = LibGLFW.get_primary_monitor
-    if ptr.null?
-      nil
-    else
-      Monitor.new(ptr)
-    end
+    ptr.null? ? nil : ptr.unsafe_as(Monitor)
   end
 
   # Returns the position of the monitor's viewport on the virtual screen.
@@ -72,14 +79,21 @@ module GLFW
   # This function returns the position, in screen coordinates, of the upper-left
   # corner of the specified monitor.
   #
-  # If an error occurs, all tuple elements will be set to zero.
+  # If an error occurs, x and y position will be set to zero.
+  #
+  # `Parameters:`
+  #
+  # *`monitor`* The monitor to query.
   #
   # Returns NamedTuple with keys: `x : Int32`, `y : Int32`.
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  # NOTE: Possible errors include `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # monitor = GLFW.get_primary_monitor
-  # if monitor
+  # if GLFW.init && (monitor = GLFW.get_primary_monitor)
   #   position = GLFW.get_monitor_pos(monitor)
   #   puts "x: #{position[:x]} y: #{position[:y]}"
   # end
@@ -99,15 +113,22 @@ module GLFW
   # because the monitor EDID data is incorrect or 
   # because the driver does not report it accurately.
   #
-  # If an error occurs, all tuple elements will be set to zero.
+  # If an error occurs, width and height will be set to zero.
+  #
+  # `Parameters:`
+  #
+  # *`monitor`* The monitor to query.
   #
   # Returns NamedTuple with keys: `width : Int32`, `height : Int32`.
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # NOTE: Windows calculates the returned physical size from the
+  # current resolution and system DPI instead of querying the monitor EDID data.
   #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # monitor = GLFW.get_primary_monitor
-  # if monitor
+  # if GLFW.init && (monitor = GLFW.get_primary_monitor)
   #   size = GLFW.get_monitor_physical_size(monitor)
   #   puts "width: #{size[:width]}mm height: #{size[:height]}mm"
   # end
@@ -124,46 +145,61 @@ module GLFW
   # specified monitor. The name typically reflects the make and model of the
   # monitor and is not guaranteed to be unique among the connected monitors.
   #
-  # Returns the UTF-8 encoded name of the monitor, or `nil` if an
-  # error occurred.
+  # `Parameters:`
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # *`monitor`* The monitor to query.
+  #
+  # Returns the UTF-8 encoded name of the monitor.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # monitor = GLFW.get_primary_monitor
-  # if monitor
+  # if GLFW.init && (monitor = GLFW.get_primary_monitor)
   #   name = GLFW.get_monitor_name(monitor)
   #   puts "name: #{name}"
   # end
   # ```
   @[AlwaysInline]
-  def self.get_monitor_name(monitor : Monitor) : String?
-    ptr = LibGLFW.get_monitor_name(monitor.ptr)
-    if ptr.null?
-      nil
-    else
-      String.new(ptr)
-    end
+  def self.get_monitor_name(monitor : Monitor) : String
+    String.new(LibGLFW.get_monitor_name(monitor.ptr))
   end
 
-  
   @@callback : Proc(Monitor, Event, Void)? = nil
   # Sets the monitor configuration callback.
   #
   # This function sets the monitor configuration callback. 
   # This is called when a monitor is connected to or disconnected from the system.
   #
+  # `Parameters:`
+  #
+  # *`block`* The new monitor callback.
+  #
   # Returns the previously set callback, or `nil` if no callback was set or the
   # library had not been initialized.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.set_monitor_callback do |monitor, event|
-  #   case event
-  #   when GLFW::Event::Connected
-  #     puts "monitor #{monitor} has been connected"
-  #   when GLFW::Event::Disconnected
-  #     puts "monitor #{monitor} has been disconnected"
+  # def monitor_callback(monitor : GLFW::Monitor, event : GLFW::Event)
+  #   puts "Event #{event} for monitor #{monitor}"
+  # end
+  #
+  # if GLFW.init
+  #   # set callback with method
+  #   GLFW.set_monitor_callback(&->monitor_callback(GLFW::Monitor, GLFW::Event))   
+  #
+  #   # set callback with block
+  #   GLFW.set_monitor_callback do |monitor, event|
+  #     case event
+  #     when GLFW::Event::Connected
+  #       puts "Monitor #{monitor} has been connected"
+  #     when GLFW::Event::Disconnected
+  #       puts "Monitor #{monitor} has been disconnected"
+  #     end
   #   end
   # end
   # ```
@@ -174,7 +210,7 @@ module GLFW
     
     LibGLFW.set_monitor_callback ->(monitor : LibGLFW::Monitor*, event : Int32) do
       if cb = @@monitor_callback
-        cb.call(Monitor.new(monitor), Event.new(event))
+        cb.call(monitor.unsafe_as(Monitor), Event.new(event))
       end
     end
     
@@ -188,23 +224,27 @@ module GLFW
   # bit depth (the sum of all channel depths) and then by resolution area (the
   # product of width and height).
   #
+  # `Parameters:`
+  #
+  # *`monitor`* The monitor to query.
+  #
   # Returns an array of video modes, or `nil` if an error occurred.
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  # NOTE: Possible errors include `GLFW::Error::PlatformError`.
   #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 1.0.
   # ```
-  # monitor = GLFW.get_primary_monitor
-  # if monitor
-  #   video_modes = GLFW.get_video_modes(monitor)
-  #   if video_modes
-  #     video_modes.each { |video_mode| puts "video_mode: #{video_mode}" }
+  # if GLFW.init && (monitor = GLFW.get_primary_monitor)
+  #   if video_modes = GLFW.get_video_modes(monitor)
+  #     video_modes.each { |video_mode| puts "Video_mode: #{video_mode}" }
   #   end
   # end
   # ```
   @[AlwaysInline]
   def self.get_video_modes(monitor : Monitor) : Array(VideoMode)?
     ptr = LibGLFW.get_video_modes(monitor.ptr, out count)
-
     if ptr.null?
       nil
     else
@@ -222,26 +262,28 @@ module GLFW
   # you have created a full screen window for that monitor, the return value
   # will depend on whether that window is iconified.
   #
+  # `Parameters:`
+  #
+  # *`monitor`* The monitor to query.
+  #
   # Returns the current mode of the monitor, or `nil` if an error occurred.
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  # NOTE: Possible errors include `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # monitor = GLFW.get_primary_monitor
-  # if monitor
-  #   video_mode = GLFW.get_video_mode(monitor)
-  #   if video_mode
-  #     puts "video_mode: #{video_mode}"
+  # if GLFW.init && (monitor = GLFW.get_primary_monitor)
+  #   if video_mode = GLFW.get_video_mode(monitor)
+  #     puts "Video_mode: #{video_mode}"
   #   end
   # end
   # ```
   @[AlwaysInline]
   def self.get_video_mode(monitor : Monitor) : VideoMode?
     ptr = LibGLFW.get_video_mode(monitor.ptr)
-    if ptr.null?
-      nil
-    else
-      VideoMode.new(ptr)
-    end
+    ptr.null? ? nil : VideoMode.new(ptr)
   end
 
   # Generates a gamma ramp and sets it for the specified monitor.
@@ -250,11 +292,18 @@ module GLFW
   # and then calls `#set_gamma_ramp` with it. The value must be a finite
   # number greater than zero.
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized`, `GLFW::Error::InvalidValue` 
-  # and `GLFW::Error::PlatformError`.
+  # `Parameters:`
+  #
+  # *`monitor`* The monitor whose gamma ramp to set.
+  # *`gamma`* The desired exponent.
+  #
+  # NOTE: Possible errors include `GLFW::Error::InvalidValue` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # monitor = GLFW.get_primary_monitor
-  # if monitor
+  # if GLFW.init && (monitor = GLFW.get_primary_monitor)
   #   GLFW.set_gamma(monitor, 1.0f32)
   # end
   # ```
@@ -267,27 +316,28 @@ module GLFW
   #
   # This function returns the current gamma ramp of the specified monitor.
   #
+  # `Parameters:`
+  #
+  # *`monitor`* The monitor to query.
+  #
   # Returns the current gamma ramp, or `nil` if an error occurred.
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  # NOTE: Possible errors include `GLFW::Error::PlatformError`.
   #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # monitor = GLFW.get_primary_monitor
-  # if monitor
-  #   gamma_ramp = GLFW.get_gamma_ramp(monitor)
-  #   if gamma_ramp
-  #     puts "gamma_ramp: #{gamma_ramp}"
+  # if GLFW.init && (monitor = GLFW.get_primary_monitor)
+  #   if gamma_ramp = GLFW.get_gamma_ramp(monitor)
+  #     puts "Gamma_ramp: #{gamma_ramp}"
   #   end 
   # end
   # ```
   @[AlwaysInline]
   def self.get_gamma_ramp(monitor : Monitor) : GammaRamp?
     ptr = LibGLFW.get_gamma_ramp(monitor.ptr)
-    if ptr.null?
-      nil
-    else
-      GammaRamp.new(ptr)
-    end
+    ptr.null? ? nil : GammaRamp.new(ptr)
   end
 
   # Sets the current gamma ramp for the specified monitor.
@@ -296,15 +346,16 @@ module GLFW
   # original gamma ramp for that monitor is saved by GLFW the first time this
   # function is called and is restored by `#terminate`.
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  # NOTE: Possible errors include `GLFW::Error::PlatformError`.
   #
   # NOTE: Gamma ramp sizes other than 256 are not supported by all platforms or graphics hardware.
   #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # monitor = GLFW.get_primary_monitor
-  # if monitor
-  #   gamma_ramp = GLFW.get_gamma_ramp(monitor)
-  #   if gamma_ramp
+  # if GLFW.init && (monitor = GLFW.get_primary_monitor)
+  #   if gamma_ramp = GLFW.get_gamma_ramp(monitor)
   #     GLFW.set_gamma_ramp(monitor, gamma_ramp)
   #   end 
   # end
