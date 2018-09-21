@@ -49,39 +49,166 @@ module GLFW
   end
 
   # Returns the last reported state of a keyboard key for the specified window.
+  #
+  # This function returns the last state reported for the specified key to the
+  # specified window. The returned state is one of `GLFW::Action::Press` or
+  # `GLFW::Action::Release`. The higher-level action `GLFW::Action::Repeat` is
+  # only reported to the key callback.
+  #
+  # If the `GLFW::InputMode::StickyKeys` input mode is enabled, this function returns
+  # `GLFW::Action::Press` the first time you call it for a key that was pressed, even if
+  # that key has already been released.
+  #
+  # The key functions deal with physical keys, with key tokens
+  # named after their use on the standard US keyboard layout. 
+  # If you want to input text, use the Unicode character callback instead.
+  #
+  # The modifier key bit masks are not key tokens and cannot be
+  # used with this function.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The desired window.
+  #
+  # *`key`* The desired keyboard key. `GLFW::Key::Unknown` is
+  # not a valid key for this function.
+  #
+  # Returns one of `GLFW::Action::Press` or `GLFW::Action::Release`.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::InvalidEnum`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 1.0.
   @[AlwaysInline]
   def self.get_key(window : Window, key : Key) : Action
     Action.new(LibGLFW.get_key(window.ptr, key.value))
   end
 
   # Returns the last reported state of a mouse button for the specified window.
+  #
+  # This function returns the last state reported for the specified mouse button
+  # to the specified window. The returned state is one of `GLFW::Action::Press` 
+  # or `GLFW::Action::Release`.
+  #
+  # If the `GLFW::InputMode::StickyMouseButtons` is enabled, this function 
+  # returns `GLFW::Action::Press` the first time you call it for a mouse button 
+  # that was pressed, even if that mouse button has already been released.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The desired window.
+  #
+  # *`button`* The desired mouse button.
+  #
+  # Returns one of `GLFW::Action::Press` or `GLFW::Action::Release`.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::InvalidEnum`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 1.0.
   @[AlwaysInline]
   def self.get_mouse_button(window : Window, button : MouseButton) : Action
     Action.new(LibGLFW.get_mouse_button(window.ptr, button.value))
   end
 
   # Retrieves the position of the cursor relative to the client area of the window.
+  #
+  # This function returns the position of the cursor, in screen coordinates,
+  # relative to the upper-left corner of the client area of the specified
+  # window.
+  #
+  # If the cursor is disabled (with `GLFW::CursorInputMode::Disabled`) then 
+  # the cursor position is unbounded and limited only by the minimum and maximum 
+  # values of a `Float64`.
+  #
+  # If an error occurs, x and y position will be set to zero.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The desired window.
+  #
+  # Returns NamedTuple with keys: `x : Float64`, `y : Float64`.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
-  def self.get_cursor_pos(window : Window) : {x: Int32, y: Int32}
+  def self.get_cursor_pos(window : Window) : {x: Float64, y: Float64}
     LibGLFW.get_cursor_pos(window.ptr, out xpos, out ypos)
     {x: xpos, y: ypos}
   end
 
   # Sets the position of the cursor, relative to the client area of the window.
+  #
+  # This function sets the position, in screen coordinates, of the cursor
+  # relative to the upper-left corner of the client area of the specified
+  # window. The window must have input focus. If the window does not have
+  # input focus when this function is called, it fails silently.
+  #
+  # If the cursor mode is `GLFW::CursorInputMode::Disabled` then the cursor 
+  # position is unconstrained and limited only by the minimum and maximum 
+  # values of a `Float64`.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The desired window.
+  #
+  # *`xpos`* The desired x-coordinate, relative to the left edge of the
+  #  client area.
+  #
+  # *`ypos`* The desired y-coordinate, relative to the top edge of the
+  #  client area.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.set_cursor_pos(window : Window, x : Float64, y : Float64) : Nil
     LibGLFW.set_cursor_pos(window.ptr, x, y)
   end
 
   # Creates a custom cursor.
+  #
+  # Creates a new custom cursor image that can be set for a window with
+  # `#set_cursor`. The cursor can be destroyed with `#destroy_cursor`.
+  # Any remaining cursors are destroyed by `#terminate`.
+  #
+  # The pixels are 32-bit, little-endian, non-premultiplied RGBA, i.e. eight
+  # bits per channel. They are arranged canonically as packed sequential rows,
+  # starting from the top-left corner.
+  #
+  # The cursor hotspot is specified in pixels, relative to the upper-left corner
+  # of the cursor image. Like all other coordinate systems in GLFW, the X-axis
+  # points to the right and the Y-axis points down.
+  #
+  # `Parameters:`
+  #
+  # *`image`* The desired cursor image.
+  #
+  # *`xhot`* The desired x-coordinate, in pixels, of the cursor hotspot.
+  #
+  # *`yhot`* The desired y-coordinate, in pixels, of the cursor hotspot.
+  #
+  # Returns the handle of the created cursor, or `nil` if an
+  # error occurred.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must not be called from a callback.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.1.
   @[AlwaysInline]
   def self.create_cursor(image : Image, xhot : Int32, yhot : Int32) : Cursor?
-    ptr = LibGLFW.create_cursor(image.ptr, xhot, yhot)
-    if ptr.null?
-      nil
-    else
-      Cursor.new(ptr)
-    end
+    ptr = LibGLFW.create_cursor(image.to_unsafe, xhot, yhot)
+    ptr.null? ? nil : Cursor.new(ptr)
   end
 
   # Creates a cursor with a standard shape.
