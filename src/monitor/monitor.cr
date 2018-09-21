@@ -11,6 +11,20 @@ module GLFW
     def to_unsafe : LibGLFW::Monitor*
       @ptr
     end
+
+    def to_s(io : IO)
+      io << GLFW.get_monitor_name(self)
+    end
+  
+    def inspect(io : IO)
+      name = GLFW.get_monitor_name(self)
+      size = GLFW.get_monitor_physical_size(self)
+      pos  = GLFW.get_monitor_pos(self)
+  
+      io << name << " {width: " << size[:width] << "mm" <<
+      " height: " << size[:height] << "mm}" <<
+      " {x: " << pos[:x] << " y: " << pos[:y] << "}"
+    end
   end
 
   # Returns the currently connected monitors.
@@ -195,9 +209,9 @@ module GLFW
   #   # set callback with block
   #   GLFW.set_monitor_callback do |monitor, event|
   #     case event
-  #     when GLFW::Event::Connected
+  #     when .connected?
   #       puts "Monitor #{monitor} has been connected"
-  #     when GLFW::Event::Disconnected
+  #     when .disconnected?
   #       puts "Monitor #{monitor} has been disconnected"
   #     end
   #   end
