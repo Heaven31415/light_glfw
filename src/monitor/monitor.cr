@@ -74,7 +74,7 @@ module GLFW
   #
   # NOTE: This function must only be called from the main thread.
   #
-  # NOTE: The primary monitor is always first in the array returned by `#get_monitors`.
+  # NOTE: The primary monitor is always first in the array returned by `GLFW.get_monitors`.
   #
   # NOTE: Added in version 3.0.
   # ```
@@ -215,6 +215,8 @@ module GLFW
   #       puts "Monitor #{monitor} has been disconnected"
   #     end
   #   end
+  #
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
@@ -303,7 +305,7 @@ module GLFW
   # Generates a gamma ramp and sets it for the specified monitor.
   #
   # This function generates a 256-element gamma ramp from the specified exponent
-  # and then calls `#set_gamma_ramp` with it. The value must be a finite
+  # and then calls `GLFW.set_gamma_ramp` with it. The value must be a finite
   # number greater than zero.
   #
   # `Parameters:`
@@ -358,7 +360,7 @@ module GLFW
   #
   # This function sets the current gamma ramp for the specified monitor. The
   # original gamma ramp for that monitor is saved by GLFW the first time this
-  # function is called and is restored by `#terminate`.
+  # function is called and is restored by `GLFW.terminate`.
   #
   # NOTE: Possible errors include `GLFW::Error::PlatformError`.
   #

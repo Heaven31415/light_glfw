@@ -39,9 +39,9 @@ module GLFW
 
   # Sets whether newly created window should be focused.
   #
-  # This function sets `focused` hint for the next call to `#create_window`.
+  # This function sets `focused` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -59,9 +59,9 @@ module GLFW
 
   # Sets whether newly created window should be resizable.
   #
-  # This function sets `resizable` hint for the next call to `#create_window`.
+  # This function sets `resizable` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -79,9 +79,9 @@ module GLFW
 
   # Sets whether newly created window should be visible.
   #
-  # This function sets `visible` hint for the next call to `#create_window`.
+  # This function sets `visible` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -99,9 +99,9 @@ module GLFW
 
   # Sets whether newly created window should be decorated.
   #
-  # This function sets `decorated` hint for the next call to `#create_window`.
+  # This function sets `decorated` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -119,9 +119,9 @@ module GLFW
 
   # Sets whether newly created window should be auto iconified.
   #
-  # This function sets `auto_iconify` hint for the next call to `#create_window`.
+  # This function sets `auto_iconify` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -139,9 +139,9 @@ module GLFW
 
   # Sets whether newly created window should be floating.
   #
-  # This function sets `floating` hint for the next call to `#create_window`.
+  # This function sets `floating` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -159,9 +159,9 @@ module GLFW
 
   # Sets whether newly created window should be maximized.
   #
-  # This function sets `maximized` hint for the next call to `#create_window`.
+  # This function sets `maximized` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -179,9 +179,9 @@ module GLFW
 
   # Sets number of red bits of newly created window.
   #
-  # This function sets `red_bits` hint for the next call to `#create_window`.
+  # This function sets `red_bits` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -199,9 +199,9 @@ module GLFW
 
   # Sets number of green bits of newly created window.
   #
-  # This function sets `green_bits` hint for the next call to `#create_window`.
+  # This function sets `green_bits` hint for the next call to GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -219,9 +219,9 @@ module GLFW
 
   # Sets number of blue bits of newly created window.
   #
-  # This function sets `blue_bits` hint for the next call to `#create_window`.
+  # This function sets `blue_bits` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -239,9 +239,9 @@ module GLFW
 
   # Sets number of alpha bits of newly created window.
   #
-  # This function sets `alpha_bits` hint for the next call to `#create_window`.
+  # This function sets `alpha_bits` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -259,9 +259,9 @@ module GLFW
 
   # Sets number of depth buffer bits of newly created window.
   #
-  # This function sets `depth_bits` hint for the next call to `#create_window`.
+  # This function sets `depth_bits` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -279,9 +279,9 @@ module GLFW
 
   # Sets number of stencil buffer bits of newly created window.
   #
-  # This function sets `stencil_bits` hint for the next call to `#create_window`.
+  # This function sets `stencil_bits` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -299,9 +299,9 @@ module GLFW
 
   # Sets number of accum red bits of newly created window.
   #
-  # This function sets `accum_red_bits` hint for the next call to `#create_window`.
+  # This function sets `accum_red_bits` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -319,9 +319,9 @@ module GLFW
 
   # Sets number of accum green bits of newly created window.
   #
-  # This function sets `accum_green_bits` hint for the next call to `#create_window`.
+  # This function sets `accum_green_bits` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -339,9 +339,9 @@ module GLFW
 
   # Sets number of accum blue bits of newly created window.
   #
-  # This function sets `accum_blue_bits` hint for the next call to `#create_window`.
+  # This function sets `accum_blue_bits` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -359,9 +359,9 @@ module GLFW
 
   # Sets number of accum alpha bits of newly created window.
   #
-  # This function sets `accum_alpha_bits` hint for the next call to `#create_window`.
+  # This function sets `accum_alpha_bits` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -379,9 +379,9 @@ module GLFW
 
   # Sets number of aux buffers of newly created window.
   #
-  # This function sets `aux_buffers` hint for the next call to `#create_window`.
+  # This function sets `aux_buffers` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
-  # function or `#default_window_hints`, or until the library is terminated.
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
@@ -588,7 +588,7 @@ module GLFW
   #
   # This function retrieves the size, in screen coordinates, of the client area
   # of the specified window. If you wish to retrieve the size of the
-  # framebuffer of the window in pixels, see `#get_framebuffer_size`.
+  # framebuffer of the window in pixels, see `GLFW.get_framebuffer_size`.
   #
   # If an error occurs, width and height will be set to zero.
   #
@@ -733,7 +733,7 @@ module GLFW
   # framebuffer remain unchanged.
   #
   # If you wish to update the refresh rate of the desired video mode in addition
-  # to its resolution, see `#set_window_monitor`.
+  # to its resolution, see `GLFW.set_window_monitor`.
   #
   # The window manager may put limits on what sizes are allowed. GLFW cannot
   # and should not override these limits.
@@ -768,7 +768,7 @@ module GLFW
   #
   # This function retrieves the size, in pixels, of the framebuffer of the
   # specified window. If you wish to retrieve the size of the window in screen
-  # coordinates, see `#get_window_size`.
+  # coordinates, see `GLFW.get_window_size`.
   #
   # If an error occurs, width and height will be set to zero.
   #
@@ -991,7 +991,7 @@ module GLFW
   # The window should already be visible and not iconified.
   #
   # By default, both windowed and full screen mode windows are focused when
-  # initially created. Set the `#window_hint_focused` to disable
+  # initially created. Set the `GLFW.window_hint_focused` to disable
   # this behavior.
   #
   # `Parameters:`
@@ -1065,7 +1065,7 @@ module GLFW
   # is specified.
   #
   # If you only wish to update the resolution of a full screen window or the
-  # size of a windowed mode window, see `#set_window_size`.
+  # size of a windowed mode window, see `GLFW.set_window_size`.
   #
   # When a window transitions from full screen to windowed mode, this function
   # restores any previous window settings such as whether it is decorated,
@@ -1381,7 +1381,7 @@ module GLFW
   # On some platforms, a window move, resize or menu operation will cause event
   # processing to block. This is due to how event processing is designed on
   # those platforms. You can set the window refresh callback using 
-  # `#set_window_refresh_callback` to redraw the contents of
+  # `GLFW.set_window_refresh_callback` to redraw the contents of
   # your window when necessary during such operations.
   #
   # On some platforms, certain events are sent directly to the application
@@ -1414,7 +1414,7 @@ module GLFW
   #
   # This function puts the calling thread to sleep until at least one event is
   # available in the event queue. Once one or more events are available,
-  # it behaves exactly like `#poll_events`, i.e. the events in the queue
+  # it behaves exactly like `GLFW.poll_events`, i.e. the events in the queue
   # are processed and the function then returns immediately. Processing events
   # will cause the window and input callbacks associated with those events to be
   # called.
@@ -1426,7 +1426,7 @@ module GLFW
   # On some platforms, a window move, resize or menu operation will cause event
   # processing to block. This is due to how event processing is designed on
   # those platforms. You can set the window refresh callback using 
-  # `#set_window_refresh_callback` to redraw the contents of
+  # `GLFW.set_window_refresh_callback` to redraw the contents of
   # your window when necessary during such operations.
   #
   # On some platforms, certain callbacks may be called outside of a call to one

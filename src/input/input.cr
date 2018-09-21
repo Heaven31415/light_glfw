@@ -176,8 +176,8 @@ module GLFW
   # Creates a custom cursor.
   #
   # Creates a new custom cursor image that can be set for a window with
-  # `#set_cursor`. The cursor can be destroyed with `#destroy_cursor`.
-  # Any remaining cursors are destroyed by `#terminate`.
+  # `GLFW.set_cursor`. The cursor can be destroyed with `GLFW.destroy_cursor`.
+  # Any remaining cursors are destroyed by `GLFW.terminate`.
   #
   # The pixels are 32-bit, little-endian, non-premultiplied RGBA, i.e. eight
   # bits per channel. They are arranged canonically as packed sequential rows,
@@ -214,7 +214,7 @@ module GLFW
   # Creates a cursor with a standard shape.
   #
   # Returns a cursor with a standard shape, that can be set for
-  # a window with `#set_cursor`.
+  # a window with `GLFW.set_cursor`.
   #
   # `Parameters:`
   #
@@ -243,8 +243,8 @@ module GLFW
 
   # Destroys a cursor.
   #
-  # This function destroys a cursor previously created with `#create_cursor`. 
-  # Any remaining cursors will be destroyed by `#terminate`.
+  # This function destroys a cursor previously created with `GLFW.create_cursor`. 
+  # Any remaining cursors will be destroyed by `GLFW.terminate`.
   #
   # `Parameters:`
   #
@@ -300,18 +300,18 @@ module GLFW
   #
   # The key functions deal with physical keys, with layout independent
   # key tokens named after their values in the standard US keyboard
-  # layout. If you want to input text, use the `#set_char_callback` instead.
+  # layout. If you want to input text, use the `GLFW.set_char_callback` instead.
   #
   # When a window loses input focus, it will generate synthetic key release
   # events for all pressed keys. You can tell these events from user-generated
   # events by the fact that the synthetic ones are generated after the focus
   # loss event has been processed, i.e. after the callback set by
-  # `#set_window_focus_callback` has been called.
+  # `GLFW.set_window_focus_callback` has been called.
   #
   # The scancode of a key is specific to that platform or sometimes even to that
   # machine. Scancodes are intended to allow users to bind keys that don't have
   # a GLFW key token. Such keys have `key` set to `GLFW::Key::Unknown`, their
-  # state is not saved and so it cannot be queried with `#get_key`.
+  # state is not saved and so it cannot be queried with `GLFW.get_key`.
   #
   # Sometimes GLFW needs to generate synthetic key events, in which case the
   # scancode may be zero.
@@ -383,7 +383,7 @@ module GLFW
   #
   # The character callback is intended for Unicode text input. As it deals with
   # characters, it is keyboard layout dependent, whereas the key callback set
-  # using `#set_key_callback` is not. Characters do not map 1:1
+  # using `GLFW.set_key_callback` is not. Characters do not map 1:1
   # to physical keys, as a key may produce zero, one or more characters. If you
   # want to know whether a specific physical key was pressed or released, use
   # the key callback instead.
@@ -392,7 +392,7 @@ module GLFW
   # not be called if modifier keys are held down that would prevent normal text
   # input on that platform, for example a Super (Command) key on OS X or Alt key
   # on Windows. There is a character with modifiers callback which you can set
-  # using `#set_char_mods_callback` that receives these events.
+  # using `GLFW.set_char_mods_callback` that receives these events.
   #
   # `Parameters:`
   #
@@ -561,7 +561,7 @@ module GLFW
   # Each element in the array is a value between -1.0 and 1.0.
   #
   # Querying a joystick slot with no device present is not an error, but will
-  # cause this function to return `nil`. Call `#joystick_present` to
+  # cause this function to return `nil`. Call `GLFW.joystick_present` to
   # check device presence.
   #
   # `Parameters:`
@@ -597,7 +597,7 @@ module GLFW
   # Each element in the array is either `GLFW::Action::Press` or `GLFW::Action::Release`.
   #
   # Querying a joystick slot with no device present is not an error, but will
-  # cause this function to return `nil`. Call `#joystick_present` to
+  # cause this function to return `nil`. Call `GLFW.joystick_present` to
   # check device presence.
   #
   # `Parameters:`
@@ -632,7 +632,7 @@ module GLFW
   # This function returns the name, encoded as UTF-8, of the specified joystick.
   #
   # Querying a joystick slot with no device present is not an error, but will
-  # cause this function to return `nil`. Call `#joystick_present` to
+  # cause this function to return `nil`. Call `GLFW.joystick_present` to
   # check device presence.
   #
   # `Parameters:`
@@ -718,7 +718,7 @@ module GLFW
   # Returns the value of the GLFW timer.
   #
   # This function returns the value of the GLFW timer. Unless the timer has
-  # been set using `#set_time`, the timer measures time elapsed since GLFW
+  # been set using `GLFW.set_time`, the timer measures time elapsed since GLFW
   # was initialized.
   #
   # The resolution of the timer is system dependent, but is usually on the order
@@ -732,7 +732,7 @@ module GLFW
   #
   # NOTE: This function may be called from any thread. Reading and
   # writing of the internal timer offset is not atomic, so it needs to be
-  # externally synchronized with calls to `#set_time`.
+  # externally synchronized with calls to `GLFW.set_time`.
   #
   # NOTE: Added in version 1.0.
   @[AlwaysInline]
@@ -754,7 +754,7 @@ module GLFW
   #
   # NOTE: This function may be called from any thread. Reading and
   # writing of the internal timer offset is not atomic, so it needs to be
-  # externally synchronized with calls to `#get_time`.
+  # externally synchronized with calls to `GLFW.get_time`.
   #
   # NOTE: Added in version 2.2.
   @[AlwaysInline]
@@ -766,7 +766,7 @@ module GLFW
   #
   # This function returns the current value of the raw timer, measured in
   # `1 / frequency` seconds. To get the frequency, call
-  # `#get_timer_frequency`.
+  # `GLFW.get_timer_frequency`.
   #
   # Returns the value of the timer, or zero if an error occurred.
   #

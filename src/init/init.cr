@@ -6,8 +6,8 @@ module GLFW
   # should be terminated in order to free any resources allocated during or
   # after initialization.
   #
-  # If this function fails, it calls `#terminate` before returning.  If it
-  # succeeds, you should call `#terminate` before the application exits.
+  # If this function fails, it calls `GLFW.terminate` before returning. If it
+  # succeeds, you should call `GLFW.terminate` before the application exits.
   #
   # Additional calls to this function after successful initialization but before
   # termination will return `true` immediately.
@@ -16,6 +16,10 @@ module GLFW
   # `GLFW::Error` occurred.
   #
   # NOTE: Possible errors include `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 1.0.
   # ```
   # if GLFW.init
   #   puts "Initialized GLFW successfully!"
@@ -34,16 +38,23 @@ module GLFW
   #
   # This function destroys all remaining windows and cursors, restores any
   # modified gamma ramps and frees any other allocated resources. Once this
-  # function is called, you must again call `#init` successfully before
+  # function is called, you must again call `GLFW.init` successfully before
   # you will be able to use most GLFW functions.
   #
   # If GLFW has been successfully initialized, this function should be called
   # before the application exits. If initialization fails, there is no need to
-  # call this function, as it is called by `#init` before it returns
+  # call this function, as it is called by `GLFW.init` before it returns
   # failure.
   #
-  # NOTE: This function may be called before `#init`.
   # NOTE: Possible errors include `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function may be called before `GLFW.init`.
+  #
+  # NOTE: This function must not be called from a callback.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 1.0.
   # ```
   # if GLFW.init
   #   puts "Initialized GLFW successfully!"
@@ -66,7 +77,11 @@ module GLFW
   #
   # Returns NamedTuple with keys: `major : Int32`, `minor : Int32`, `rev : Int32`.
   #
-  # NOTE: This function may be called before `#init`.
+  # NOTE: This function may be called before `GLFW.init`.
+  #
+  # NOTE: This function may be called from any thread.
+  #
+  # NOTE: Added in version 1.0.
   # ```
   # version = GLFW.get_version
   # puts "major: #{version[:major]}" # => 3
@@ -87,12 +102,16 @@ module GLFW
   # compile-time options. 
   #
   # Do not use the version string to parse the GLFW library version. The
-  # `#get_version` function provides the version of the running library
+  # `GLFW.get_version` function provides the version of the running library
   # binary in numerical format.
   #
   # Returns the ASCII encoded GLFW version string.
   #
-  # NOTE: This function may be called before `#init`.
+  # NOTE: This function may be called before `GLFW.init`.
+  #
+  # NOTE: This function may be called from any thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
   # string = GLFW.get_version_string
   # puts string # => "3.2.1 X11 GLX EGL clock_gettime /dev/js Xf86vm shared"
@@ -121,23 +140,27 @@ module GLFW
   #
   # Returns the previously set callback or `nil` if no callback was set.
   #
-  # NOTE: This function may be called before `#init`.
+  # NOTE: This function may be called before `GLFW.init`.
   #
   # NOTE: This function must only be called from the main thread.
   #
   # NOTE: Added in version 3.0.
   # ```
-  # # set callback with block
-  # GLFW.set_error_callback do |error, description|
-  #   puts "Error: #{error} Description: #{description}"
+  # def error_callback(error : GLFW::Error, msg : String)
+  #   puts "Error: #{error} msg: #{msg}"
   # end
   #
-  # # set callback with method
-  # def error_callback(error : GLFW::Error, description : String)
-  #   puts "Error: #{error} Description: #{description}"
-  # end
+  # if GLFW.init
+  #   # set callback with method
+  #   GLFW.set_error_callback(&->error_callback(GLFW::Error, String))
   #
-  # GLFW.set_error_callback &->error_callback(GLFW::Error, String)
+  #   # set callback with block
+  #   GLFW.set_error_callback do |error, msg|
+  #     puts "Error: #{error} msg: #{msg}"
+  #   end
+  #
+  #   GLFW.terminate
+  # end
   # ```
   @[AlwaysInline]
   def self.set_error_callback(&block : Error, String -> Void) : Proc(Error, String, Void)?
