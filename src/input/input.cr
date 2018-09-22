@@ -1,5 +1,3 @@
-# TODO: change semantics of == for Window and probably even more classes
-
 module GLFW
   # Returns the value of an input option for the specified window.
   @[AlwaysInline]
@@ -41,11 +39,7 @@ module GLFW
   @[AlwaysInline]
   def self.get_key_name(key : Key, scancode : Int32) : String?
     ptr = LibGLFW.get_key_name(key.value, scancode)
-    if ptr.null?
-      nil
-    else
-      String.new(ptr)
-    end
+    ptr.null? ? nil : String.new(ptr)
   end
 
   # Returns the last reported state of a keyboard key for the specified window.
@@ -234,11 +228,7 @@ module GLFW
   @[AlwaysInline]
   def self.create_standard_cursor(shape : CursorShape) : Cursor?
     ptr = LibGLFW.create_standard_cursor(shape.value)
-    if ptr.null?
-      nil
-    else
-      Cursor.new(ptr)
-    end
+    ptr.null? ? nil : Cursor.new(ptr)
   end
 
   # Destroys a cursor.

@@ -1,12 +1,3 @@
-# todo: get rid of class methods for Window?
-# todo: I think I should handle errors with exceptions
-
-# todo: every method should be inlined and I should avoid to_unsafe implicit call
-# todo: every method which doesn't return anything interesing should have Nil return value
-
-# todo: right now it's impossible to remove currently set callback, because
-# user have to pass a block, instead of a proc, however someone can pass an empty block, is this enough?
-
 module GLFW
   struct Window
     getter ptr : LibGLFW::Window*
@@ -476,11 +467,7 @@ module GLFW
   @[AlwaysInline]
   def self.create_window(width : Int32, height : Int32, title : String, monitor : Monitor? = nil, share : Window? = nil) : Window?
     ptr = LibGLFW.create_window(width, height, title, monitor ? monitor.ptr : nil, share ? share.ptr : nil)
-    if ptr.null?
-      nil
-    else
-      Window.new(ptr)
-    end
+    ptr.null? ? nil : Window.new(ptr)
   end
 
   # Destroys the specified window and its context.
