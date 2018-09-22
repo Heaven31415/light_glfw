@@ -266,7 +266,7 @@ module GLFW
     else
       video_modes = Array(VideoMode).new(count)
       count.times do |i|
-        video_modes << VideoMode.new(ptr + i)
+        video_modes << (ptr + i).unsafe_as(VideoMode)
       end
       video_modes
     end
@@ -299,7 +299,7 @@ module GLFW
   @[AlwaysInline]
   def self.get_video_mode(monitor : Monitor) : VideoMode?
     ptr = LibGLFW.get_video_mode(monitor.ptr)
-    ptr.null? ? nil : VideoMode.new(ptr)
+    ptr.null? ? nil : ptr.unsafe_as(VideoMode)
   end
 
   # Generates a gamma ramp and sets it for the specified monitor.
