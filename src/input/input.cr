@@ -358,7 +358,7 @@ module GLFW
     LibGLFW.set_key_callback(window.ptr, 
     ->(window : LibGLFW::Window*, key : Int32, scancode : Int32, action : Int32, mods : Int32) do
       if cb = @@key_callback
-        cb.call(Window.new(window), Key.new(key), scancode, Action.new(action), Mod.new(mods))
+        cb.call(window.unsafe_as(Window), Key.new(key), scancode, Action.new(action), Mod.new(mods))
       end
     end)
 
@@ -417,7 +417,7 @@ module GLFW
 
     LibGLFW.set_char_callback(window.ptr, ->(window : LibGLFW::Window*, codepoint : UInt32) do
       if cb = @@char_callback
-        cb.call(Window.new(window), codepoint.chr)
+        cb.call(window.unsafe_as(Window), codepoint.chr)
       end
     end)
 
@@ -433,7 +433,7 @@ module GLFW
 
     LibGLFW.set_char_mods_callback(window.ptr, ->(window : LibGLFW::Window*, codepoint : UInt32, mods : Int32) do
       if cb = @@char_mods_callback
-        cb.call(Window.new(window), codepoint.chr, Mod.new(mods))
+        cb.call(window.unsafe_as(Window), codepoint.chr, Mod.new(mods))
       end
     end)
 
@@ -449,7 +449,7 @@ module GLFW
 
     LibGLFW.set_mouse_button_callback(window.ptr, ->(window : LibGLFW::Window*, button : Int32, action : Int32, mods : Int32) do
       if cb = @@mouse_button_callback
-        cb.call(Window.new(window), MouseButton.new(button), Action.new(action), Mod.new(mods))
+        cb.call(window.unsafe_as(Window), MouseButton.new(button), Action.new(action), Mod.new(mods))
       end
     end)
 
@@ -465,7 +465,7 @@ module GLFW
 
     LibGLFW.set_cursor_pos_callback(window.ptr, ->(window : LibGLFW::Window*, xpos : Float64, ypos : Float64) do
       if cb = @@cursor_pos_callback
-        cb.call(Window.new(window), xpos, ypos)
+        cb.call(window.unsafe_as(Window), xpos, ypos)
       end
     end)
 
@@ -481,7 +481,7 @@ module GLFW
 
     LibGLFW.set_cursor_enter_callback(window.ptr, ->(window : LibGLFW::Window*, entered : Int32) do
       if cb = @@cursor_enter_callback
-        cb.call(Window.new(window), entered == LibGLFW::TRUE ? true : false)
+        cb.call(window.unsafe_as(Window), entered == LibGLFW::TRUE ? true : false)
       end
     end)
 
@@ -497,7 +497,7 @@ module GLFW
 
     LibGLFW.set_scroll_callback(window.ptr, ->(window : LibGLFW::Window*, x_offset : Float64, y_offset : Float64) do
       if cb = @@scroll_callback
-        cb.call(Window.new(window), x_offset, y_offset)
+        cb.call(window.unsafe_as(Window), x_offset, y_offset)
       end
     end)
 
@@ -517,7 +517,7 @@ module GLFW
         count.times do |i|
           new_paths << String.new(paths[i])
         end
-        cb.call(Window.new(window), new_paths)
+        cb.call(window.unsafe_as(Window), new_paths)
       end
     end)
 

@@ -62,7 +62,7 @@ module GLFW
   @[AlwaysInline]
   def self.get_current_context : Window?
     ptr = LibGLFW.get_current_context
-    ptr.null? ? nil : Window.new(ptr)
+    ptr.null? ? nil : ptr.unsafe_as(Window)
   end
 
   # Sets the swap interval for the current context.

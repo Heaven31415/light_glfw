@@ -2,11 +2,20 @@ module GLFW
   struct Window
     getter ptr : LibGLFW::Window*
 
-    def initialize(@ptr)
+    private def initialize(@ptr)
+    end
+
+    private def dup
     end
 
     def to_unsafe : LibGLFW::Window*
       @ptr
+    end
+
+    def to_s(io : IO)
+    end
+  
+    def inspect(io : IO)
     end
   end
 
@@ -467,7 +476,7 @@ module GLFW
   @[AlwaysInline]
   def self.create_window(width : Int32, height : Int32, title : String, monitor : Monitor? = nil, share : Window? = nil) : Window?
     ptr = LibGLFW.create_window(width, height, title, monitor ? monitor.ptr : nil, share ? share.ptr : nil)
-    ptr.null? ? nil : Window.new(ptr)
+    ptr.null? ? nil : ptr.unsafe_as(Window)
   end
 
   # Destroys the specified window and its context.
@@ -1330,12 +1339,43 @@ module GLFW
   end
 
   # Sets the user pointer of the specified window.
+  #
+  # This function sets the user-defined pointer of the specified window. The
+  # current value is retained until the window is destroyed. The initial value
+  # is `nil`.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose pointer to set.
+  #
+  # *`pointer`* The new value.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function may be called from any thread. Access is not
+  # synchronized.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.set_window_user_pointer(window : Window, pointer : Pointer(Void)) : Nil
     LibGLFW.set_window_user_pointer(window.ptr, pointer)
   end
 
   # Returns the user pointer of the specified window.
+  #
+  # This function returns the current value of the user-defined pointer of the
+  # specified window. The initial value is `nil`.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose pointer to return.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function may be called from any thread. Access is not
+  # synchronized.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.get_window_user_pointer(window : Window) : Pointer(Void)
     LibGLFW.get_window_user_pointer(window.ptr)
@@ -1350,7 +1390,7 @@ module GLFW
 
     LibGLFW.set_window_pos_callback(window.ptr, ->(window : LibGLFW::Window*, x : Int32, y : Int32) do 
       if cb = @@pos_callback
-        cb.call(Window.new(window), x, y)
+        cb.call(window.unsafe_as(Window), x, y)
       end
     end)
 
@@ -1366,7 +1406,7 @@ module GLFW
 
     LibGLFW.set_window_size_callback(window.ptr, ->(window : LibGLFW::Window*, width : Int32, height : Int32) do
       if cb = @@size_callback
-        cb.call(Window.new(window), width, height)
+        cb.call(window.unsafe_as(Window), width, height)
       end
     end)
 
@@ -1382,7 +1422,7 @@ module GLFW
 
     LibGLFW.set_window_close_callback(window.ptr, ->(window : LibGLFW::Window*) do 
       if cb = @@close_callback
-        cb.call(Window.new(window))
+        cb.call(window.unsafe_as(Window))
       end
     end)
 
@@ -1398,7 +1438,7 @@ module GLFW
 
     LibGLFW.set_window_refresh_callback(window.ptr, ->(window : LibGLFW::Window*) do 
       if cb = @@refresh_callback
-        cb.call(Window.new(window))
+        cb.call(window.unsafe_as(Window))
       end
     end)
 
@@ -1414,7 +1454,7 @@ module GLFW
 
     LibGLFW.set_window_focus_callback(window.ptr, ->(window : LibGLFW::Window*, focused : Int32) do
       if cb = @@focus_callback
-        cb.call(Window.new(window), focused == LibGLFW::TRUE ? true : false)
+        cb.call(window.unsafe_as(Window), focused == LibGLFW::TRUE ? true : false)
       end
     end)
 
@@ -1430,7 +1470,7 @@ module GLFW
 
     LibGLFW.set_window_iconify_callback(window.ptr, ->(window : LibGLFW::Window*, iconified : Int32) do
       if cb = @@iconify_callback
-        cb.call(Window.new(window), iconified == LibGLFW::TRUE ? true : false)
+        cb.call(window.unsafe_as(Window), iconified == LibGLFW::TRUE ? true : false)
       end
     end)
 
@@ -1446,7 +1486,7 @@ module GLFW
 
     LibGLFW.set_framebuffer_size_callback(window.ptr, ->(window : LibGLFW::Window*, width : Int32, height : Int32) do
       if cb = @@framebuffer_size_callback
-        cb.call(Window.new(window), width, height)
+        cb.call(window.unsafe_as(Window), width, height)
       end
     end)
 
