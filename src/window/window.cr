@@ -1142,7 +1142,7 @@ module GLFW
   @[AlwaysInline]
   def self.get_window_monitor(window : Window) : Monitor?
     ptr = LibGLFW.get_window_monitor(window.ptr)
-    ptr.null? ? nil : Monitor.new(ptr)
+    ptr.null? ? nil : ptr.unsafe_as(Monitor)
   end
 
   # Sets the mode, monitor, video mode and placement of a window.
