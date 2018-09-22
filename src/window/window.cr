@@ -1540,18 +1540,95 @@ module GLFW
   end
 
   # Waits with timeout until events are queued and processes them.
+  #
+  # This function puts the calling thread to sleep until at least one event is
+  # available in the event queue, or until the specified timeout is reached. If
+  # one or more events are available, it behaves exactly like `GLFW.poll_events`, 
+  # i.e. the events in the queue are processed and the function then returns 
+  # immediately. Processing events will cause the window and input callbacks 
+  # associated with those events to be called.
+  #
+  # The timeout value must be a positive finite number.
+  #
+  # Since not all events are associated with callbacks, this function may return
+  # without a callback having been called even if you are monitoring all
+  # callbacks.
+  #
+  # On some platforms, a window move, resize or menu operation will cause event
+  # processing to block. This is due to how event processing is designed on
+  # those platforms. You can set the window refresh callback using 
+  # `GLFW.set_window_refresh_callback` to redraw the contents of
+  # your window when necessary during such operations.
+  #
+  # On some platforms, certain callbacks may be called outside of a call to one
+  # of the event processing functions.
+  #
+  # If no windows exist, this function returns immediately. For synchronization
+  # of threads in applications that do not create windows, use your threading
+  # library of choice.
+  #
+  # Event processing is not required for joystick input to work.
+  #
+  # `Parameters:`
+  #
+  # *`timeout`* The maximum amount of time, in seconds, to wait.
+  #
+  # NOTE: This function must not be called from a callback.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.2.
   @[AlwaysInline]
   def self.wait_events_timeout(timeout : Float64) : Nil
     LibGLFW.wait_events_timeout(timeout)
   end
 
   # Posts an empty event to the event queue.
+  #
+  # This function posts an empty event from the current thread to the event
+  # queue, causing `GLFW.wait_events` or `GLFW.wait_events_timeout` to return.
+  #
+  # If no windows exist, this function returns immediately. For synchronization
+  # of threads in applications that do not create windows, use your threading
+  # library of choice.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: This function may be called from any thread.
+  #
+  # NOTE: Added in version 3.1.
   @[AlwaysInline]
   def self.post_empty_event : Nil
     LibGLFW.post_empty_event
   end
 
   # Swaps the front and back buffers of the specified window.
+  #
+  # This function swaps the front and back buffers of the specified window when
+  # rendering with OpenGL or OpenGL ES. If the swap interval is greater than
+  # zero, the GPU driver waits the specified number of screen updates before
+  # swapping the buffers.
+  #
+  # The specified window must have an OpenGL or OpenGL ES context. Specifying
+  # a window without a context will generate a `GLFW::Error::NoWindowContext`
+  # error.
+  #
+  # This function does not apply to Vulkan. If you are rendering with Vulkan,
+  # see `vkQueuePresentKHR` instead.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose buffers to swap.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`, `GLFW::Error::NoWindowContext`
+  # and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: When using EGL the context of the specified window must be current on the
+  # calling thread.
+  #
+  # NOTE: This function may be called from any thread.
+  #
+  # NOTE: Added in version 1.0.
   @[AlwaysInline]
   def self.swap_buffers(window : Window) : Nil
     LibGLFW.swap_buffers(window.ptr)
