@@ -447,11 +447,52 @@ module GLFW
     LibGLFW.window_hint(Hint::OpenGLForwardCompat.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Specifies whether to create a debug OpenGL context.
+  # 
+  # OpenGL debug context may have additional error and 
+  # performance issue reporting functionality. If 
+  # OpenGL ES is requested, this hint is ignored.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets hint for the next call to `GLFW.create_window`. The
+  # hint, once set, retain its value until changed by another call 
+  # to this function or `GLFW.default_window_hints`, or until the library 
+  # is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.window_hint_open_gl_debug_context(value : Bool) : Nil
     LibGLFW.window_hint(Hint::OpenGLDebugContext.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Specifies which OpenGL profile to create the context for.
+  #
+  # Possible values are one of `GLFW::OpenGLProfile::Core` or `GLFW::OpenGLProfile::Compat`, 
+  # or `GLFW::OpenGLProfile::Any` to not request a specific profile. 
+  # If requesting an OpenGL version below 3.2, `GLFW::OpenGLProfile::Any` must be used. 
+  # If OpenGL ES is requested, this hint is ignored.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets hint for the next call to `GLFW.create_window`. The
+  # hint, once set, retain its value until changed by another call 
+  # to this function or `GLFW.default_window_hints`, or until the library 
+  # is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.window_hint_open_gl_profile(value : OpenGLProfile) : Nil
     LibGLFW.window_hint(Hint::OpenGLProfile.value, value.value)
