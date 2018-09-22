@@ -484,30 +484,124 @@ module GLFW
   end
 
   # Destroys the specified window and its context.
+  #
+  # This function destroys the specified window and its context. On calling
+  # this function, no further callbacks will be called for that window.
+  #
+  # If the context of the specified window is current on the main thread, it is
+  # detached before being destroyed.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window to destroy.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: The context of the specified window must not be current on any other
+  # thread when this function is called.
+  #
+  # NOTE: This function must not be called from a callback.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.destroy_window(window : Window) : Nil
     LibGLFW.destroy_window(window.ptr)
   end
 
   # Checks the close flag of the specified window.
+  #
+  # This function returns the value of the close flag of the specified window.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window to query.
+  #
+  # Returns the value of the close flag.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function may be called from any thread. Access is not
+  # synchronized.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.window_should_close(window : Window) : Bool
     LibGLFW.window_should_close(window.ptr) == LibGLFW::TRUE ? true : false
   end
 
   # Sets the close flag of the specified window.
+  #
+  # This function sets the value of the close flag of the specified window.
+  # This can be used to override the user's attempt to close the window, or
+  # to signal that it should be closed.
+  #
+  # `Parameters:`
+  #
+  #  *`window`* The window whose flag to change.
+  #
+  #  *`value`* The new value.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function may be called from any thread. Access is not
+  # synchronized.
+  #
+  # NOTE: Added in version 3.0.
   @[AlwaysInline]
   def self.set_window_should_close(window : Window, value : Bool) : Nil
     LibGLFW.set_window_should_close(window.ptr, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
   # Sets the title of the specified window.
+  #
+  # This function sets the window title, encoded as UTF-8, of the specified
+  # window.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose title to change.
+  #
+  # *`title`* The UTF-8 encoded window title.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: On Mac OS X the window title will not be updated until the next time you
+  # process events.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 1.0.
   @[AlwaysInline]
   def self.set_window_title(window : Window, title : String) : Nil
-    LibGLFW.set_window_title(window.ptr, title)
+    LibGLFW.set_window_title(window.ptr, title.to_unsafe)
   end
 
   # Sets the icon for the specified window.
+  #
+  # This function sets the icon of the specified window. If there
+  # is no image specified, the window reverts to its default icon.
+  #
+  # The desired image size varies depending on platform and system settings.
+  # The selected image will be rescaled as needed. Good sizes include 16x16,
+  # 32x32 and 48x48.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose icon to set.
+  #
+  # *`image`* The image to create the icon from, or `nil` to revert to default icon.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::PlatformError`.
+  #
+  # NOTE: On Mac OS X the GLFW window has no icon, as it is not a document
+  # window, so this function does nothing. The dock icon will be the same as
+  # the application bundle's icon.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.2.
   @[AlwaysInline]
   def self.set_window_icon(window : Window, image : Image?) : Nil
     if image
