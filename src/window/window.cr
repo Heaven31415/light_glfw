@@ -695,6 +695,7 @@ module GLFW
   # NOTE: Added in version 3.0.
   # ```
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
   #   while !GLFW.window_should_close(window)
   #     GLFW.poll_events
   #     # render here

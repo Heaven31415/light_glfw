@@ -23,14 +23,13 @@ module GLFW
   # and `GLFW::Error::PlatformError`.
   # 
   # NOTE: This function may be called from any thread.
+  #
   # NOTE: Added in version 3.0.
   # ```
-  # if GLFW.init
-  #   window = GLFW.create_window(480, 480, "Window")
-  #   if window
-  #     GLFW.make_context_current(window)
-  #     # do your thing...
-  #   end
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #   # do your thing...
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
@@ -52,10 +51,13 @@ module GLFW
   #
   # NOTE: Added in version 3.0.
   # ```
-  # if GLFW.init
-  #   window = GLFW.create_window(480, 480, "Window")
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
-  #   (window == GLFW.get_current_context) # => true
+  #   (GLFW.get_current_context == window) # => true
+  #
+  #   GLFW.make_context_current(nil)
+  #   (GLFW.get_current_context == nil) # => true
+  #
   #   GLFW.terminate
   # end
   # ```
@@ -106,12 +108,10 @@ module GLFW
   #
   # NOTE: Added in version 1.0.
   # ```
-  # if GLFW.init
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.swap_interval(1) # enable vsync
-  #   window = GLFW.create_window(800, 600, "Window")
-  #   if window
-  #     # do your thing...
-  #   end
+  #   # do your thing...
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
