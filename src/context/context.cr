@@ -129,10 +129,10 @@ module GLFW
   # A context must be current on the calling thread. Calling this function
   # without a current context will cause a `GLFW::Error::NoCurrentContext` error.
   #
-  # As this functions retrieves and searches one or more extension strings each
-  # call, it is recommended that you cache its results if it is going to be used
+  # As this function retrieves and searches one or more extension strings each
+  # call, it is recommended that you cache its results if its going to be used
   # frequently. The extension strings will not change during the lifetime of
-  # a context, so there is no danger in doing this.
+  # a context, so there is no danger in doing that.
   #
   # This function does not apply to Vulkan. If you are using Vulkan, see
   # `GLFW.get_required_instance_extensions`, `vkEnumerateInstanceExtensionProperties`
@@ -151,12 +151,26 @@ module GLFW
   #
   # NOTE: Added in version 1.0.
   # ```
-  # if GLFW.init
-  #   if GLFW.extension_supported("GLX_EXT_swap_control_tear")
-  #     puts "`GLX_EXT_swap_control_tear` is supported"
+  # extension = ""
+  #
+  # {% if flag?(:linux) %}
+  #   extension = "GLX_EXT_swap_control_tear"
+  # {% elsif flag?(:win32) %}
+  #   extension = "WGL_EXT_swap_control_tear"
+  # {% else %}
+  #   raise "Unsupported platform"
+  # {% end %}
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if GLFW.extension_supported(extension)
+  #     puts "'#{extension}' is supported"
   #   else
-  #     puts "`GLX_EXT_swap_control_tear` is not supported"
+  #     puts "'#{extension}' is not supported"
   #   end
+  #
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
@@ -198,6 +212,25 @@ module GLFW
   # NOTE: This function may be called from any thread.
   #
   # NOTE: Added in version 1.0.
+  # ```
+  # alias GL_GEN_BUFFERS = (Int32, Pointer(UInt32)) -> Void
+  # alias GL_DELETE_BUFFERS = (Int32, Pointer(UInt32)) -> Void
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  # 
+  #   # You need to have a current context before calling GLFW.get_proc_address
+  #   gen_buffers = GLFW.get_proc_address("glGenBuffers").unsafe_as(GL_GEN_BUFFERS)
+  #   delete_buffers = GLFW.get_proc_address("glDeleteBuffers").unsafe_as(GL_DELETE_BUFFERS)
+  #
+  #   buffer = 0u32
+  #   gen_buffers.call(1, pointerof(buffer))
+  #   buffer # => 1
+  #   delete_buffers.call(1, pointerof(buffer))
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.get_proc_address(procname : String) : LibGLFW::GlProc?
     proc = LibGLFW.get_proc_address(procname.to_unsafe)
