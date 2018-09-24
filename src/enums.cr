@@ -140,6 +140,10 @@ module GLFW
   end
 
   enum MouseButton
+    Left                            = 0
+    Right                           = 1
+    Middle                          = 2
+    
     Num1                            = 0
     Num2                            = 1
     Num3                            = 2
@@ -148,9 +152,6 @@ module GLFW
     Num6                            = 5
     Num7                            = 6
     Num8                            = 7
-    Left                            = Num1
-    Right                           = Num2
-    Middle                          = Num3
     Last                            = Num8
   end
 

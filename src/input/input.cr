@@ -483,6 +483,53 @@ module GLFW
 
   @@mouse_button_callback : Proc(Window, MouseButton, Action, Mod, Void)? = nil
   # Sets the mouse button callback.
+  #
+  # This function sets the mouse button callback of the specified window, which
+  # is called when a mouse button is pressed or released.
+  #
+  # When a window loses input focus, it will generate synthetic mouse button
+  # release events for all pressed mouse buttons. You can tell these events
+  # from user-generated events by the fact that the synthetic ones are generated
+  # after the focus loss event has been processed, i.e. after the callback set by
+  # `GLFW.set_window_focus_callback` has been called.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new mouse button callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 1.0.
+  # ```
+  # method = false
+  #
+  # def mouse_button_callback(window : GLFW::Window, button : GLFW::MouseButton, action : GLFW::Action, mods : GLFW::Mod)
+  #   puts "mouse_button_callback (method) #{button} (#{mods}) #{action}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_mouse_button_callback(window, &->mouse_button_callback(GLFW::Window, GLFW::MouseButton, GLFW::Action, GLFW::Mod))
+  #   else
+  #     GLFW.set_mouse_button_callback(window) do |window, button, action, mods|
+  #       puts "mouse_button_callback (block) #{button} (#{mods}) #{action}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_mouse_button_callback(window : Window, &block : Window, MouseButton, Action, Mod -> Void) : Proc(Window, MouseButton, Action, Mod, Void)?
     old_callback = @@mouse_button_callback
@@ -499,6 +546,49 @@ module GLFW
 
   @@cursor_pos_callback : Proc(Window, Float64, Float64, Void)? = nil
   # Sets the cursor position callback.
+  #
+  # This function sets the cursor position callback of the specified window,
+  # which is called when the cursor is moved. The callback is provided with the
+  # position, in screen coordinates, relative to the upper-left corner of the
+  # client area of the window.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new cursor pos callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # method = false
+  #
+  # def cursor_pos_callback(window : GLFW::Window, x : Float64, y : Float64)
+  #   puts "cursor_pos_callback (method) {x: #{x} y: #{y}}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_cursor_pos_callback(window, &->cursor_pos_callback(GLFW::Window, Float64, Float64))
+  #   else
+  #     GLFW.set_cursor_pos_callback(window) do |window, x, y|
+  #       puts "cursor_pos_callback (block) {x: #{x} y: #{y}}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_cursor_pos_callback(window : Window, &block : Window, Float64, Float64 -> Void) : Proc(Window, Float64, Float64, Void)?
     old_callback = @@cursor_pos_callback
