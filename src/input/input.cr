@@ -439,17 +439,30 @@ module GLFW
   #
   # NOTE: Added in version 2.4.
   # ```
-  # # set callback with block
-  # GLFW.set_char_callback(window) do |window, char|
-  #   print char
-  # end
+  # method = false
   #
-  # # set callback with method
   # def char_callback(window : GLFW::Window, char : Char)
-  #   print char
+  #   puts "char_callback (method) #{char}"
   # end
   #
-  # GLFW.set_char_callback(window, &->char_callback(GLFW::Window, Char))
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_char_callback(window, &->char_callback(GLFW::Window, Char))
+  #   else
+  #     GLFW.set_char_callback(window) do |window, char|
+  #       puts "char_callback (block) #{char}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
   # ```
   @[AlwaysInline]
   def self.set_char_callback(window : Window, &block : Window, Char -> Void) : Proc(Window, Char, Void)?
@@ -467,6 +480,57 @@ module GLFW
 
   @@char_mods_callback : Proc(Window, Char, Mod, Void)? = nil
   # Sets the Unicode character with modifiers callback.
+  #
+  # This function sets the character with modifiers callback of the specified
+  # window, which is called when a Unicode character is input regardless of what
+  # modifier keys are used.
+  #
+  # The character with modifiers callback is intended for implementing custom
+  # Unicode character input. For regular Unicode text input, use the
+  # `GLFW.set_char_callback`. Like the character
+  # callback, the character with modifiers callback deals with characters and is
+  # keyboard layout dependent. Characters do not map 1:1 to physical keys, as
+  # a key may produce zero, one or more characters. If you want to know whether
+  # a specific physical key was pressed or released, use the
+  # `GLFW.set_key_callback` instead.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new char mods callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.1.
+  # ```
+  # method = false
+  #
+  # def char_mods_callback(window : GLFW::Window, char : Char, mods : GLFW::Mod)
+  #   puts "char_mods_callback (method) #{char} (#{mods})"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_char_mods_callback(window, &->char_mods_callback(GLFW::Window, Char, GLFW::Mod))
+  #   else
+  #     GLFW.set_char_mods_callback(window) do |window, char, mods|
+  #       puts "char_mods_callback (block) #{char} (#{mods})"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_char_mods_callback(window : Window, &block : Window, Char, Mod -> Void) : Proc(Window, Char, Mod, Void)?
     old_callback = @@char_mods_callback
@@ -605,6 +669,56 @@ module GLFW
   
   @@cursor_enter_callback : Proc(Window, Bool, Void)? = nil
   # Sets the cursor enter/exit callback.
+  #
+  # This function sets the cursor boundary crossing callback of the specified
+  # window, which is called when the cursor enters or leaves the client area of
+  # the window.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new cursor enter callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # method = true
+  #
+  # def cursor_enter_callback(window : GLFW::Window, entered : Bool)
+  #   if entered
+  #     puts "(method) Cursor entered"
+  #   else
+  #     puts "(method) Cursor left"
+  #   end
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_cursor_enter_callback(window, &->cursor_enter_callback(GLFW::Window, Bool))
+  #   else
+  #     GLFW.set_cursor_enter_callback(window) do |window, entered|
+  #       if entered
+  #         puts "(block) Cursor entered"
+  #       else
+  #         puts "(block) Cursor left"
+  #       end
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_cursor_enter_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
     old_callback = @@cursor_enter_callback
@@ -621,6 +735,51 @@ module GLFW
 
   @@scroll_callback : Proc(Window, Float64, Float64, Void)? = nil
   # Sets the scroll callback.
+  #
+  # This function sets the scroll callback of the specified window, which is
+  # called when a scrolling device is used, such as a mouse wheel or scrolling
+  # area of a touchpad.
+  #
+  # The scroll callback receives all scrolling input, like that from a mouse
+  # wheel or a touchpad scrolling area.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new scroll callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # method = false
+  #
+  # def scroll_callback(window : GLFW::Window, dx : Float64, dy : Float64)
+  #   puts "(method) dx: #{dx} dy: #{dy}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_scroll_callback(window, &->scroll_callback(GLFW::Window, Float64, Float64))
+  #   else
+  #     GLFW.set_scroll_callback(window) do |window, dx, dy|
+  #       puts "(block) dx: #{dx} dy: #{dy}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_scroll_callback(window : Window, &block : Window, Float64, Float64 -> Void) : Proc(Window, Float64, Float64, Void)?
     old_callback = @@scroll_callback
@@ -637,6 +796,49 @@ module GLFW
 
   @@drop_callback : Proc(Window, Array(String), Void)? = nil
   # Sets the file drop callback.
+  #
+  # This function sets the file drop callback of the specified window, which is
+  # called when one or more dragged files are dropped on the window.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new drop callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.1.
+  # ```
+  # method = false
+  #
+  # def drop_callback(window : GLFW::Window, paths : Array(String))
+  #   puts "(method) paths:"
+  #   paths.each { |p| puts p }
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_drop_callback(window, &->drop_callback(GLFW::Window, Array(String)))
+  #   else
+  #     GLFW.set_drop_callback(window) do |window, paths|
+  #       puts "(block) paths:"
+  #       paths.each { |p| puts p }
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_drop_callback(window : Window, &block : Window, Array(String) -> Void) : Proc(Window, Array(String), Void)?
     old_callback = @@drop_callback
@@ -687,10 +889,10 @@ module GLFW
   #
   # `Parameters:`
   #
-  #  *`joy`* The joystick to query.
+  # *`joy`* The joystick to query.
   #
-  #  Returns an array of axis values, or `nil` if the joystick is not present or
-  #  an error occurred.
+  # Returns an array of axis values, or `nil` if the joystick is not present or
+  # an error occurred.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`, `GLFW::Error::InvalidEnum`
   # and `GLFW::Error::PlatformError`.
