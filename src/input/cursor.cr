@@ -2,7 +2,10 @@ module GLFW
   struct Cursor
     getter ptr : LibGLFW::Cursor*
 
-    def initialize(@ptr)
+    private def initialize(@ptr)
+    end
+
+    private def dup
     end
 
     def to_unsafe : LibGLFW::Cursor*

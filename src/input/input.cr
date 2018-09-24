@@ -243,7 +243,7 @@ module GLFW
   @[AlwaysInline]
   def self.create_cursor(image : Image, xhot : Int32, yhot : Int32) : Cursor?
     ptr = LibGLFW.create_cursor(image.to_unsafe, xhot, yhot)
-    ptr.null? ? nil : Cursor.new(ptr)
+    ptr.null? ? nil : ptr.unsafe_as(Cursor)
   end
 
   # Creates a cursor with a standard shape.
@@ -269,7 +269,7 @@ module GLFW
   @[AlwaysInline]
   def self.create_standard_cursor(shape : CursorShape) : Cursor?
     ptr = LibGLFW.create_standard_cursor(shape.value)
-    ptr.null? ? nil : Cursor.new(ptr)
+    ptr.null? ? nil : ptr.unsafe_as(Cursor)
   end
 
   # Destroys a cursor.
