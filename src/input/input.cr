@@ -199,6 +199,47 @@ module GLFW
   # NOTE: This function must only be called from the main thread.
   #
   # NOTE: Added in version 3.1.
+  # ```
+  # cursor = <<-CURSOR
+  # .......@.......
+  # ......@.@......
+  # .....@...@.....
+  # ....@.....@....
+  # ...@.......@...
+  # ..@.........@..
+  # .@...........@.
+  # @.............@
+  # @@@@@@@@@@@@@@@
+  # CURSOR
+  # .delete('\n')
+  #
+  # width, height = 15, 9
+  # pixels = Pointer(UInt8).malloc(width * height * 4)
+  #
+  # (height * width).times do |index|
+  #   pixels[4 * index + 0] = (cursor[index] == '@' ? 255u8 : 0u8)
+  #   pixels[4 * index + 1] = (cursor[index] == '@' ? 255u8 : 0u8)
+  #   pixels[4 * index + 2] = (cursor[index] == '@' ? 255u8 : 0u8)
+  #   pixels[4 * index + 3] = (cursor[index] == '@' ? 255u8 : 0u8)
+  # end
+  #
+  # image = GLFW::Image.new(width, height, pixels)
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if cursor = GLFW.create_cursor(image, 7, 0)
+  #     GLFW.set_cursor(window, cursor)
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.create_cursor(image : Image, xhot : Int32, yhot : Int32) : Cursor?
     ptr = LibGLFW.create_cursor(image.to_unsafe, xhot, yhot)
