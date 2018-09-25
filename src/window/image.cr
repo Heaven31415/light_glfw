@@ -1,6 +1,6 @@
 module GLFW
   struct Image
-    getter width : Int32
+    getter width  : Int32
     getter height : Int32
     getter pixels : Pointer(UInt8)
 

@@ -755,26 +755,162 @@ module GLFW
     LibGLFW.window_hint(Hint::DoubleBuffer.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Specifies which client API to create the context for.
+  #
+  # Possible values are `GLFW::ClientApi::OpenGL`, `GLFW::ClientApi::OpenGLES`
+  # and `GLFW::ClientApi::None`.
+  #
+  # This is a hard constraint.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `client_api` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::InvalidEnum`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   GLFW.window_hint_client_api(GLFW::ClientApi::OpenGL)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_client_api(value : ClientApi) : Nil
     LibGLFW.window_hint(Hint::ClientApi.value, value.value)
   end
 
+  # Specify the client API major version that the created context must be compatible with.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `context_version_major` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   GLFW.window_hint_context_version_major(1)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_context_version_major(value : Int32) : Nil
     LibGLFW.window_hint(Hint::ContextVersionMajor.value, value)
   end
 
+  # Specify the client API minor version that the created context must be compatible with.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `context_version_minor` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   GLFW.window_hint_context_version_minor(0)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_context_version_minor(value : Int32) : Nil
     LibGLFW.window_hint(Hint::ContextVersionMinor.value, value)
   end
 
+  # Specifies the robustness strategy to be used by the context.
+  #
+  # This can be one of `GLFW::ContextRobustness::NoResetNotification` or
+  # `GLFW::ContextRobustness::LoseContextOnReset`, or 
+  # `GLFW::ContextRobustness::None` to not request a robustness strategy.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `context_robustness` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::InvalidEnum`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   GLFW.window_hint_context_robustness(GLFW::ContextRobustness::None)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_context_robustness(value : ContextRobustness) : Nil
     LibGLFW.window_hint(Hint::ContextRobustness.value, value.value)
   end
 
+  # Specifies whether the OpenGL context should be forward-compatible.
+  #
+  # It means that all functionality deprecated in the requested version
+  # of OpenGL will be removed.
+  #
+  # This must only be used if the requested OpenGL version is 3.0 or above. 
+  #
+  # If OpenGL ES is requested, this hint is ignored.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `open_gl_forward_compat` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   GLFW.window_hint_open_gl_forward_compat(false)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_open_gl_forward_compat(value : Bool) : Nil
     LibGLFW.window_hint(Hint::OpenGLForwardCompat.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
@@ -821,7 +957,7 @@ module GLFW
   # to this function or `GLFW.default_window_hints`, or until the library 
   # is terminated.
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::InvalidEnum`.
   #
   # NOTE: This function must only be called from the main thread.
   #
@@ -854,7 +990,7 @@ module GLFW
   # to this function or `GLFW.default_window_hints`, or until the library 
   # is terminated.
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::InvalidEnum`.
   #
   # NOTE: This function must only be called from the main thread.
   #
@@ -910,7 +1046,7 @@ module GLFW
   # NOTE: The EGL API is the native context creation API on Wayland and Mir, 
   # so this hint will have no effect.
   #
-  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized` and `GLFW::Error::InvalidEnum`.
   #
   # NOTE: This function must only be called from the main thread.
   #

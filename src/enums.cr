@@ -143,7 +143,6 @@ module GLFW
     Left                            = 0
     Right                           = 1
     Middle                          = 2
-    
     Num1                            = 0
     Num2                            = 1
     Num3                            = 2
