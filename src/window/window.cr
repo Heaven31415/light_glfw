@@ -42,6 +42,10 @@ module GLFW
   #
   # This hint is ignored for full screen and initially hidden windows.
   #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
   # This function sets `focused` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
@@ -70,6 +74,10 @@ module GLFW
   # The window will still be resizable using the `GLFW.set_window_size` function. 
   # This hint is ignored for full screen windows.
   #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
   # This function sets `resizable` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
@@ -96,6 +104,10 @@ module GLFW
   # Specifies whether the windowed mode window will be initially visible.
   #
   # This hint is ignored for full screen windows.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `visible` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain its value until changed by another call to this
@@ -127,6 +139,10 @@ module GLFW
   # 
   # This hint is ignored for full screen windows.
   #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
   # This function sets `decorated` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
@@ -154,6 +170,10 @@ module GLFW
   # restore the previous video mode on input focus loss.
   #
   # This hint is ignored for windowed mode windows.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `auto_iconify` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain its value until changed by another call to this
@@ -186,6 +206,10 @@ module GLFW
   #
   # This hint is ignored for full screen windows.
   #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
   # This function sets `floating` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
@@ -197,7 +221,7 @@ module GLFW
   # NOTE: Added in version 3.0.
   # ```
   # if GLFW.init
-  #   GLFW.window_hint_floating(true)
+  #   GLFW.window_hint_floating(false)
   #   if window = GLFW.create_window(640, 480, "Window")
   #     # do your thing...
   #   end
@@ -213,6 +237,10 @@ module GLFW
   #
   # This hint is ignored for full screen windows.
   #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
   # This function sets `maximized` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
@@ -224,7 +252,7 @@ module GLFW
   # NOTE: Added in version 3.0.
   # ```
   # if GLFW.init
-  #   GLFW.window_hint_maximized(true)
+  #   GLFW.window_hint_maximized(false)
   #   if window = GLFW.create_window(640, 480, "Window")
   #     # do your thing...
   #   end
@@ -236,246 +264,492 @@ module GLFW
     LibGLFW.window_hint(Hint::Maximized.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # Sets number of red bits of newly created window.
+  # Specify the desired red bits depth of the default framebuffer,
+  # `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `red_bits` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_red_bits(8)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_red_bits(8)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_red_bits(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::RedBits.value, value)
+  def self.window_hint_red_bits(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::RedBits.value, value ? value : LibGLFW::DONT_CARE)
   end
 
-  # Sets number of green bits of newly created window.
+  # Specify the desired green bits depth of the default framebuffer,
+  # `nil` means the application has no preference.
   #
-  # This function sets `green_bits` hint for the next call to GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `green_bits` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_green_bits(8)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_green_bits(8)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_green_bits(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::GreenBits.value, value)
+  def self.window_hint_green_bits(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::GreenBits.value, value ? value : LibGLFW::DONT_CARE)
   end
 
-  # Sets number of blue bits of newly created window.
+  # Specify the desired blue bits depth of the default framebuffer,
+  # `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `blue_bits` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_blue_bits(8)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_blue_bits(8)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_blue_bits(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::BlueBits.value, value)
+  def self.window_hint_blue_bits(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::BlueBits.value, value ? value : LibGLFW::DONT_CARE)
   end
 
-  # Sets number of alpha bits of newly created window.
+  # Specify the desired alpha bits depth of the default framebuffer,
+  # `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `alpha_bits` hint for the next call to `GLFW.create_window`.
   # The hint, once set, retain their value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_alpha_bits(8)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_alpha_bits(8)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_alpha_bits(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::AlphaBits.value, value)
+  def self.window_hint_alpha_bits(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::AlphaBits.value, value ? value : LibGLFW::DONT_CARE)
   end
 
-  # Sets number of depth buffer bits of newly created window.
+  # Specify the desired depth bits depth of the default framebuffer,
+  # `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `depth_bits` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_depth_bits(8)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_depth_bits(24)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_depth_bits(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::DepthBits.value, value)
+  def self.window_hint_depth_bits(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::DepthBits.value, value ? value : LibGLFW::DONT_CARE)
   end
 
-  # Sets number of stencil buffer bits of newly created window.
+  # Specify the desired stencil bits depth of the default framebuffer,
+  # `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `stencil_bits` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_stencil_bits(8)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_stencil_bits(8)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_stencil_bits(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::StencilBits.value, value)
+  def self.window_hint_stencil_bits(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::StencilBits.value, value ? value : LibGLFW::DONT_CARE)
   end
 
-  # Sets number of accum red bits of newly created window.
+  # Specify the desired red bits depth of the default accumulation buffer,
+  # `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `accum_red_bits` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_accum_red_bits(8)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_accum_red_bits(0)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_accum_red_bits(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::AccumRedBits.value, value)
+  def self.window_hint_accum_red_bits(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::AccumRedBits.value, value ? value : LibGLFW::DONT_CARE)
   end
 
-  # Sets number of accum green bits of newly created window.
+  # Specify the desired green bits depth of the default accumulation buffer,
+  # `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `accum_green_bits` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_accum_green_bits(8)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_accum_green_bits(0)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_accum_green_bits(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::AccumGreenBits.value, value)
+  def self.window_hint_accum_green_bits(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::AccumGreenBits.value, value ? value : LibGLFW::DONT_CARE)
   end
 
-  # Sets number of accum blue bits of newly created window.
+  # Specify the desired blue bits depth of the default accumulation buffer,
+  # `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `accum_blue_bits` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_accum_blue_bits(8)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_accum_blue_bits(0)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_accum_blue_bits(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::AccumBlueBits.value, value)
+  def self.window_hint_accum_blue_bits(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::AccumBlueBits.value, value ? value : LibGLFW::DONT_CARE)
   end
 
-  # Sets number of accum alpha bits of newly created window.
+  # Specify the desired alpha bits depth of the default accumulation buffer,
+  # `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `accum_alpha_bits` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_accum_alpha_bits(8)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_accum_alpha_bits(0)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_accum_alpha_bits(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::AccumAlphaBits.value, value)
+  def self.window_hint_accum_alpha_bits(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::AccumAlphaBits.value, value ? value : LibGLFW::DONT_CARE)
   end
 
-  # Sets number of aux buffers of newly created window.
+  # Specifies the desired number of auxiliary buffers, 
+  # `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
   #
   # This function sets `aux_buffers` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_aux_buffers(1)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_aux_buffers(0)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.window_hint_aux_buffers(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::AuxBuffers.value, value)
+  def self.window_hint_aux_buffers(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::AuxBuffers.value, value ? value : LibGLFW::DONT_CARE)
   end
 
+  # Specifies whether to use stereoscopic rendering.
+  #
+  # This is a hard constraint.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `stereo` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   GLFW.window_hint_stereo(false)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_stereo(value : Bool) : Nil
     LibGLFW.window_hint(Hint::Stereo.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Specifies the desired number of samples to use for multisampling.
+  #
+  # Zero disables multisampling, `nil` means the application has no preference.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `samples` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   GLFW.window_hint_samples(0)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
-  def self.window_hint_samples(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::Samples.value, value)
+  def self.window_hint_samples(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::Samples.value, value ? value : LibGLFW::DONT_CARE)
   end
 
+  # Specifies whether the framebuffer should be sRGB capable.
+  #
+  # If supported, a created OpenGL context will support the `GL_FRAMEBUFFER_SRGB` enable, 
+  # also called `GL_FRAMEBUFFER_SRGB_EXT` for controlling sRGB rendering and a created 
+  # OpenGL ES context will always have sRGB rendering enabled.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `srgb_capable` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   GLFW.window_hint_srgb_capable(false)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_srgb_capable(value : Bool) : Nil
     LibGLFW.window_hint(Hint::SrgbCapable.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
+  # Specifies the desired refresh rate for full screen windows.
+  #
+  # If set to `nil`, the highest available refresh rate will be used.
+  #
+  # This hint is ignored for windowed mode windows.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `refresh_rate` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   GLFW.window_hint_refresh_rate(nil)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
-  def self.window_hint_refresh_rate(value : Int32) : Nil
-    LibGLFW.window_hint(Hint::RefreshRate.value, value)
+  def self.window_hint_refresh_rate(value : Int32?) : Nil
+    LibGLFW.window_hint(Hint::RefreshRate.value, value ? value : LibGLFW::DONT_CARE)
   end
 
+  # Specifies whether the framebuffer should be double buffered.
+  #
+  # You nearly always want to use double buffering. 
+  #
+  # This is a hard constraint.
+  #
+  # `Parameters:`
+  #
+  # *`value`* The new value of the window hint.
+  #
+  # This function sets `double_buffer` hint for the next call to `GLFW.create_window`.
+  # The hint, once set, retain its value until changed by another call to this
+  # function or `GLFW.default_window_hints`, or until the library is terminated.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # if GLFW.init
+  #   GLFW.window_hint_double_buffer(true)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.window_hint_double_buffer(value : Bool) : Nil
     LibGLFW.window_hint(Hint::DoubleBuffer.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
