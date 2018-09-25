@@ -25,11 +25,12 @@ module GLFW
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
   # ```
-  # GLFW.default_window_hints
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.default_window_hints
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
@@ -37,19 +38,26 @@ module GLFW
     LibGLFW.default_window_hints
   end
 
-  # Sets whether newly created window should be focused.
+  # Specifies whether the windowed mode window will be given input focus when created.
+  #
+  # This hint is ignored for full screen and initially hidden windows.
   #
   # This function sets `focused` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_focused(true)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_focused(true)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
@@ -57,19 +65,27 @@ module GLFW
     LibGLFW.window_hint(Hint::Focused.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # Sets whether newly created window should be resizable.
+  # Specifies whether the windowed mode window will be resizable by the user.
+  #
+  # The window will still be resizable using the `GLFW.set_window_size` function. 
+  # This hint is ignored for full screen windows.
   #
   # This function sets `resizable` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_resizable(false)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_resizable(true)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
@@ -77,19 +93,26 @@ module GLFW
     LibGLFW.window_hint(Hint::Resizable.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # Sets whether newly created window should be visible.
+  # Specifies whether the windowed mode window will be initially visible.
+  #
+  # This hint is ignored for full screen windows.
   #
   # This function sets `visible` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_visible(true)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_visible(true)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
@@ -97,19 +120,29 @@ module GLFW
     LibGLFW.window_hint(Hint::Visible.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # Sets whether newly created window should be decorated.
+  # Specifies whether the windowed mode window will have window decorations
+  # such as a border, a close widget, etc.
+  #
+  # An undecorated window may still allow the user to generate close events on some platforms.
+  # 
+  # This hint is ignored for full screen windows.
   #
   # This function sets `decorated` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_decorated(true)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_decorated(true)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
@@ -117,19 +150,27 @@ module GLFW
     LibGLFW.window_hint(Hint::Decorated.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # Sets whether newly created window should be auto iconified.
+  # Specifies whether the full screen window will automatically iconify and 
+  # restore the previous video mode on input focus loss.
+  #
+  # This hint is ignored for windowed mode windows.
   #
   # This function sets `auto_iconify` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_auto_iconify(false)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_auto_iconify(true)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
@@ -137,19 +178,30 @@ module GLFW
     LibGLFW.window_hint(Hint::AutoIconify.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # Sets whether newly created window should be floating.
+  # Specifies whether the windowed mode window will be floating above other regular windows, 
+  # also called topmost or always-on-top.
+  #
+  # This is intended primarily for debugging purposes and cannot be used 
+  # to implement proper full screen windows.
+  #
+  # This hint is ignored for full screen windows.
   #
   # This function sets `floating` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_floating(false)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_floating(true)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
@@ -157,19 +209,26 @@ module GLFW
     LibGLFW.window_hint(Hint::Floating.value, value == true ? LibGLFW::TRUE : LibGLFW::FALSE)
   end
 
-  # Sets whether newly created window should be maximized.
+  # Specifies whether the windowed mode window will be maximized when created.
+  #
+  # This hint is ignored for full screen windows.
   #
   # This function sets `maximized` hint for the next call to `GLFW.create_window`.
-  # The hint, once set, retain their value until changed by another call to this
+  # The hint, once set, retain its value until changed by another call to this
   # function or `GLFW.default_window_hints`, or until the library is terminated.
   #
   # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
   # ```
-  # GLFW.window_hint_maximized(false)
-  # window = GLFW.create_window(640, 480, "GLFW")
-  # if window
-  #   # do your thing...
-  #   GLFW.destroy_window(window)
+  # if GLFW.init
+  #   GLFW.window_hint_maximized(true)
+  #   if window = GLFW.create_window(640, 480, "Window")
+  #     # do your thing...
+  #   end
+  #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
