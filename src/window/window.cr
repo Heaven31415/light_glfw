@@ -2199,6 +2199,56 @@ module GLFW
 
   @@close_callback : Proc(Window, Void)? = nil
   # Sets the close callback for the specified window.
+  #
+  # This function sets the close callback of the specified window, which is
+  # called when the user attempts to close the window, for example by clicking
+  # the close widget in the title bar.
+  #
+  # The close flag is set before this callback is called, but you can modify it
+  # at any time with `GLFW.set_window_should_close`.
+  #
+  # The close callback is not triggered by `GLFW.destroy_window`.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new window close callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: On Mac OS X selecting quit from the application menu will trigger the close
+  # callback for all windows.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 2.5.
+  # ```
+  # method = false
+  #
+  # def window_close_callback(window : GLFW::Window)
+  #   puts "(method) closing #{window}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_window_close_callback(window, &->window_close_callback(GLFW::Window))
+  #   else
+  #     GLFW.set_window_close_callback(window) do |window|
+  #       puts "(block) closing #{window}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_window_close_callback(window : Window, &block : Window -> Void) : Proc(Window, Void)?
     old_callback = @@close_callback
@@ -2215,6 +2265,52 @@ module GLFW
 
   @@refresh_callback : Proc(Window, Void)? = nil
   # Sets the refresh callback for the specified window.
+  #
+  # This function sets the refresh callback of the specified window, which is
+  # called when the client area of the window needs to be redrawn, for example
+  # if the window has been exposed after having been covered by another window.
+  #
+  # On compositing window systems such as Aero, Compiz or Aqua, where the window
+  # contents are saved off-screen, this callback may be called only very
+  # infrequently or never at all.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new window refresh callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 2.5.
+  # ```
+  # method = false
+  #
+  # def window_refresh_callback(window : GLFW::Window)
+  #   puts "(method) refreshing #{window}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_window_refresh_callback(window, &->window_refresh_callback(GLFW::Window))
+  #   else
+  #     GLFW.set_window_refresh_callback(window) do |window|
+  #       puts "(block) refreshing #{window}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_window_refresh_callback(window : Window, &block : Window -> Void) : Proc(Window, Void)?
     old_callback = @@refresh_callback
@@ -2231,6 +2327,52 @@ module GLFW
 
   @@focus_callback : Proc(Window, Bool, Void)? = nil
   # Sets the focus callback for the specified window.
+  #
+  # This function sets the focus callback of the specified window, which is
+  # called when the window gains or loses input focus.
+  #
+  # After the focus callback is called for a window that lost input focus,
+  # synthetic key and mouse button release events will be generated for all such
+  # that had been pressed. For more information, see `GLFW.set_key_callback`
+  # and `GLFW.set_mouse_button_callback`.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new window focus callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # method = false
+  #
+  # def window_focus_callback(window : GLFW::Window, focused : Bool)
+  #   puts "(method) focused: #{focused}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_window_focus_callback(window, &->window_focus_callback(GLFW::Window, Bool))
+  #   else
+  #     GLFW.set_window_focus_callback(window) do |window, focused|
+  #       puts "(block) focused: #{focused}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_window_focus_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
     old_callback = @@focus_callback
@@ -2247,6 +2389,47 @@ module GLFW
 
   @@iconify_callback : Proc(Window, Bool, Void)? = nil
   # Sets the iconify callback for the specified window.
+  #
+  # This function sets the iconification callback of the specified window, which
+  # is called when the window is iconified or restored.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new window iconify callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # method = false
+  #
+  # def window_iconify_callback(window : GLFW::Window, iconified : Bool)
+  #   puts "(method) iconified: #{iconified}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_window_iconify_callback(window, &->window_iconify_callback(GLFW::Window, Bool))
+  #   else
+  #     GLFW.set_window_iconify_callback(window) do |window, iconified|
+  #       puts "(block) iconified: #{iconified}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_window_iconify_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
     old_callback = @@iconify_callback
@@ -2263,6 +2446,45 @@ module GLFW
 
   @@framebuffer_size_callback : Proc(Window, Int32, Int32, Void)? = nil
   # Sets the framebuffer resize callback for the specified window.
+  #
+  # This function sets the framebuffer resize callback of the specified window,
+  # which is called when the framebuffer of the specified window is resized.
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new framebuffer size callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # method = false
+  #
+  # def framebuffer_size_callback(window : GLFW::Window, width : Int32, height : Int32)
+  #   puts "(method) width: #{width} height: #{height}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_framebuffer_size_callback(window, &->framebuffer_size_callback(GLFW::Window, Int32, Int32))
+  #   else
+  #     GLFW.set_framebuffer_size_callback(window) do |window, width, height|
+  #       puts "(block) width: #{width} height: #{height}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_framebuffer_size_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
     old_callback = @@framebuffer_size_callback
