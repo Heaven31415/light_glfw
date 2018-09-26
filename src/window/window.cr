@@ -2083,6 +2083,48 @@ module GLFW
 
   @@pos_callback : Proc(Window, Int32, Int32, Void)? = nil
   # Sets the position callback for the specified window.
+  #
+  # This function sets the position callback of the specified window, which is
+  # called when the window is moved. The callback is provided with the screen
+  # position of the upper-left corner of the client area of the window.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new window pos callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.0.
+  # ```
+  # method = false
+  #
+  # def window_pos_callback(window : GLFW::Window, x : Int32, y : Int32)
+  #   puts "(method) x: #{x} y: #{y}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_window_pos_callback(window, &->window_pos_callback(GLFW::Window, Int32, Int32))
+  #   else
+  #     GLFW.set_window_pos_callback(window) do |window, x, y|
+  #       puts "(block) x: #{x} y: #{y}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_window_pos_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
     old_callback = @@pos_callback
@@ -2099,6 +2141,48 @@ module GLFW
 
   @@size_callback : Proc(Window, Int32, Int32, Void)? = nil
   # Sets the size callback for the specified window.
+  #
+  # This function sets the size callback of the specified window, which is
+  # called when the window is resized. The callback is provided with the size,
+  # in screen coordinates, of the client area of the window.
+  #
+  # `Parameters:`
+  #
+  # *`window`* The window whose callback to set.
+  #
+  # *`block`* The new window size callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 1.0.
+  # ```
+  # method = false
+  #
+  # def window_size_callback(window : GLFW::Window, width : Int32, height : Int32)
+  #   puts "(method) width: #{width} height: #{height}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.set_window_size_callback(window, &->window_size_callback(GLFW::Window, Int32, Int32))
+  #   else
+  #     GLFW.set_window_size_callback(window) do |window, width, height|
+  #       puts "(block) width: #{width} height: #{height}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_window_size_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
     old_callback = @@size_callback
