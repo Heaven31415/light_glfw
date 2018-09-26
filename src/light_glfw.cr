@@ -1,5 +1,8 @@
+require "./constants"
 require "./enums"
 require "./functions"
+require "./typedefs"
+require "./utility"
 
 require "./context/*"
 require "./init/*"

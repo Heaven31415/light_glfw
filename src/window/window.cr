@@ -2110,9 +2110,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_window_pos_callback(window, &->window_pos_callback(GLFW::Window, Int32, Int32))
+  #     GLFW.window_pos_callback(window, window_pos_callback)
   #   else
-  #     GLFW.set_window_pos_callback(window) do |window, x, y|
+  #     GLFW.window_pos_callback(window) do |window, x, y|
   #       puts "(block) x: #{x} y: #{y}"
   #     end
   #   end
@@ -2168,9 +2168,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_window_size_callback(window, &->window_size_callback(GLFW::Window, Int32, Int32))
+  #     GLFW.window_size_callback(window, window_size_callback)
   #   else
-  #     GLFW.set_window_size_callback(window) do |window, width, height|
+  #     GLFW.window_size_callback(window) do |window, width, height|
   #       puts "(block) width: #{width} height: #{height}"
   #     end
   #   end
@@ -2234,9 +2234,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_window_close_callback(window, &->window_close_callback(GLFW::Window))
+  #     GLFW.window_close_callback(window, window_close_callback)
   #   else
-  #     GLFW.set_window_close_callback(window) do |window|
+  #     GLFW.window_close_callback(window) do |window|
   #       puts "(block) closing #{window}"
   #     end
   #   end
@@ -2296,9 +2296,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_window_refresh_callback(window, &->window_refresh_callback(GLFW::Window))
+  #     GLFW.window_refresh_callback(window, window_refresh_callback)
   #   else
-  #     GLFW.set_window_refresh_callback(window) do |window|
+  #     GLFW.window_refresh_callback(window) do |window|
   #       puts "(block) refreshing #{window}"
   #     end
   #   end
@@ -2358,9 +2358,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_window_focus_callback(window, &->window_focus_callback(GLFW::Window, Bool))
+  #     GLFW.window_focus_callback(window, window_focus_callback)
   #   else
-  #     GLFW.set_window_focus_callback(window) do |window, focused|
+  #     GLFW.window_focus_callback(window) do |window, focused|
   #       puts "(block) focused: #{focused}"
   #     end
   #   end
@@ -2415,9 +2415,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_window_iconify_callback(window, &->window_iconify_callback(GLFW::Window, Bool))
+  #     GLFW.window_iconify_callback(window, window_iconify_callback)
   #   else
-  #     GLFW.set_window_iconify_callback(window) do |window, iconified|
+  #     GLFW.window_iconify_callback(window) do |window, iconified|
   #       puts "(block) iconified: #{iconified}"
   #     end
   #   end
@@ -2470,9 +2470,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_framebuffer_size_callback(window, &->framebuffer_size_callback(GLFW::Window, Int32, Int32))
+  #     GLFW.framebuffer_size_callback(window, framebuffer_size_callback)
   #   else
-  #     GLFW.set_framebuffer_size_callback(window) do |window, width, height|
+  #     GLFW.framebuffer_size_callback(window) do |window, width, height|
   #       puts "(block) width: #{width} height: #{height}"
   #     end
   #   end

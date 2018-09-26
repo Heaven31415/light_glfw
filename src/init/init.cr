@@ -152,10 +152,10 @@ module GLFW
   #
   # if GLFW.init
   #   # set callback with method
-  #   GLFW.set_error_callback(&->error_callback(GLFW::Error, String))
+  #   GLFW.error_callback(error_callback)
   #
   #   # set callback with block
-  #   GLFW.set_error_callback do |error, msg|
+  #   GLFW.error_callback do |error, msg|
   #     puts "Error: #{error} msg: #{msg}"
   #   end
   #

@@ -362,7 +362,7 @@ module GLFW
   # NOTE: Added in version 1.0.
   # ```
   # # set callback with block
-  # GLFW.set_key_callback(window) do |window, key, scancode, action, mods|
+  # GLFW.key_callback(window) do |window, key, scancode, action, mods|
   #   if action.press?
   #     case key
   #     when .up?
@@ -389,7 +389,7 @@ module GLFW
   #   end
   # end
   #
-  # GLFW.set_key_callback(window, &->key_callback(GLFW::Window, GLFW::Key, Int32, GLFW::Action, GLFW::Mod))
+  # GLFW.key_callback(window, key_callback)
   # ```
   @[AlwaysInline]
   def self.set_key_callback(window : Window, &block : Window, Key, Int32, Action, Mod -> Void) : Proc(Window, Key, Int32, Action, Mod, Void)?
@@ -449,9 +449,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_char_callback(window, &->char_callback(GLFW::Window, Char))
+  #     GLFW.char_callback(window, char_callback)
   #   else
-  #     GLFW.set_char_callback(window) do |window, char|
+  #     GLFW.char_callback(window) do |window, char|
   #       puts "char_callback (block) #{char}"
   #     end
   #   end
@@ -516,9 +516,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_char_mods_callback(window, &->char_mods_callback(GLFW::Window, Char, GLFW::Mod))
+  #     GLFW.char_mods_callback(window, char_mods_callback)
   #   else
-  #     GLFW.set_char_mods_callback(window) do |window, char, mods|
+  #     GLFW.char_mods_callback(window) do |window, char, mods|
   #       puts "char_mods_callback (block) #{char} (#{mods})"
   #     end
   #   end
@@ -579,9 +579,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_mouse_button_callback(window, &->mouse_button_callback(GLFW::Window, GLFW::MouseButton, GLFW::Action, GLFW::Mod))
+  #     GLFW.mouse_button_callback(window, mouse_button_callback)
   #   else
-  #     GLFW.set_mouse_button_callback(window) do |window, button, action, mods|
+  #     GLFW.mouse_button_callback(window) do |window, button, action, mods|
   #       puts "mouse_button_callback (block) #{button} (#{mods}) #{action}"
   #     end
   #   end
@@ -638,9 +638,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_cursor_pos_callback(window, &->cursor_pos_callback(GLFW::Window, Float64, Float64))
+  #     GLFW.cursor_pos_callback(window, cursor_pos_callback)
   #   else
-  #     GLFW.set_cursor_pos_callback(window) do |window, x, y|
+  #     GLFW.cursor_pos_callback(window) do |window, x, y|
   #       puts "cursor_pos_callback (block) {x: #{x} y: #{y}}"
   #     end
   #   end
@@ -700,9 +700,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_cursor_enter_callback(window, &->cursor_enter_callback(GLFW::Window, Bool))
+  #     GLFW.cursor_enter_callback(window, cursor_enter_callback)
   #   else
-  #     GLFW.set_cursor_enter_callback(window) do |window, entered|
+  #     GLFW.cursor_enter_callback(window) do |window, entered|
   #       if entered
   #         puts "(block) Cursor entered"
   #       else
@@ -765,9 +765,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_scroll_callback(window, &->scroll_callback(GLFW::Window, Float64, Float64))
+  #     GLFW.scroll_callback(window, scroll_callback)
   #   else
-  #     GLFW.set_scroll_callback(window) do |window, dx, dy|
+  #     GLFW.scroll_callback(window) do |window, dx, dy|
   #       puts "(block) dx: #{dx} dy: #{dy}"
   #     end
   #   end
@@ -823,9 +823,9 @@ module GLFW
   #   GLFW.make_context_current(window)
   #
   #   if method
-  #     GLFW.set_drop_callback(window, &->drop_callback(GLFW::Window, Array(String)))
+  #     GLFW.drop_callback(window, drop_callback)
   #   else
-  #     GLFW.set_drop_callback(window) do |window, paths|
+  #     GLFW.drop_callback(window) do |window, paths|
   #       puts "(block) paths:"
   #       paths.each { |p| puts p }
   #     end
@@ -979,6 +979,49 @@ module GLFW
 
   @@joystick_callback : Proc(Joystick, Event, Void)? = nil
   # Sets the joystick configuration callback.
+  #
+  # This function sets the joystick configuration callback.
+  # This is called when a joystick is connected to or
+  # disconnected from the system.
+  #
+  # `Parameters:`
+  #
+  # *`block`* The new joystick callback.
+  #
+  # Returns the previously set callback, or `nil` if no callback was set or the
+  # library had not been initialized.
+  #
+  # NOTE: Possible errors include `GLFW::Error::NotInitialized`.
+  #
+  # NOTE: This function must only be called from the main thread.
+  #
+  # NOTE: Added in version 3.2.
+  # ```
+  # method = false
+  #
+  # def joystick_callback(joy : GLFW::Joystick, event : GLFW::Event)
+  #   puts "(method) joy: #{joy} event: #{event}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if method
+  #     GLFW.joystick_callback(joystick_callback)
+  #   else
+  #     GLFW.joystick_callback do |joy, event|
+  #       puts "(block) joy: #{joy} event: #{event}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
+  #   end
+  #
+  #   GLFW.terminate
+  # end
+  # ```
   @[AlwaysInline]
   def self.set_joystick_callback(&block : Joystick, Event -> Void) : Proc(Joystick, Event, Void)?
     old_callback = @@joystick_callback

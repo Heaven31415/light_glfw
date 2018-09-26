@@ -55,8 +55,17 @@ Installing light_glfw (0.1.0 at HEAD)
 ```crystal
 require "light_glfw"
 
-GLFW.set_error_callback do |error, string|
-  puts "Error: `#{error}` description: `#{string}`"
+GLFW.error_callback do |error, msg|
+  puts "Error: `#{error}` msg: `#{msg}`"
+end
+
+def mouse_button_callback(window : GLFW::Window, button : GLFW::MouseButton, action : GLFW::Action, mods : GLFW::Mod)
+  case action
+  when .press?
+    puts "#{button} is pressed"
+  when .release?
+    puts "#{button} is released"
+  end
 end
 
 if GLFW.init
@@ -64,15 +73,18 @@ if GLFW.init
   GLFW.window_hint_context_version_major(3)
   GLFW.window_hint_context_version_minor(0)
   GLFW.window_hint_resizable(false)
-  window = GLFW.create_window(640, 480, "Window", nil, nil)
 
-  if window
+  if window = GLFW.create_window(640, 480, "Window")
+
     GLFW.make_context_current(window)
-    GLFW.set_key_callback(window) do |window, key, scancode, action, mods|
+
+    GLFW.mouse_button_callback(window, mouse_button_callback)
+
+    GLFW.key_callback(window) do |window, key, scancode, action, mods|
       next if action != GLFW::Action::Press
 
       case key
-      when GLFW::Key::Escape
+      when .escape?
         GLFW.set_window_should_close(window, true)
       end
     end

@@ -204,10 +204,10 @@ module GLFW
   #
   # if GLFW.init
   #   # set callback with method
-  #   GLFW.set_monitor_callback(&->monitor_callback(GLFW::Monitor, GLFW::Event))   
+  #   GLFW.monitor_callback(monitor_callback)
   #
   #   # set callback with block
-  #   GLFW.set_monitor_callback do |monitor, event|
+  #   GLFW.monitor_callback do |monitor, event|
   #     case event
   #     when .connected?
   #       puts "Monitor #{monitor} has been connected"
