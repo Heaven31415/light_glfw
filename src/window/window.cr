@@ -13,9 +13,43 @@ module GLFW
     end
 
     def to_s(io : IO)
+      api  = GLFW.get_window_client_api(self)
+      major = GLFW.get_window_context_version_major(self)
+      minor = GLFW.get_window_context_version_minor(self)
+      size = GLFW.get_window_size(self)
+      pos  = GLFW.get_window_pos(self)
+
+      io << api << " " << major << "." << minor <<
+      " {width: " << size[:width] <<
+      " height: " << size[:height] << "}" <<
+      " {x: " << pos[:x] << " y: " << pos[:y] << "}"
     end
-  
+
     def inspect(io : IO)
+      api       = GLFW.get_window_client_api(self)
+      major     = GLFW.get_window_context_version_major(self)
+      minor     = GLFW.get_window_context_version_minor(self)
+      size      = GLFW.get_window_size(self)
+      pos       = GLFW.get_window_pos(self)
+      decorated = GLFW.get_window_decorated(self)
+      floating  = GLFW.get_window_floating(self)
+      focused   = GLFW.get_window_focused(self)
+      iconified = GLFW.get_window_iconified(self)
+      maximized = GLFW.get_window_maximized(self)
+      resizable = GLFW.get_window_resizable(self)
+      visible   = GLFW.get_window_visible(self)
+
+      io << api << " " << major << "." << minor <<
+      " {width: " << size[:width] <<
+      " height: " << size[:height] << "}" <<
+      " {x: " << pos[:x] << " y: " << pos[:y] << "}" << "\n" <<
+      "{decorated: " << decorated <<
+      " floating: " << floating <<
+      " focused: " << focused << "\n" <<
+      "iconified: " << iconified <<
+      " maximized: " << maximized  <<
+      " resizable: " << resizable << "\n" <<
+      "visible: " << visible << "}"
     end
   end
 
