@@ -1,4 +1,8 @@
 module GLFW
+  # A window is a wrapper around the pointer to `LibGLFW::Window`. 
+  # You cannot create it yourself. In order to create it, 
+  # you need to call `GLFW.create_window`. You cannot copy it. 
+  # If you need another window just call `GLFW.create_window` once again.
   struct Window
     getter ptr : LibGLFW::Window*
 
