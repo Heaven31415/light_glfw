@@ -55,7 +55,7 @@ Installing light_glfw (0.1.0 at HEAD)
 ```crystal
 require "light_glfw"
 
-GLFW.error_callback do |error, msg|
+GLFW.set_error_callback do |error, msg|
   puts "Error: `#{error}` msg: `#{msg}`"
 end
 
@@ -78,9 +78,9 @@ if GLFW.init
 
     GLFW.make_context_current(window)
 
-    GLFW.mouse_button_callback(window, mouse_button_callback)
+    GLFW.set_mouse_button_callback(window, mouse_button_callback)
 
-    GLFW.key_callback(window) do |window, key, scancode, action, mods|
+    GLFW.set_key_callback(window) do |window, key, scancode, action, mods|
       next if action != GLFW::Action::Press
 
       case key
