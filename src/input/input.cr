@@ -323,7 +323,7 @@ module GLFW
     end
   end
 
-  @@key_callback : Proc(Window, Key, Int32, Action, Mod, Void)? = nil
+  @@key_callbacks = Hash(UInt64, Proc(Window, Key, Int32, Action, Mod, Nil)).new
   # Sets the key callback.
   #
   # This function sets the key callback of the specified window, which is called
@@ -361,44 +361,47 @@ module GLFW
   #
   # NOTE: Added in version 1.0.
   # ```
-  # # set callback with block
-  # GLFW.key_callback(window) do |window, key, scancode, action, mods|
-  #   if action.press?
-  #     case key
-  #     when .up?
-  #       puts "Going up!"
-  #     when .down?
-  #       puts "Going down!"
-  #     when .left?
-  #       puts "Going left!"
-  #     when .right?
-  #       puts "Going right!"
+  # USING_METHOD = true
+  # USING_MACRO = true
+  #
+  # def key_callback(window : GLFW::Window, key : GLFW::Key, scancode : Int32, action : GLFW::Action, mods : GLFW::Mod)
+  #   puts "key: #{key} action: #{action} mods: #{mods}"
+  # end
+  #
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
+  #
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_key_callback(window, key_callback)
+  #     else
+  #       GLFW.set_key_callback(window, &->key_callback(GLFW::Window, GLFW::Key, Int32, GLFW::Action, GLFW::Mod))
+  #     end
+  #   else
+  #     GLFW.set_key_callback(window) do |window, key, scancode, action, mods|
+  #       puts "key: #{key} action: #{action} mods: #{mods}"
   #     end
   #   end
-  # end
   #
-  # # set callback with method
-  # def key_callback(window : GLFW::Window, key : GLFW::Key, scancode : Int32, action : GLFW::Action, mods : GLFW::Mod)
-  #   case action
-  #   when .press?
-  #     puts "#{key} is pressed"
-  #   when .release?
-  #     puts "#{key} is released"
-  #   when .repeat?
-  #     puts "#{key} is repeated"
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
   #   end
-  # end
   #
-  # GLFW.key_callback(window, key_callback)
+  #   GLFW.terminate
+  # end
   # ```
   @[AlwaysInline]
-  def self.set_key_callback(window : Window, &block : Window, Key, Int32, Action, Mod -> Void) : Proc(Window, Key, Int32, Action, Mod, Void)?
-    old_callback = @@key_callback
-    @@key_callback = block
+  def self.set_key_callback(window : Window, &block : Window, Key, Int32, Action, Mod -> Nil) : Proc(Window, Key, Int32, Action, Mod, Nil)?
+    hash = window.hash
+    old_callback = @@key_callbacks[hash]?
+    @@key_callbacks[hash] = block
 
     LibGLFW.set_key_callback(window.ptr, 
     ->(window : LibGLFW::Window*, key : Int32, scancode : Int32, action : Int32, mods : Int32) do
-      if cb = @@key_callback
+      if cb = @@key_callbacks[window.hash]
         cb.call(window.unsafe_as(Window), Key.new(key), scancode, Action.new(action), Mod.new(mods))
       end
     end)
@@ -406,7 +409,7 @@ module GLFW
     old_callback
   end
 
-  @@char_callback : Proc(Window, Char, Void)? = nil
+  @@char_callbacks = Hash(UInt64, Proc(Window, Char, Nil)).new
   # Sets the Unicode character callback.
   #
   # This function sets the character callback of the specified window, which is
@@ -439,20 +442,27 @@ module GLFW
   #
   # NOTE: Added in version 2.4.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def char_callback(window : GLFW::Window, char : Char)
-  #   puts "char_callback (method) #{char}"
+  #   puts "char: #{char}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.char_callback(window, char_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_char_callback(window, char_callback)
+  #     else
+  #       GLFW.set_char_callback(window, &->char_callback(GLFW::Window, Char))
+  #     end
   #   else
-  #     GLFW.char_callback(window) do |window, char|
-  #       puts "char_callback (block) #{char}"
+  #     GLFW.set_char_callback(window) do |window, char|
+  #       puts "char: #{char}"
   #     end
   #   end
   #
@@ -465,12 +475,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_char_callback(window : Window, &block : Window, Char -> Void) : Proc(Window, Char, Void)?
-    old_callback = @@char_callback
-    @@char_callback = block
+  def self.set_char_callback(window : Window, &block : Window, Char -> Nil) : Proc(Window, Char, Nil)?
+    hash = window.hash
+    old_callback = @@char_callbacks[hash]?
+    @@char_callbacks[hash] = block
 
     LibGLFW.set_char_callback(window.ptr, ->(window : LibGLFW::Window*, codepoint : UInt32) do
-      if cb = @@char_callback
+      if cb = @@char_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window), codepoint.chr)
       end
     end)
@@ -478,7 +489,7 @@ module GLFW
     old_callback
   end
 
-  @@char_mods_callback : Proc(Window, Char, Mod, Void)? = nil
+  @@char_mods_callbacks = Hash(UInt64, Proc(Window, Char, Mod, Nil)).new
   # Sets the Unicode character with modifiers callback.
   #
   # This function sets the character with modifiers callback of the specified
@@ -506,20 +517,27 @@ module GLFW
   #
   # NOTE: Added in version 3.1.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def char_mods_callback(window : GLFW::Window, char : Char, mods : GLFW::Mod)
-  #   puts "char_mods_callback (method) #{char} (#{mods})"
+  #   puts "char: #{char} mods: #{mods}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.char_mods_callback(window, char_mods_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_char_mods_callback(window, char_mods_callback)
+  #     else
+  #       GLFW.set_char_mods_callback(window, &->char_mods_callback(GLFW::Window, Char, GLFW::Mod))
+  #     end
   #   else
-  #     GLFW.char_mods_callback(window) do |window, char, mods|
-  #       puts "char_mods_callback (block) #{char} (#{mods})"
+  #     GLFW.set_char_mods_callback(window) do |window, char, mods|
+  #       puts "char: #{char} mods: #{mods}"
   #     end
   #   end
   #
@@ -532,12 +550,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_char_mods_callback(window : Window, &block : Window, Char, Mod -> Void) : Proc(Window, Char, Mod, Void)?
-    old_callback = @@char_mods_callback
-    @@char_mods_callback = block
+  def self.set_char_mods_callback(window : Window, &block : Window, Char, Mod -> Nil) : Proc(Window, Char, Mod, Nil)?
+    hash = window.hash
+    old_callback = @@char_mods_callbacks[hash]?
+    @@char_mods_callbacks[hash] = block
 
     LibGLFW.set_char_mods_callback(window.ptr, ->(window : LibGLFW::Window*, codepoint : UInt32, mods : Int32) do
-      if cb = @@char_mods_callback
+      if cb = @@char_mods_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window), codepoint.chr, Mod.new(mods))
       end
     end)
@@ -545,7 +564,7 @@ module GLFW
     old_callback
   end
 
-  @@mouse_button_callback : Proc(Window, MouseButton, Action, Mod, Void)? = nil
+  @@mouse_button_callbacks = Hash(UInt64, Proc(Window, MouseButton, Action, Mod, Nil)).new
   # Sets the mouse button callback.
   #
   # This function sets the mouse button callback of the specified window, which
@@ -569,20 +588,27 @@ module GLFW
   #
   # NOTE: Added in version 1.0.
   # ```
-  # method = false
-  #
+  # USING_METHOD = true
+  # USING_MACRO = true
+  # 
   # def mouse_button_callback(window : GLFW::Window, button : GLFW::MouseButton, action : GLFW::Action, mods : GLFW::Mod)
-  #   puts "mouse_button_callback (method) #{button} (#{mods}) #{action}"
+  #   puts "button: #{button} action: #{action} mods: #{mods}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.mouse_button_callback(window, mouse_button_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_mouse_button_callback(window, mouse_button_callback)
+  #     else
+  #       GLFW.set_mouse_button_callback(window, &->mouse_button_callback(GLFW::Window, GLFW::MouseButton, GLFW::Action, GLFW::Mod))
+  #     end
   #   else
-  #     GLFW.mouse_button_callback(window) do |window, button, action, mods|
-  #       puts "mouse_button_callback (block) #{button} (#{mods}) #{action}"
+  #     GLFW.set_mouse_button_callback(window) do |window, button, action, mods|
+  #       puts "button: #{button} action: #{action} mods: #{mods}"
   #     end
   #   end
   #
@@ -595,12 +621,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_mouse_button_callback(window : Window, &block : Window, MouseButton, Action, Mod -> Void) : Proc(Window, MouseButton, Action, Mod, Void)?
-    old_callback = @@mouse_button_callback
-    @@mouse_button_callback = block
+  def self.set_mouse_button_callback(window : Window, &block : Window, MouseButton, Action, Mod -> Nil) : Proc(Window, MouseButton, Action, Mod, Nil)?
+    hash = window.hash
+    old_callback = @@mouse_button_callbacks[hash]?
+    @@mouse_button_callbacks[hash] = block
 
     LibGLFW.set_mouse_button_callback(window.ptr, ->(window : LibGLFW::Window*, button : Int32, action : Int32, mods : Int32) do
-      if cb = @@mouse_button_callback
+      if cb = @@mouse_button_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window), MouseButton.new(button), Action.new(action), Mod.new(mods))
       end
     end)
@@ -608,7 +635,7 @@ module GLFW
     old_callback
   end
 
-  @@cursor_pos_callback : Proc(Window, Float64, Float64, Void)? = nil
+  @@cursor_pos_callbacks = Hash(UInt64, Proc(Window, Float64, Float64, Nil)).new
   # Sets the cursor position callback.
   #
   # This function sets the cursor position callback of the specified window,
@@ -628,20 +655,27 @@ module GLFW
   #
   # NOTE: Added in version 3.0.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def cursor_pos_callback(window : GLFW::Window, x : Float64, y : Float64)
-  #   puts "cursor_pos_callback (method) {x: #{x} y: #{y}}"
+  #   puts "x: #{x} y: #{y}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.cursor_pos_callback(window, cursor_pos_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_cursor_pos_callback(window, cursor_pos_callback)
+  #     else
+  #       GLFW.set_cursor_pos_callback(window, &->cursor_pos_callback(GLFW::Window, Float64, Float64))
+  #     end
   #   else
-  #     GLFW.cursor_pos_callback(window) do |window, x, y|
-  #       puts "cursor_pos_callback (block) {x: #{x} y: #{y}}"
+  #     GLFW.set_cursor_pos_callback(window) do |window, x, y|
+  #       puts "x: #{x} y: #{y}"
   #     end
   #   end
   #
@@ -654,12 +688,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_cursor_pos_callback(window : Window, &block : Window, Float64, Float64 -> Void) : Proc(Window, Float64, Float64, Void)?
-    old_callback = @@cursor_pos_callback
-    @@cursor_pos_callback = block
+  def self.set_cursor_pos_callback(window : Window, &block : Window, Float64, Float64 -> Nil) : Proc(Window, Float64, Float64, Nil)?
+    hash = window.hash
+    old_callback = @@cursor_pos_callbacks[hash]?
+    @@cursor_pos_callbacks[hash] = block
 
     LibGLFW.set_cursor_pos_callback(window.ptr, ->(window : LibGLFW::Window*, xpos : Float64, ypos : Float64) do
-      if cb = @@cursor_pos_callback
+      if cb = @@cursor_pos_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window), xpos, ypos)
       end
     end)
@@ -667,7 +702,7 @@ module GLFW
     old_callback
   end
   
-  @@cursor_enter_callback : Proc(Window, Bool, Void)? = nil
+  @@cursor_enter_callbacks = Hash(UInt64, Proc(Window, Bool, Nil)).new
   # Sets the cursor enter/exit callback.
   #
   # This function sets the cursor boundary crossing callback of the specified
@@ -686,28 +721,27 @@ module GLFW
   #
   # NOTE: Added in version 3.0.
   # ```
-  # method = true
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def cursor_enter_callback(window : GLFW::Window, entered : Bool)
-  #   if entered
-  #     puts "(method) Cursor entered"
-  #   else
-  #     puts "(method) Cursor left"
-  #   end
+  #   puts "entered: #{entered}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.cursor_enter_callback(window, cursor_enter_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_cursor_enter_callback(window, cursor_enter_callback)
+  #     else
+  #       GLFW.set_cursor_enter_callback(window, &->cursor_enter_callback(GLFW::Window, Bool))
+  #     end
   #   else
-  #     GLFW.cursor_enter_callback(window) do |window, entered|
-  #       if entered
-  #         puts "(block) Cursor entered"
-  #       else
-  #         puts "(block) Cursor left"
-  #       end
+  #     GLFW.set_cursor_enter_callback(window) do |window, entered|
+  #       puts "entered: #{entered}"
   #     end
   #   end
   #
@@ -720,12 +754,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_cursor_enter_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
-    old_callback = @@cursor_enter_callback
-    @@cursor_enter_callback = block
+  def self.set_cursor_enter_callback(window : Window, &block : Window, Bool -> Nil) : Proc(Window, Bool, Nil)?
+    hash = window.hash
+    old_callback = @@cursor_enter_callbacks[hash]?
+    @@cursor_enter_callbacks[hash] = block
 
     LibGLFW.set_cursor_enter_callback(window.ptr, ->(window : LibGLFW::Window*, entered : Int32) do
-      if cb = @@cursor_enter_callback
+      if cb = @@cursor_enter_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window), entered == LibGLFW::TRUE ? true : false)
       end
     end)
@@ -733,7 +768,7 @@ module GLFW
     old_callback
   end
 
-  @@scroll_callback : Proc(Window, Float64, Float64, Void)? = nil
+  @@scroll_callbacks = Hash(UInt64, Proc(Window, Float64, Float64, Nil)).new
   # Sets the scroll callback.
   #
   # This function sets the scroll callback of the specified window, which is
@@ -755,20 +790,27 @@ module GLFW
   #
   # NOTE: Added in version 3.0.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def scroll_callback(window : GLFW::Window, dx : Float64, dy : Float64)
-  #   puts "(method) dx: #{dx} dy: #{dy}"
+  #   puts "dx: #{dx} dy: #{dy}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.scroll_callback(window, scroll_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_scroll_callback(window, scroll_callback)
+  #     else
+  #       GLFW.set_scroll_callback(window, &->scroll_callback(GLFW::Window, Float64, Float64))
+  #     end
   #   else
-  #     GLFW.scroll_callback(window) do |window, dx, dy|
-  #       puts "(block) dx: #{dx} dy: #{dy}"
+  #     GLFW.set_scroll_callback(window) do |window, dx, dy|
+  #       puts "dx: #{dx} dy: #{dy}"
   #     end
   #   end
   #
@@ -781,20 +823,21 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_scroll_callback(window : Window, &block : Window, Float64, Float64 -> Void) : Proc(Window, Float64, Float64, Void)?
-    old_callback = @@scroll_callback
-    @@scroll_callback = block
+  def self.set_scroll_callback(window : Window, &block : Window, Float64, Float64 -> Nil) : Proc(Window, Float64, Float64, Nil)?
+    hash = window.hash
+    old_callback = @@scroll_callbacks[hash]?
+    @@scroll_callbacks[hash] = block
 
-    LibGLFW.set_scroll_callback(window.ptr, ->(window : LibGLFW::Window*, x_offset : Float64, y_offset : Float64) do
-      if cb = @@scroll_callback
-        cb.call(window.unsafe_as(Window), x_offset, y_offset)
+    LibGLFW.set_scroll_callback(window.ptr, ->(window : LibGLFW::Window*, dx : Float64, dy : Float64) do
+      if cb = @@scroll_callbacks[window.hash]?
+        cb.call(window.unsafe_as(Window), dx, dy)
       end
     end)
 
     old_callback
   end
 
-  @@drop_callback : Proc(Window, Array(String), Void)? = nil
+  @@drop_callbacks = Hash(UInt64, Proc(Window, Array(String), Nil)).new
   # Sets the file drop callback.
   #
   # This function sets the file drop callback of the specified window, which is
@@ -812,22 +855,27 @@ module GLFW
   #
   # NOTE: Added in version 3.1.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def drop_callback(window : GLFW::Window, paths : Array(String))
-  #   puts "(method) paths:"
-  #   paths.each { |p| puts p }
+  #   puts "paths: #{paths}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.drop_callback(window, drop_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_drop_callback(window, drop_callback)
+  #     else
+  #       GLFW.set_drop_callback(window, &->drop_callback(GLFW::Window, Array(String)))
+  #     end
   #   else
-  #     GLFW.drop_callback(window) do |window, paths|
-  #       puts "(block) paths:"
-  #       paths.each { |p| puts p }
+  #     GLFW.set_drop_callback(window) do |window, paths|
+  #       puts "paths: #{paths}"
   #     end
   #   end
   #
@@ -840,12 +888,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_drop_callback(window : Window, &block : Window, Array(String) -> Void) : Proc(Window, Array(String), Void)?
-    old_callback = @@drop_callback
-    @@drop_callback = block
+  def self.set_drop_callback(window : Window, &block : Window, Array(String) -> Nil) : Proc(Window, Array(String), Nil)?
+    hash = window.hash
+    old_callback = @@drop_callbacks[hash]?
+    @@drop_callbacks[hash] = block
 
     LibGLFW.set_drop_callback(window, ->(window : LibGLFW::Window*, count : Int32, paths : UInt8**) do
-      if cb = @@drop_callback
+      if cb = @@drop_callbacks[window.hash]?
         new_paths = Array(String).new(count)
         count.times do |i|
           new_paths << String.new(paths[i])
@@ -977,7 +1026,7 @@ module GLFW
     ptr.null? ? nil : String.new(ptr)
   end
 
-  @@joystick_callback : Proc(Joystick, Event, Void)? = nil
+  @@joystick_callback : Proc(Joystick, Event, Nil)? = nil
   # Sets the joystick configuration callback.
   #
   # This function sets the joystick configuration callback.
@@ -997,20 +1046,27 @@ module GLFW
   #
   # NOTE: Added in version 3.2.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def joystick_callback(joy : GLFW::Joystick, event : GLFW::Event)
-  #   puts "(method) joy: #{joy} event: #{event}"
+  #   puts "joy: #{joy} event: #{event}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.joystick_callback(joystick_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_joystick_callback(joystick_callback)
+  #     else
+  #       GLFW.set_joystick_callback(&->joystick_callback(GLFW::Joystick, GLFW::Event))
+  #     end
   #   else
-  #     GLFW.joystick_callback do |joy, event|
-  #       puts "(block) joy: #{joy} event: #{event}"
+  #     GLFW.set_joystick_callback do |joy, event|
+  #       puts "joy: #{joy} event: #{event}"
   #     end
   #   end
   #
@@ -1023,7 +1079,7 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_joystick_callback(&block : Joystick, Event -> Void) : Proc(Joystick, Event, Void)?
+  def self.set_joystick_callback(&block : Joystick, Event -> Nil) : Proc(Joystick, Event, Nil)?
     old_callback = @@joystick_callback
     @@joystick_callback = block
 

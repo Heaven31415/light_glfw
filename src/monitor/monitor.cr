@@ -179,7 +179,7 @@ module GLFW
     String.new(LibGLFW.get_monitor_name(monitor.ptr))
   end
 
-  @@callback : Proc(Monitor, Event, Void)? = nil
+  @@monitor_callback : Proc(Monitor, Event, Nil)? = nil
   # Sets the monitor configuration callback.
   #
   # This function sets the monitor configuration callback. 
@@ -198,29 +198,40 @@ module GLFW
   #
   # NOTE: Added in version 3.0.
   # ```
+  # USING_METHOD = true
+  # USING_MACRO = true
+  #
   # def monitor_callback(monitor : GLFW::Monitor, event : GLFW::Event)
-  #   puts "Event #{event} for monitor #{monitor}"
+  #   puts "monitor: #{monitor} event: #{event}"
   # end
   #
-  # if GLFW.init
-  #   # set callback with method
-  #   GLFW.monitor_callback(monitor_callback)
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
   #
-  #   # set callback with block
-  #   GLFW.monitor_callback do |monitor, event|
-  #     case event
-  #     when .connected?
-  #       puts "Monitor #{monitor} has been connected"
-  #     when .disconnected?
-  #       puts "Monitor #{monitor} has been disconnected"
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_monitor_callback(monitor_callback)
+  #     else
+  #       GLFW.set_monitor_callback(&->monitor_callback(GLFW::Monitor, GLFW::Event))
   #     end
+  #   else
+  #     GLFW.set_monitor_callback do |monitor, event|
+  #       puts "monitor: #{monitor} event: #{event}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
   #   end
   #
   #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.set_monitor_callback(&block : Monitor, Event -> Void) : Proc(Monitor, Event, Void)?
+  def self.set_monitor_callback(&block : Monitor, Event -> Nil) : Proc(Monitor, Event, Nil)?
     old_callback = @@monitor_callback
     @@monitor_callback = block
     

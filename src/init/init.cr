@@ -121,7 +121,7 @@ module GLFW
     String.new(LibGLFW.get_version_string)
   end
 
-  @@error_callback : Proc(Error, String, Void)? = nil
+  @@error_callback : Proc(Error, String, Nil)? = nil
   # Sets the error callback.
   #
   # This function sets the error callback, which is called with an error code
@@ -146,25 +146,42 @@ module GLFW
   #
   # NOTE: Added in version 3.0.
   # ```
-  # def error_callback(error : GLFW::Error, msg : String)
-  #   puts "Error: #{error} msg: #{msg}"
+  # USING_METHOD = true
+  # USING_MACRO = true
+  #
+  # def error_callback(error : GLFW::Error, string : String)
+  #   puts "error: #{error} string: #{string}"
   # end
   #
-  # if GLFW.init
-  #   # set callback with method
-  #   GLFW.error_callback(error_callback)
+  # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
+  #   GLFW.make_context_current(window)
   #
-  #   # set callback with block
-  #   GLFW.error_callback do |error, msg|
-  #     puts "Error: #{error} msg: #{msg}"
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_error_callback(error_callback)
+  #     else
+  #       GLFW.set_error_callback(&->error_callback(GLFW::Error, String))
+  #     end
+  #   else
+  #     GLFW.set_error_callback do |error, string|
+  #       puts "error: #{error} string: #{string}"
+  #     end
+  #   end
+  #
+  #   while !GLFW.window_should_close(window)
+  #     GLFW.poll_events
+  #     GLFW.swap_buffers(window)
   #   end
   #
   #   GLFW.terminate
   # end
   # ```
   @[AlwaysInline]
-  def self.set_error_callback(&block : Error, String -> Void) : Proc(Error, String, Void)?
+  def self.set_error_callback(&block : Error, String -> Nil) : Proc(Error, String, Nil)?
     old_callback = @@error_callback
+    @@error_callback = block
     
     LibGLFW.set_error_callback ->(error : Int32, description : UInt8*) do
       if cb = @@error_callback
@@ -172,7 +189,6 @@ module GLFW
       end
     end
 
-    @@error_callback = block
     old_callback
   end
 end

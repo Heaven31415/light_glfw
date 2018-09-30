@@ -1934,7 +1934,7 @@ module GLFW
   # ```
   @[AlwaysInline]
   def self.set_window_monitor(window : Window, monitor : Monitor?, xpos : Int32, ypos : Int32, width : Int32, height : Int32, refresh_rate : Int32?) : Nil
-    LibGLFW.set_window_monitor(window.ptr, monitor, xpos, ypos, width, height, refresh_rate ? refresh_rate : LibGLFW::DONT_CARE)
+    LibGLFW.set_window_monitor(window.ptr, monitor ? monitor.ptr : nil, xpos, ypos, width, height, refresh_rate ? refresh_rate : LibGLFW::DONT_CARE)
   end
 
   # Returns whether specified window is focused.
@@ -2119,7 +2119,7 @@ module GLFW
     LibGLFW.get_window_user_pointer(window.ptr)
   end
 
-  @@pos_callback : Proc(Window, Int32, Int32, Void)? = nil
+  @@pos_callbacks = Hash(UInt64, Proc(Window, Int32, Int32, Nil)).new
   # Sets the position callback for the specified window.
   #
   # This function sets the position callback of the specified window, which is
@@ -2138,20 +2138,27 @@ module GLFW
   #
   # NOTE: Added in version 3.0.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def window_pos_callback(window : GLFW::Window, x : Int32, y : Int32)
-  #   puts "(method) x: #{x} y: #{y}"
+  #   puts "x: #{x} y: #{y}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.window_pos_callback(window, window_pos_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_window_pos_callback(window, window_pos_callback)
+  #     else
+  #       GLFW.set_window_pos_callback(window, &->window_pos_callback(GLFW::Window, Int32, Int32))
+  #     end
   #   else
-  #     GLFW.window_pos_callback(window) do |window, x, y|
-  #       puts "(block) x: #{x} y: #{y}"
+  #     GLFW.set_window_pos_callback(window) do |window, x, y|
+  #       puts "x: #{x} y: #{y}"
   #     end
   #   end
   #
@@ -2164,12 +2171,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_window_pos_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
-    old_callback = @@pos_callback
-    @@pos_callback = block
+  def self.set_window_pos_callback(window : Window, &block : Window, Int32, Int32 -> Nil) : Proc(Window, Int32, Int32, Nil)?
+    hash = window.hash
+    old_callback = @@pos_callbacks[hash]?
+    @@pos_callbacks[hash] = block
 
     LibGLFW.set_window_pos_callback(window.ptr, ->(window : LibGLFW::Window*, x : Int32, y : Int32) do 
-      if cb = @@pos_callback
+      if cb = @@pos_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window), x, y)
       end
     end)
@@ -2177,7 +2185,7 @@ module GLFW
     old_callback
   end
 
-  @@size_callback : Proc(Window, Int32, Int32, Void)? = nil
+  @@size_callbacks = Hash(UInt64, Proc(Window, Int32, Int32, Nil)).new
   # Sets the size callback for the specified window.
   #
   # This function sets the size callback of the specified window, which is
@@ -2196,20 +2204,27 @@ module GLFW
   #
   # NOTE: Added in version 1.0.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def window_size_callback(window : GLFW::Window, width : Int32, height : Int32)
-  #   puts "(method) width: #{width} height: #{height}"
+  #   puts "width: #{width} height: #{height}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.window_size_callback(window, window_size_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_window_size_callback(window, window_size_callback)
+  #     else
+  #       GLFW.set_window_size_callback(window, &->window_size_callback(GLFW::Window, Int32, Int32))
+  #     end
   #   else
-  #     GLFW.window_size_callback(window) do |window, width, height|
-  #       puts "(block) width: #{width} height: #{height}"
+  #     GLFW.set_window_size_callback(window) do |window, width, height|
+  #       puts "width: #{width} height: #{height}"
   #     end
   #   end
   #
@@ -2222,12 +2237,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_window_size_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
-    old_callback = @@size_callback
-    @@size_callback = block
+  def self.set_window_size_callback(window : Window, &block : Window, Int32, Int32 -> Nil) : Proc(Window, Int32, Int32, Nil)?
+    hash = window.hash
+    old_callback = @@size_callbacks[hash]?
+    @@size_callbacks[hash] = block
 
     LibGLFW.set_window_size_callback(window.ptr, ->(window : LibGLFW::Window*, width : Int32, height : Int32) do
-      if cb = @@size_callback
+      if cb = @@size_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window), width, height)
       end
     end)
@@ -2235,7 +2251,7 @@ module GLFW
     old_callback
   end
 
-  @@close_callback : Proc(Window, Void)? = nil
+  @@close_callbacks = Hash(UInt64, Proc(Window, Nil)).new
   # Sets the close callback for the specified window.
   #
   # This function sets the close callback of the specified window, which is
@@ -2262,20 +2278,27 @@ module GLFW
   #
   # NOTE: Added in version 2.5.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def window_close_callback(window : GLFW::Window)
-  #   puts "(method) closing #{window}"
+  #   puts "closing #{window}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.window_close_callback(window, window_close_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_window_close_callback(window, window_close_callback)
+  #     else
+  #       GLFW.set_window_close_callback(window, &->window_close_callback(GLFW::Window))
+  #     end
   #   else
-  #     GLFW.window_close_callback(window) do |window|
-  #       puts "(block) closing #{window}"
+  #     GLFW.set_window_close_callback(window) do |window|
+  #       puts "closing #{window}"
   #     end
   #   end
   #
@@ -2288,12 +2311,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_window_close_callback(window : Window, &block : Window -> Void) : Proc(Window, Void)?
-    old_callback = @@close_callback
-    @@close_callback = block
+  def self.set_window_close_callback(window : Window, &block : Window -> Nil) : Proc(Window, Nil)?
+    hash = window.hash
+    old_callback = @@close_callbacks[hash]?
+    @@close_callbacks[hash] = block
 
     LibGLFW.set_window_close_callback(window.ptr, ->(window : LibGLFW::Window*) do 
-      if cb = @@close_callback
+      if cb = @@close_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window))
       end
     end)
@@ -2301,7 +2325,7 @@ module GLFW
     old_callback
   end
 
-  @@refresh_callback : Proc(Window, Void)? = nil
+  @@refresh_callbacks = Hash(UInt64, Proc(Window, Nil)).new
   # Sets the refresh callback for the specified window.
   #
   # This function sets the refresh callback of the specified window, which is
@@ -2324,20 +2348,27 @@ module GLFW
   #
   # NOTE: Added in version 2.5.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def window_refresh_callback(window : GLFW::Window)
-  #   puts "(method) refreshing #{window}"
+  #   puts "refreshing #{window}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.window_refresh_callback(window, window_refresh_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_window_refresh_callback(window, window_refresh_callback)
+  #     else
+  #       GLFW.set_window_refresh_callback(window, &->window_refresh_callback(GLFW::Window))
+  #     end
   #   else
-  #     GLFW.window_refresh_callback(window) do |window|
-  #       puts "(block) refreshing #{window}"
+  #     GLFW.set_window_refresh_callback(window) do |window|
+  #       puts "refreshing #{window}"
   #     end
   #   end
   #
@@ -2350,12 +2381,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_window_refresh_callback(window : Window, &block : Window -> Void) : Proc(Window, Void)?
-    old_callback = @@refresh_callback
-    @@refresh_callback = block
+  def self.set_window_refresh_callback(window : Window, &block : Window -> Nil) : Proc(Window, Nil)?
+    hash = window.hash
+    old_callback = @@refresh_callbacks[hash]?
+    @@refresh_callbacks[hash] = block
 
     LibGLFW.set_window_refresh_callback(window.ptr, ->(window : LibGLFW::Window*) do 
-      if cb = @@refresh_callback
+      if cb = @@refresh_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window))
       end
     end)
@@ -2363,7 +2395,7 @@ module GLFW
     old_callback
   end
 
-  @@focus_callback : Proc(Window, Bool, Void)? = nil
+  @@focus_callbacks = Hash(UInt64, Proc(Window, Bool, Nil)).new
   # Sets the focus callback for the specified window.
   #
   # This function sets the focus callback of the specified window, which is
@@ -2386,20 +2418,27 @@ module GLFW
   #
   # NOTE: Added in version 3.0.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def window_focus_callback(window : GLFW::Window, focused : Bool)
-  #   puts "(method) focused: #{focused}"
+  #   puts "focused: #{focused}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.window_focus_callback(window, window_focus_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_window_focus_callback(window, window_focus_callback)
+  #     else
+  #       GLFW.set_window_focus_callback(window, &->window_focus_callback(GLFW::Window, Bool))
+  #     end
   #   else
-  #     GLFW.window_focus_callback(window) do |window, focused|
-  #       puts "(block) focused: #{focused}"
+  #     GLFW.set_window_focus_callback(window) do |window, focused|
+  #       puts "focused: #{focused}"
   #     end
   #   end
   #
@@ -2412,12 +2451,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_window_focus_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
-    old_callback = @@focus_callback
-    @@focus_callback = block
+  def self.set_window_focus_callback(window : Window, &block : Window, Bool -> Nil) : Proc(Window, Bool, Nil)?
+    hash = window.hash
+    old_callback = @@focus_callbacks[hash]?
+    @@focus_callbacks[hash] = block
 
     LibGLFW.set_window_focus_callback(window.ptr, ->(window : LibGLFW::Window*, focused : Int32) do
-      if cb = @@focus_callback
+      if cb = @@focus_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window), focused == LibGLFW::TRUE ? true : false)
       end
     end)
@@ -2425,7 +2465,7 @@ module GLFW
     old_callback
   end
 
-  @@iconify_callback : Proc(Window, Bool, Void)? = nil
+  @@iconify_callbacks = Hash(UInt64, Proc(Window, Bool, Nil)).new
   # Sets the iconify callback for the specified window.
   #
   # This function sets the iconification callback of the specified window, which
@@ -2443,20 +2483,27 @@ module GLFW
   #
   # NOTE: Added in version 3.0.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def window_iconify_callback(window : GLFW::Window, iconified : Bool)
-  #   puts "(method) iconified: #{iconified}"
+  #   puts "iconified: #{iconified}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.window_iconify_callback(window, window_iconify_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_window_iconify_callback(window, window_iconify_callback)
+  #     else
+  #       GLFW.set_window_iconify_callback(window, &->window_iconify_callback(GLFW::Window, Bool))
+  #     end
   #   else
-  #     GLFW.window_iconify_callback(window) do |window, iconified|
-  #       puts "(block) iconified: #{iconified}"
+  #     GLFW.set_window_iconify_callback(window) do |window, iconified|
+  #       puts "iconified: #{iconified}"
   #     end
   #   end
   #
@@ -2469,12 +2516,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_window_iconify_callback(window : Window, &block : Window, Bool -> Void) : Proc(Window, Bool, Void)?
-    old_callback = @@iconify_callback
-    @@iconify_callback = block
+  def self.set_window_iconify_callback(window : Window, &block : Window, Bool -> Nil) : Proc(Window, Bool, Nil)?
+    hash = window.hash
+    old_callback = @@iconify_callbacks[hash]?
+    @@iconify_callbacks[hash] = block
 
     LibGLFW.set_window_iconify_callback(window.ptr, ->(window : LibGLFW::Window*, iconified : Int32) do
-      if cb = @@iconify_callback
+      if cb = @@iconify_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window), iconified == LibGLFW::TRUE ? true : false)
       end
     end)
@@ -2482,7 +2530,7 @@ module GLFW
     old_callback
   end
 
-  @@framebuffer_size_callback : Proc(Window, Int32, Int32, Void)? = nil
+  @@framebuffer_size_callbacks = Hash(UInt64, Proc(Window, Int32, Int32, Nil)).new
   # Sets the framebuffer resize callback for the specified window.
   #
   # This function sets the framebuffer resize callback of the specified window,
@@ -2498,20 +2546,27 @@ module GLFW
   #
   # NOTE: Added in version 3.0.
   # ```
-  # method = false
+  # USING_METHOD = true
+  # USING_MACRO = true
   #
   # def framebuffer_size_callback(window : GLFW::Window, width : Int32, height : Int32)
-  #   puts "(method) width: #{width} height: #{height}"
+  #   puts "width: #{width} height: #{height}"
   # end
   #
   # if GLFW.init && (window = GLFW.create_window(640, 480, "Window"))
   #   GLFW.make_context_current(window)
   #
-  #   if method
-  #     GLFW.framebuffer_size_callback(window, framebuffer_size_callback)
+  #   if USING_METHOD
+  #     if USING_MACRO
+  #       # macro with the same name allows you to avoid writing boilerplate code, 
+  #       # but compiler errors will be more difficult to understand.
+  #       GLFW.set_framebuffer_size_callback(window, framebuffer_size_callback)
+  #     else
+  #       GLFW.set_framebuffer_size_callback(window, &->framebuffer_size_callback(GLFW::Window, Int32, Int32))
+  #     end
   #   else
-  #     GLFW.framebuffer_size_callback(window) do |window, width, height|
-  #       puts "(block) width: #{width} height: #{height}"
+  #     GLFW.set_framebuffer_size_callback(window) do |window, width, height|
+  #       puts "width: #{width} height: #{height}"
   #     end
   #   end
   #
@@ -2524,12 +2579,13 @@ module GLFW
   # end
   # ```
   @[AlwaysInline]
-  def self.set_framebuffer_size_callback(window : Window, &block : Window, Int32, Int32 -> Void) : Proc(Window, Int32, Int32, Void)?
-    old_callback = @@framebuffer_size_callback
-    @@framebuffer_size_callback = block
+  def self.set_framebuffer_size_callback(window : Window, &block : Window, Int32, Int32 -> Nil) : Proc(Window, Int32, Int32, Nil)?
+    hash = window.hash
+    old_callback = @@framebuffer_size_callbacks[hash]?
+    @@framebuffer_size_callbacks[hash] = block
 
     LibGLFW.set_framebuffer_size_callback(window.ptr, ->(window : LibGLFW::Window*, width : Int32, height : Int32) do
-      if cb = @@framebuffer_size_callback
+      if cb = @@framebuffer_size_callbacks[window.hash]?
         cb.call(window.unsafe_as(Window), width, height)
       end
     end)
