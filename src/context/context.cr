@@ -34,7 +34,7 @@ module GLFW
   # ```
   @[AlwaysInline]
   def self.make_context_current(window : Window?) : Nil
-    LibGLFW.make_context_current(window)
+    LibGLFW.make_context_current(window ? window.ptr : nil)
   end
 
   # Returns the window whose context is current on the calling thread.
