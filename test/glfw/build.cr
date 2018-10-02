@@ -1,12 +1,11 @@
 def build_executable(filename : String, destination : String)
-  unless File.exists? File.join(Dir.current, filename)
+  unless File.exists? filename
     raise "Unable to find file at: `#{filename}`"
   else
-    destination = File.join(Dir.current, destination)
     unless File.directory? destination
       raise "Unable to find directory at: `#{destination}`"
     else
-      name = filename.chomp(File.extname(filename))
+      name = File.basename(filename.chomp(File.extname(filename)))
       puts "Building `#{name}` executable..."
       system("crystal build #{filename} -o #{File.join(destination, name)}")
     end
@@ -39,7 +38,9 @@ files = [
 
 time = Time.measure do
   files.each do |file|
-    build_executable(file, DESTINATION)
+    file = File.join("#{__DIR__}", file)
+    destination = File.join("#{__DIR__}", DESTINATION)
+    build_executable(file, destination)
   end
 end
 
