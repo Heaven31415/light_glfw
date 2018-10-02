@@ -22,6 +22,28 @@ Almost every struct, enum or function is using the original name (of course I'm 
 
 This shard is still under heavy development. Many essential things are not ready including documentation, tutorials, tests, examples. Every struct, enum or function has an already working wrapper, but right now I cannot guarantee that they won't change. Your application may break after update, be aware of that.
 
+### Tests
+
+- [x] clipboard
+- [ ] cursor
+- [ ] empty
+- [ ] events
+- [x] gamma
+- [ ] glfwinfo
+- [x] icon
+- [ ] iconify
+- [ ] joysticks
+- [x] monitors
+- [ ] msaa
+- [x] reopen
+- [ ] sharing
+- [x] tearing
+- [ ] threads
+- [x] timeout
+- [x] title
+- [ ] vulkan
+- [x] windows
+
 ## Installation
 
 In order to use it, you need to install `light_glfw` shard and `GLFW3` library (at least 3.2.1 version).

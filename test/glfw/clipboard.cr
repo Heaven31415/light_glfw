@@ -78,13 +78,13 @@ OptionParser.parse! do |parser|
   parser.on("-h", "Show this help") { usage(EXIT_SUCCESS) }
 end
 
-GLFW.set_error_callback(&->error_callback(GLFW::Error, String))
+GLFW.set_error_callback(error_callback)
 
 unless GLFW.init
   puts "Failed to initialize GLFW"
   exit(EXIT_FAILURE)
 else
-  window = GLFW.create_window(200, 200, "Clipboard Test", nil, nil)
+  window = GLFW.create_window(200, 200, "Clipboard Test")
   unless window
     GLFW.terminate
     puts "Failed to open GLFW window"
@@ -93,8 +93,8 @@ else
     GLFW.make_context_current(window)
     GLFW.swap_interval(1)
 
-    GLFW.set_key_callback(window, &->key_callback(GLFW::Window, GLFW::Key, Int32, GLFW::Action, GLFW::Mod))
-    GLFW.set_framebuffer_size_callback(window, &->framebuffer_size_callback(GLFW::Window, Int32, Int32))
+    GLFW.set_key_callback(window, key_callback)
+    GLFW.set_framebuffer_size_callback(window, framebuffer_size_callback)
 
     GL.matrix_mode(GL::PROJECTION)
     GL.ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0)

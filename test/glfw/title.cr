@@ -38,7 +38,7 @@ def framebuffer_size_callback(window : GLFW::Window, width : Int32, height : Int
   GL.viewport(0, 0, width, height)
 end
 
-GLFW.set_error_callback(&->error_callback(GLFW::Error, String))
+GLFW.set_error_callback(error_callback)
 
 unless GLFW.init
   exit(EXIT_FAILURE)
@@ -51,7 +51,7 @@ else
     GLFW.make_context_current(window)
     GLFW.swap_interval(1)
 
-    GLFW.set_framebuffer_size_callback(window, &->framebuffer_size_callback(GLFW::Window, Int32, Int32))
+    GLFW.set_framebuffer_size_callback(window, framebuffer_size_callback)
 
     while !GLFW.window_should_close(window)
       GL.clear(GL::COLOR_BUFFER_BIT)

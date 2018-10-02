@@ -105,8 +105,8 @@ def test_modes(monitor : GLFW::Monitor)
         puts "Failed to enter mode #{i}: #{format_mode(mode)}"
         next
       else
-        GLFW.set_framebuffer_size_callback(window, &->framebuffer_size_callback(GLFW::Window, Int32, Int32))
-        GLFW.set_key_callback(window, &->key_callback(GLFW::Window, GLFW::Key, Int32, GLFW::Action, GLFW::Mod))
+        GLFW.set_framebuffer_size_callback(window, framebuffer_size_callback)
+        GLFW.set_key_callback(window, key_callback)
 
         GLFW.make_context_current(window)
         GLFW.swap_interval(1)
@@ -156,7 +156,7 @@ OptionParser.parse! do |parser|
   parser.on("-t", "Test video modes") { mode = Mode::Test }
 end
 
-GLFW.set_error_callback(&->error_callback(GLFW::Error, String))
+GLFW.set_error_callback(error_callback)
 
 unless GLFW.init
   exit(EXIT_FAILURE)

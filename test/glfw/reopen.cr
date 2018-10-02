@@ -66,9 +66,9 @@ def open_window(width : Int32, height : Int32, monitor : GLFW::Monitor?) : GLFW:
     GLFW.make_context_current(window)
     GLFW.swap_interval(1)
 
-    GLFW.set_framebuffer_size_callback(window, &->framebuffer_size_callback(GLFW::Window, Int32, Int32))
-    GLFW.set_window_close_callback(window, &->window_close_callback(GLFW::Window))
-    GLFW.set_key_callback(window, &->key_callback(GLFW::Window, GLFW::Key, Int32, GLFW::Action, GLFW::Mod))
+    GLFW.set_framebuffer_size_callback(window, framebuffer_size_callback)
+    GLFW.set_window_close_callback(window, window_close_callback)
+    GLFW.set_key_callback(window, key_callback)
 
     time = GLFW.get_time - base
     if monitor
@@ -89,7 +89,7 @@ def close_window(window : GLFW::Window)
   puts "Closing window took #{time.round(3)} seconds"
 end
 
-GLFW.set_error_callback(&->error_callback(GLFW::Error, String))
+GLFW.set_error_callback(error_callback)
 
 count = 0
 width, height = 0, 0

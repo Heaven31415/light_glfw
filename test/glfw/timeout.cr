@@ -40,7 +40,7 @@ def key_callback(window : GLFW::Window, key : GLFW::Key, scancode : Int32, actio
   end
 end
 
-GLFW.set_error_callback(&->error_callback(GLFW::Error, String))
+GLFW.set_error_callback(error_callback)
 
 unless GLFW.init
   exit(EXIT_FAILURE)
@@ -54,7 +54,7 @@ else
   else
     random = Random.new
     GLFW.make_context_current(window)
-    GLFW.set_key_callback(window, &->key_callback(GLFW::Window, GLFW::Key, Int32, GLFW::Action, GLFW::Mod))
+    GLFW.set_key_callback(window, key_callback)
 
     while !GLFW.window_should_close(window)
       r = random.rand(0f32..1f32)

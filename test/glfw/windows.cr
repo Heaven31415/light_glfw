@@ -83,7 +83,7 @@ OptionParser.parse! do |parser|
   parser.on("-b", "Create decorated windows") { decorated = true }
 end
 
-GLFW.set_error_callback(&->error_callback(GLFW::Error, String))
+GLFW.set_error_callback(error_callback)
 
 unless GLFW.init # TODO: Add convenience method which will call GLFW.terminate automatically
   exit(EXIT_FAILURE)
@@ -101,7 +101,7 @@ else
       exit(EXIT_FAILURE)
     else
       # TODO: Passing actual methods to callbacks is really cumbersome...
-      GLFW.set_key_callback(window, &->key_callback(GLFW::Window, GLFW::Key, Int32, GLFW::Action, GLFW::Mod))
+      GLFW.set_key_callback(window, key_callback)
       GLFW.make_context_current(window)
       GL.clear_color(colors[i].r, colors[i].g, colors[i].b, 1f32)
 
