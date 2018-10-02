@@ -25,7 +25,7 @@ This shard is still under heavy development. Many essential things are not ready
 ### Tests
 
 - [x] clipboard
-- [ ] cursor
+- [x] cursor
 - [ ] empty
 - [ ] events
 - [x] gamma
