@@ -19,7 +19,7 @@ module GLFW
 
   # Sets an input option for the specified window.
   @[AlwaysInline]
-  def self.set_cursor_input_mode(window : Window, value : InputMode::Cursor) : Nil
+  def self.set_cursor_input_mode(window : Window, value : CursorInputMode) : Nil
     LibGLFW.set_input_mode(window.ptr, InputMode::Cursor.value, value.value)
   end
 
