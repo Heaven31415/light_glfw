@@ -26,7 +26,7 @@ This shard is still under heavy development. Many essential things are not ready
 
 - [x] clipboard
 - [x] cursor
-- [ ] empty
+- [x] empty
 - [ ] events
 - [x] gamma
 - [ ] glfwinfo
