@@ -34,7 +34,7 @@ This shard is still under heavy development. Many essential things are not ready
 - [ ] iconify
 - [ ] joysticks
 - [x] monitors
-- [ ] msaa
+- [x] msaa
 - [x] reopen
 - [ ] sharing
 - [x] tearing
