@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.26.1">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../";
+</script>
+
+  <meta id="repository-name" content="github.com/Heaven31415/light_glfw">
+  <title>GLFW::Joystick - github.com/Heaven31415/light_glfw</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/Heaven31415/light_glfw/GLFW" data-name="glfw">
+      <a href="../GLFW.html">GLFW</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Action" data-name="glfw::action">
+      <a href="../GLFW/Action.html">Action</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ClientApi" data-name="glfw::clientapi">
+      <a href="../GLFW/ClientApi.html">ClientApi</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ContextCreationApi" data-name="glfw::contextcreationapi">
+      <a href="../GLFW/ContextCreationApi.html">ContextCreationApi</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ContextReleaseBehavior" data-name="glfw::contextreleasebehavior">
+      <a href="../GLFW/ContextReleaseBehavior.html">ContextReleaseBehavior</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ContextRobustness" data-name="glfw::contextrobustness">
+      <a href="../GLFW/ContextRobustness.html">ContextRobustness</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Cursor" data-name="glfw::cursor">
+      <a href="../GLFW/Cursor.html">Cursor</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/CursorInputMode" data-name="glfw::cursorinputmode">
+      <a href="../GLFW/CursorInputMode.html">CursorInputMode</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/CursorShape" data-name="glfw::cursorshape">
+      <a href="../GLFW/CursorShape.html">CursorShape</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Error" data-name="glfw::error">
+      <a href="../GLFW/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Event" data-name="glfw::event">
+      <a href="../GLFW/Event.html">Event</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/GammaRamp" data-name="glfw::gammaramp">
+      <a href="../GLFW/GammaRamp.html">GammaRamp</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Image" data-name="glfw::image">
+      <a href="../GLFW/Image.html">Image</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/InputMode" data-name="glfw::inputmode">
+      <a href="../GLFW/InputMode.html">InputMode</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/Heaven31415/light_glfw/GLFW/Joystick" data-name="glfw::joystick">
+      <a href="../GLFW/Joystick.html">Joystick</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Key" data-name="glfw::key">
+      <a href="../GLFW/Key.html">Key</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Mod" data-name="glfw::mod">
+      <a href="../GLFW/Mod.html">Mod</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Monitor" data-name="glfw::monitor">
+      <a href="../GLFW/Monitor.html">Monitor</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/MouseButton" data-name="glfw::mousebutton">
+      <a href="../GLFW/MouseButton.html">MouseButton</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/OpenGLProfile" data-name="glfw::openglprofile">
+      <a href="../GLFW/OpenGLProfile.html">OpenGLProfile</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/VideoMode" data-name="glfw::videomode">
+      <a href="../GLFW/VideoMode.html">VideoMode</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Window" data-name="glfw::window">
+      <a href="../GLFW/Window.html">Window</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">enum</span> GLFW::Joystick
+
+</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L157" target="_blank">
+        enums.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>Enum Members</h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="Num1">
+        <strong>Num1</strong> = <code><span class="n">0</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num2">
+        <strong>Num2</strong> = <code><span class="n">1</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num3">
+        <strong>Num3</strong> = <code><span class="n">2</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num4">
+        <strong>Num4</strong> = <code><span class="n">3</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num5">
+        <strong>Num5</strong> = <code><span class="n">4</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num6">
+        <strong>Num6</strong> = <code><span class="n">5</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num7">
+        <strong>Num7</strong> = <code><span class="n">6</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num8">
+        <strong>Num8</strong> = <code><span class="n">7</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num9">
+        <strong>Num9</strong> = <code><span class="n">8</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num10">
+        <strong>Num10</strong> = <code><span class="n">9</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num11">
+        <strong>Num11</strong> = <code><span class="n">10</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num12">
+        <strong>Num12</strong> = <code><span class="n">11</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num13">
+        <strong>Num13</strong> = <code><span class="n">12</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num14">
+        <strong>Num14</strong> = <code><span class="n">13</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num15">
+        <strong>Num15</strong> = <code><span class="n">14</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Num16">
+        <strong>Num16</strong> = <code><span class="n">15</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Last">
+        <strong>Last</strong> = <code><span class="n">15</span></code>
+      </dt>
+      
+    
+  </dl>
+
+
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#last%3F-instance-method" class="signature"><strong>#last?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num10%3F-instance-method" class="signature"><strong>#num10?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num11%3F-instance-method" class="signature"><strong>#num11?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num12%3F-instance-method" class="signature"><strong>#num12?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num13%3F-instance-method" class="signature"><strong>#num13?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num14%3F-instance-method" class="signature"><strong>#num14?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num15%3F-instance-method" class="signature"><strong>#num15?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num16%3F-instance-method" class="signature"><strong>#num16?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num1%3F-instance-method" class="signature"><strong>#num1?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num2%3F-instance-method" class="signature"><strong>#num2?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num3%3F-instance-method" class="signature"><strong>#num3?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num4%3F-instance-method" class="signature"><strong>#num4?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num5%3F-instance-method" class="signature"><strong>#num5?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num6%3F-instance-method" class="signature"><strong>#num6?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num7%3F-instance-method" class="signature"><strong>#num7?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num8%3F-instance-method" class="signature"><strong>#num8?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#num9%3F-instance-method" class="signature"><strong>#num9?</strong></a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="last?-instance-method">
+      <div class="signature">
+        
+        def <strong>last?</strong>
+
+        <a class="method-permalink" href="#last%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L174" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num10?-instance-method">
+      <div class="signature">
+        
+        def <strong>num10?</strong>
+
+        <a class="method-permalink" href="#num10%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L167" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num11?-instance-method">
+      <div class="signature">
+        
+        def <strong>num11?</strong>
+
+        <a class="method-permalink" href="#num11%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L168" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num12?-instance-method">
+      <div class="signature">
+        
+        def <strong>num12?</strong>
+
+        <a class="method-permalink" href="#num12%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L169" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num13?-instance-method">
+      <div class="signature">
+        
+        def <strong>num13?</strong>
+
+        <a class="method-permalink" href="#num13%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L170" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num14?-instance-method">
+      <div class="signature">
+        
+        def <strong>num14?</strong>
+
+        <a class="method-permalink" href="#num14%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L171" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num15?-instance-method">
+      <div class="signature">
+        
+        def <strong>num15?</strong>
+
+        <a class="method-permalink" href="#num15%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L172" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num16?-instance-method">
+      <div class="signature">
+        
+        def <strong>num16?</strong>
+
+        <a class="method-permalink" href="#num16%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L173" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num1?-instance-method">
+      <div class="signature">
+        
+        def <strong>num1?</strong>
+
+        <a class="method-permalink" href="#num1%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L158" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num2?-instance-method">
+      <div class="signature">
+        
+        def <strong>num2?</strong>
+
+        <a class="method-permalink" href="#num2%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L159" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num3?-instance-method">
+      <div class="signature">
+        
+        def <strong>num3?</strong>
+
+        <a class="method-permalink" href="#num3%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L160" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num4?-instance-method">
+      <div class="signature">
+        
+        def <strong>num4?</strong>
+
+        <a class="method-permalink" href="#num4%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L161" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num5?-instance-method">
+      <div class="signature">
+        
+        def <strong>num5?</strong>
+
+        <a class="method-permalink" href="#num5%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L162" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num6?-instance-method">
+      <div class="signature">
+        
+        def <strong>num6?</strong>
+
+        <a class="method-permalink" href="#num6%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L163" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num7?-instance-method">
+      <div class="signature">
+        
+        def <strong>num7?</strong>
+
+        <a class="method-permalink" href="#num7%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L164" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num8?-instance-method">
+      <div class="signature">
+        
+        def <strong>num8?</strong>
+
+        <a class="method-permalink" href="#num8%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L165" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="num9?-instance-method">
+      <div class="signature">
+        
+        def <strong>num9?</strong>
+
+        <a class="method-permalink" href="#num9%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L166" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

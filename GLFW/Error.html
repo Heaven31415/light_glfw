@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.26.1">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../";
+</script>
+
+  <meta id="repository-name" content="github.com/Heaven31415/light_glfw">
+  <title>GLFW::Error - github.com/Heaven31415/light_glfw</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/Heaven31415/light_glfw/GLFW" data-name="glfw">
+      <a href="../GLFW.html">GLFW</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Action" data-name="glfw::action">
+      <a href="../GLFW/Action.html">Action</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ClientApi" data-name="glfw::clientapi">
+      <a href="../GLFW/ClientApi.html">ClientApi</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ContextCreationApi" data-name="glfw::contextcreationapi">
+      <a href="../GLFW/ContextCreationApi.html">ContextCreationApi</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ContextReleaseBehavior" data-name="glfw::contextreleasebehavior">
+      <a href="../GLFW/ContextReleaseBehavior.html">ContextReleaseBehavior</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ContextRobustness" data-name="glfw::contextrobustness">
+      <a href="../GLFW/ContextRobustness.html">ContextRobustness</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Cursor" data-name="glfw::cursor">
+      <a href="../GLFW/Cursor.html">Cursor</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/CursorInputMode" data-name="glfw::cursorinputmode">
+      <a href="../GLFW/CursorInputMode.html">CursorInputMode</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/CursorShape" data-name="glfw::cursorshape">
+      <a href="../GLFW/CursorShape.html">CursorShape</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/Heaven31415/light_glfw/GLFW/Error" data-name="glfw::error">
+      <a href="../GLFW/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Event" data-name="glfw::event">
+      <a href="../GLFW/Event.html">Event</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/GammaRamp" data-name="glfw::gammaramp">
+      <a href="../GLFW/GammaRamp.html">GammaRamp</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Image" data-name="glfw::image">
+      <a href="../GLFW/Image.html">Image</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/InputMode" data-name="glfw::inputmode">
+      <a href="../GLFW/InputMode.html">InputMode</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Joystick" data-name="glfw::joystick">
+      <a href="../GLFW/Joystick.html">Joystick</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Key" data-name="glfw::key">
+      <a href="../GLFW/Key.html">Key</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Mod" data-name="glfw::mod">
+      <a href="../GLFW/Mod.html">Mod</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Monitor" data-name="glfw::monitor">
+      <a href="../GLFW/Monitor.html">Monitor</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/MouseButton" data-name="glfw::mousebutton">
+      <a href="../GLFW/MouseButton.html">MouseButton</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/OpenGLProfile" data-name="glfw::openglprofile">
+      <a href="../GLFW/OpenGLProfile.html">OpenGLProfile</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/VideoMode" data-name="glfw::videomode">
+      <a href="../GLFW/VideoMode.html">VideoMode</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Window" data-name="glfw::window">
+      <a href="../GLFW/Window.html">Window</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">enum</span> GLFW::Error
+
+</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L177" target="_blank">
+        enums.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>Enum Members</h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="NotInitialized">
+        <strong>NotInitialized</strong> = <code><span class="n">65537</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>GLFW has not been initialized.</p>
+
+<p>This occurs if a GLFW function was called that must not be called unless the
+library is initialized with <code><a href="../GLFW.html#init%3ABool-class-method">GLFW.init</a></code>.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="NoCurrentContext">
+        <strong>NoCurrentContext</strong> = <code><span class="n">65538</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>No context is current for this thread.</p>
+
+<p>This occurs if a GLFW function was called that needs and operates on the
+current OpenGL or OpenGL ES context but no context is current on the calling
+thread. Call <code><a href="../GLFW.html#make_context_current%28window%3AWindow%3F%29%3ANil-class-method">GLFW.make_context_current</a></code> to change current context.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="InvalidEnum">
+        <strong>InvalidEnum</strong> = <code><span class="n">65539</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>One of the arguments to the function had an invalid enum value.</p>
+
+<p>This occurs if a argument to the function had an invalid enum value, 
+for example calling <code><a href="../GLFW.html#get_key%28window%3AWindow%2Ckey%3AKey%29%3AAction-class-method">GLFW.get_key</a></code> with <code><a href="../GLFW/Key.html#Unknown">GLFW::Key::Unknown</a></code>.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="InvalidValue">
+        <strong>InvalidValue</strong> = <code><span class="n">65540</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>One of the arguments to the function had an invalid value.</p>
+
+<p>This occurs when a argument to the function had an invalid value, for example
+requesting a negative gamma value with <code><a href="../GLFW.html#set_gamma%28monitor%3AMonitor%2Cgamma%3AFloat32%29%3ANil-class-method">GLFW.set_gamma</a></code>.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="OutOfMemory">
+        <strong>OutOfMemory</strong> = <code><span class="n">65541</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>A memory allocation failed.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="ApiUnavailable">
+        <strong>ApiUnavailable</strong> = <code><span class="n">65542</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>GLFW could not find support for the requested API on the system.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="VersionUnavailable">
+        <strong>VersionUnavailable</strong> = <code><span class="n">65543</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>The requested OpenGL or OpenGL ES version is not available.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="PlatformError">
+        <strong>PlatformError</strong> = <code><span class="n">65544</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>A platform-specific error occurred that does not match any of the
+more specific categories.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="FormatUnavailable">
+        <strong>FormatUnavailable</strong> = <code><span class="n">65545</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>The requested format is not supported or available.</p>
+
+<p>If emitted during window creation, the requested pixel format is not
+supported. If emitted when querying the clipboard, the contents of 
+the clipboard could not be converted to the requested format.</p>
+      </dd>
+      
+    
+      <dt class="entry-const" id="NoWindowContext">
+        <strong>NoWindowContext</strong> = <code><span class="n">65546</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>The specified window does not have an OpenGL or OpenGL ES context.</p>
+
+<p>A window that does not have an OpenGL or OpenGL ES context was passed to
+a function that requires it to have one.</p>
+      </dd>
+      
+    
+  </dl>
+
+
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#api_unavailable%3F-instance-method" class="signature"><strong>#api_unavailable?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#format_unavailable%3F-instance-method" class="signature"><strong>#format_unavailable?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#invalid_enum%3F-instance-method" class="signature"><strong>#invalid_enum?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#invalid_value%3F-instance-method" class="signature"><strong>#invalid_value?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#no_current_context%3F-instance-method" class="signature"><strong>#no_current_context?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#no_window_context%3F-instance-method" class="signature"><strong>#no_window_context?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#not_initialized%3F-instance-method" class="signature"><strong>#not_initialized?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#out_of_memory%3F-instance-method" class="signature"><strong>#out_of_memory?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#platform_error%3F-instance-method" class="signature"><strong>#platform_error?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#version_unavailable%3F-instance-method" class="signature"><strong>#version_unavailable?</strong></a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="api_unavailable?-instance-method">
+      <div class="signature">
+        
+        def <strong>api_unavailable?</strong>
+
+        <a class="method-permalink" href="#api_unavailable%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L207" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="format_unavailable?-instance-method">
+      <div class="signature">
+        
+        def <strong>format_unavailable?</strong>
+
+        <a class="method-permalink" href="#format_unavailable%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L221" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="invalid_enum?-instance-method">
+      <div class="signature">
+        
+        def <strong>invalid_enum?</strong>
+
+        <a class="method-permalink" href="#invalid_enum%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L195" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="invalid_value?-instance-method">
+      <div class="signature">
+        
+        def <strong>invalid_value?</strong>
+
+        <a class="method-permalink" href="#invalid_value%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L201" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="no_current_context?-instance-method">
+      <div class="signature">
+        
+        def <strong>no_current_context?</strong>
+
+        <a class="method-permalink" href="#no_current_context%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L189" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="no_window_context?-instance-method">
+      <div class="signature">
+        
+        def <strong>no_window_context?</strong>
+
+        <a class="method-permalink" href="#no_window_context%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L227" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="not_initialized?-instance-method">
+      <div class="signature">
+        
+        def <strong>not_initialized?</strong>
+
+        <a class="method-permalink" href="#not_initialized%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L182" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="out_of_memory?-instance-method">
+      <div class="signature">
+        
+        def <strong>out_of_memory?</strong>
+
+        <a class="method-permalink" href="#out_of_memory%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L204" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="platform_error?-instance-method">
+      <div class="signature">
+        
+        def <strong>platform_error?</strong>
+
+        <a class="method-permalink" href="#platform_error%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L214" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="version_unavailable?-instance-method">
+      <div class="signature">
+        
+        def <strong>version_unavailable?</strong>
+
+        <a class="method-permalink" href="#version_unavailable%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/enums.cr#L210" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

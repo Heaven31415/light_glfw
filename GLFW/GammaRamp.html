@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.26.1">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../";
+</script>
+
+  <meta id="repository-name" content="github.com/Heaven31415/light_glfw">
+  <title>GLFW::GammaRamp - github.com/Heaven31415/light_glfw</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/Heaven31415/light_glfw/GLFW" data-name="glfw">
+      <a href="../GLFW.html">GLFW</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Action" data-name="glfw::action">
+      <a href="../GLFW/Action.html">Action</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ClientApi" data-name="glfw::clientapi">
+      <a href="../GLFW/ClientApi.html">ClientApi</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ContextCreationApi" data-name="glfw::contextcreationapi">
+      <a href="../GLFW/ContextCreationApi.html">ContextCreationApi</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ContextReleaseBehavior" data-name="glfw::contextreleasebehavior">
+      <a href="../GLFW/ContextReleaseBehavior.html">ContextReleaseBehavior</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/ContextRobustness" data-name="glfw::contextrobustness">
+      <a href="../GLFW/ContextRobustness.html">ContextRobustness</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Cursor" data-name="glfw::cursor">
+      <a href="../GLFW/Cursor.html">Cursor</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/CursorInputMode" data-name="glfw::cursorinputmode">
+      <a href="../GLFW/CursorInputMode.html">CursorInputMode</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/CursorShape" data-name="glfw::cursorshape">
+      <a href="../GLFW/CursorShape.html">CursorShape</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Error" data-name="glfw::error">
+      <a href="../GLFW/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Event" data-name="glfw::event">
+      <a href="../GLFW/Event.html">Event</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/Heaven31415/light_glfw/GLFW/GammaRamp" data-name="glfw::gammaramp">
+      <a href="../GLFW/GammaRamp.html">GammaRamp</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Image" data-name="glfw::image">
+      <a href="../GLFW/Image.html">Image</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/InputMode" data-name="glfw::inputmode">
+      <a href="../GLFW/InputMode.html">InputMode</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Joystick" data-name="glfw::joystick">
+      <a href="../GLFW/Joystick.html">Joystick</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Key" data-name="glfw::key">
+      <a href="../GLFW/Key.html">Key</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Mod" data-name="glfw::mod">
+      <a href="../GLFW/Mod.html">Mod</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Monitor" data-name="glfw::monitor">
+      <a href="../GLFW/Monitor.html">Monitor</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/MouseButton" data-name="glfw::mousebutton">
+      <a href="../GLFW/MouseButton.html">MouseButton</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/OpenGLProfile" data-name="glfw::openglprofile">
+      <a href="../GLFW/OpenGLProfile.html">OpenGLProfile</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/VideoMode" data-name="glfw::videomode">
+      <a href="../GLFW/VideoMode.html">VideoMode</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Heaven31415/light_glfw/GLFW/Window" data-name="glfw::window">
+      <a href="../GLFW/Window.html">Window</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">struct</span> GLFW::GammaRamp
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../GLFW/GammaRamp.html">GLFW::GammaRamp</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/monitor/gamma_ramp.cr#L2" target="_blank">
+        monitor/gamma_ramp.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28ptr%29-class-method" class="signature"><strong>.new</strong>(ptr)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#blue%3ASlice%28UInt16%29-instance-method" class="signature"><strong>#blue</strong> : Slice(UInt16)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#green%3ASlice%28UInt16%29-instance-method" class="signature"><strong>#green</strong> : Slice(UInt16)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ptr%3A%3A%3APointer%28LibGLFW%3A%3AGammaRamp%29-instance-method" class="signature"><strong>#ptr</strong> : ::Pointer(LibGLFW::GammaRamp)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#red%3ASlice%28UInt16%29-instance-method" class="signature"><strong>#red</strong> : Slice(UInt16)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AUInt32-instance-method" class="signature"><strong>#size</strong> : UInt32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_unsafe%3A%3A%3APointer%28LibGLFW%3A%3AGammaRamp%29-instance-method" class="signature"><strong>#to_unsafe</strong> : ::Pointer(LibGLFW::GammaRamp)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(ptr)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(ptr)
+
+        <a class="method-permalink" href="#new%28ptr%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/monitor/gamma_ramp.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="blue:Slice(UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>blue</strong> : Slice(UInt16)
+
+        <a class="method-permalink" href="#blue%3ASlice%28UInt16%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/monitor/gamma_ramp.cr#L20" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="green:Slice(UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>green</strong> : Slice(UInt16)
+
+        <a class="method-permalink" href="#green%3ASlice%28UInt16%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/monitor/gamma_ramp.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ptr:::Pointer(LibGLFW::GammaRamp)-instance-method">
+      <div class="signature">
+        
+        def <strong>ptr</strong> : ::Pointer(LibGLFW::GammaRamp)
+
+        <a class="method-permalink" href="#ptr%3A%3A%3APointer%28LibGLFW%3A%3AGammaRamp%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/monitor/gamma_ramp.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="red:Slice(UInt16)-instance-method">
+      <div class="signature">
+        
+        def <strong>red</strong> : Slice(UInt16)
+
+        <a class="method-permalink" href="#red%3ASlice%28UInt16%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/monitor/gamma_ramp.cr#L12" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:UInt32-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : UInt32
+
+        <a class="method-permalink" href="#size%3AUInt32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/monitor/gamma_ramp.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_unsafe:::Pointer(LibGLFW::GammaRamp)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_unsafe</strong> : ::Pointer(LibGLFW::GammaRamp)
+
+        <a class="method-permalink" href="#to_unsafe%3A%3A%3APointer%28LibGLFW%3A%3AGammaRamp%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Heaven31415/light_glfw/blob/f4767517f71cc27d2e8fe0466b15e3dd8878c5fb/src/monitor/gamma_ramp.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
