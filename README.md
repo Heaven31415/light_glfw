@@ -38,7 +38,7 @@ This shard is still under heavy development. Many essential things are not ready
 - [x] reopen
 - [ ] sharing
 - [x] tearing
-- [ ] threads
+- [x] threads
 - [x] timeout
 - [x] title
 - [ ] vulkan
